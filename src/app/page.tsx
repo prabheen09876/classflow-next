@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { ArrowLeft, ArrowRight, Bolt, Calendar, CheckCircle, Bell, UserCheck, Users, Fingerprint, GitBranch } from "lucide-react";
+import { ArrowLeft, ArrowRight, Bolt, Calendar, CheckCircle, Bell, UserCheck, Users, Fingerprint, GitBranch, Mail, CalendarCheck } from "lucide-react";
 import {PlaceHolderImages} from "@/lib/placeholder-images";
 
 export default function Home() {
@@ -176,46 +176,43 @@ export default function Home() {
         </section>
 
         <section id="hierarchy" className="w-full mt-16 py-12 text-center">
-          <h2 className="text-4xl font-bold tracking-tighter mb-4">A Clear & Structured Hierarchy</h2>
+          <h2 className="text-4xl font-bold tracking-tighter mb-4">Live Attendance Workflow</h2>
           <p className="text-muted-foreground text-lg max-w-3xl mx-auto mb-12">
-            SmartSched is designed with a clear role-based hierarchy to ensure that everyone has the right level of access and control.
+            Our system provides a real-time, transparent flow of information. See how attendance and leave marking works seamlessly across the hierarchy.
           </p>
-          <div className="relative flex flex-col items-center">
-            {/* HOS Node */}
-            <div className="animate-fade-in-down z-10">
-              <div className="bg-primary text-primary-foreground rounded-full p-6 shadow-lg flex flex-col items-center w-48 h-48 justify-center">
-                <UserCheck className="h-12 w-12 mb-2" />
-                <h3 className="text-xl font-bold">HOS</h3>
-              </div>
-            </div>
+          <div className="relative flex justify-center items-center h-[500px] w-full">
+            <svg className="w-full h-full" viewBox="0 0 800 500">
+              {/* Nodes */}
+              <g className="node" id="hos-node" style={{ animation: "fade-in 0.5s 0.2s forwards" }}>
+                <rect x="350" y="20" width="100" height="60" rx="10" fill="hsl(var(--primary))" />
+                <text x="400" y="50" textAnchor="middle" fill="white" className="font-bold text-sm">HOS</text>
+                <UserCheck x="375" y="30" width="50" height="20" className="text-white" />
+              </g>
+              <g className="node" id="teacher-node" style={{ animation: "fade-in 0.5s 0.5s forwards" }}>
+                <rect x="150" y="220" width="100" height="60" rx="10" fill="hsl(var(--accent))" />
+                <text x="200" y="250" textAnchor="middle" fill="hsl(var(--accent-foreground))" className="font-bold text-sm">Teacher</text>
+                 <Users x="175" y="230" width="50" height="20" className="text-primary" />
+              </g>
+              <g className="node" id="student-node" style={{ animation: "fade-in 0.5s 0.8s forwards" }}>
+                <rect x="550" y="220" width="100" height="60" rx="10" fill="hsl(var(--muted))" />
+                <text x="600" y="250" textAnchor="middle" fill="hsl(var(--muted-foreground))" className="font-bold text-sm">Student</text>
+                 <GitBranch x="575" y="230" width="50" height="20" />
+              </g>
 
-            {/* Connecting Lines to Teachers */}
-            <div className="absolute top-36 h-20 w-px bg-border animate-draw-line" style={{animationDelay: '0.5s'}}></div>
-            <div className="absolute top-56 h-px w-64 bg-border animate-draw-line-h" style={{animationDelay: '1s'}}></div>
-            
-            {/* Teacher Nodes */}
-            <div className="flex justify-center gap-24 mt-20 relative z-10">
-              <div className="animate-fade-in-up" style={{animationDelay: '1.5s'}}>
-                 <div className="bg-accent text-accent-foreground rounded-xl p-6 shadow-md flex flex-col items-center w-40 h-40 justify-center">
-                   <Users className="h-10 w-10 mb-2 text-primary" />
-                   <h3 className="text-lg font-semibold">Teachers</h3>
-                </div>
-              </div>
-            </div>
-             
-             {/* Connecting Lines to Students */}
-            <div className="absolute top-[21.5rem] h-20 w-px bg-border animate-draw-line" style={{animationDelay: '2s'}}></div>
-            <div className="absolute top-[26.5rem] h-px w-96 bg-border animate-draw-line-h-2" style={{animationDelay: '2.5s'}}></div>
-            
-            {/* Student Nodes */}
-            <div className="flex justify-center gap-32 mt-20 relative z-10">
-              <div className="animate-fade-in-up" style={{animationDelay: '3s'}}>
-                <div className="bg-muted text-muted-foreground rounded-lg p-4 shadow-sm flex flex-col items-center w-36 h-36 justify-center">
-                  <GitBranch className="h-8 w-8 mb-2" />
-                  <h3 className="text-md font-semibold">Students</h3>
-                </div>
-              </div>
-            </div>
+              {/* Paths */}
+              <path id="teacher-to-hos" className="path" d="M 200 220 Q 250 120, 375 80" stroke="hsl(var(--border))" strokeWidth="2" fill="none" />
+              <path id="student-to-teacher" className="path" d="M 550 240 Q 400 320, 250 260" stroke="hsl(var(--border))" strokeWidth="2" fill="none" />
+
+              {/* Animated Icons */}
+              <g id="leave-icon" className="icon-group">
+                <Mail className="moving-icon" fill="hsl(var(--primary))" color="white" />
+                <text x="0" y="35" className="icon-label" fill="hsl(var(--primary))">Leave Request</text>
+              </g>
+              <g id="attendance-icon" className="icon-group">
+                <CalendarCheck className="moving-icon" fill="hsl(var(--accent-foreground))" color="hsl(var(--accent))" />
+                 <text x="0" y="35" className="icon-label" fill="hsl(var(--accent-foreground))">Attendance Marked</text>
+              </g>
+            </svg>
           </div>
         </section>
 
@@ -236,31 +233,72 @@ export default function Home() {
         </div>
       </footer>
        <style jsx>{`
-        @keyframes fade-in-down {
-          from { opacity: 0; transform: translateY(-20px); }
-          to { opacity: 1; transform: translateY(0); }
+        .node {
+            opacity: 0;
+            transform-origin: center;
         }
-        @keyframes fade-in-up {
-          from { opacity: 0; transform: translateY(20px); }
-          to { opacity: 1; transform: translateY(0); }
+        @keyframes fade-in {
+          from { opacity: 0; transform: scale(0.8); }
+          to { opacity: 1; transform: scale(1); }
         }
+
+        .path {
+          stroke-dasharray: 1000;
+          stroke-dashoffset: 1000;
+          animation: draw-line 2s 1s ease-out forwards;
+        }
+
         @keyframes draw-line {
-            from { height: 0; }
-            to { height: 5rem; }
+          to {
+            stroke-dashoffset: 0;
+          }
         }
-        @keyframes draw-line-h {
-            from { width: 0; }
-            to { width: 16rem; }
+        
+        .moving-icon {
+           width: 24px;
+           height: 24px;
         }
-         @keyframes draw-line-h-2 {
-            from { width: 0; }
-            to { width: 24rem; }
+
+        .icon-group {
+            opacity: 0;
+            transform-origin: center;
         }
-        .animate-fade-in-down { animation: fade-in-down 0.5s ease-out forwards; animation-delay: 0.2s; opacity: 0; }
-        .animate-fade-in-up { animation: fade-in-up 0.5s ease-out forwards; opacity: 0; }
-        .animate-draw-line { animation: draw-line 0.5s linear forwards; height: 0; }
-        .animate-draw-line-h { animation: draw-line-h 0.5s linear forwards; width: 0; }
-        .animate-draw-line-h-2 { animation: draw-line-h-2 0.5s linear forwards; width: 0; }
+        
+        #leave-icon {
+            offset-path: path('M 200 220 Q 250 120, 375 80');
+            animation: move-icon 2.5s 2.5s linear forwards, fade-in-icon 0.5s 2.5s forwards;
+        }
+
+        #attendance-icon {
+            offset-path: path('M 550 240 Q 400 320, 250 260');
+            animation: move-icon 2.5s 3s linear forwards, fade-in-icon 0.5s 3s forwards;
+        }
+
+        .icon-label {
+            font-size: 10px;
+            font-weight: 500;
+            text-anchor: middle;
+        }
+
+        @keyframes move-icon {
+            0% {
+                offset-distance: 0%;
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                offset-distance: 100%;
+                opacity: 0;
+            }
+        }
+        
+        @keyframes fade-in-icon {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
       `}</style>
     </div>
   );
