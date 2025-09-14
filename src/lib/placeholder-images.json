@@ -12,6 +12,36 @@
       "description": "A placeholder AI assistant avatar",
       "imageUrl": "https://picsum.photos/seed/ai-assistant/400/400",
       "imageHint": "abstract art"
+    },
+    {
+      "id": "hero-classroom",
+      "description": "A dynamic illustration of a modern classroom for the hero section",
+      "imageUrl": "https://picsum.photos/seed/classroom/600/400",
+      "imageHint": "modern classroom"
+    },
+    {
+      "id": "dashboard-preview",
+      "description": "A preview of the application's dashboard",
+      "imageUrl": "https://picsum.photos/seed/dashboard/800/500",
+      "imageHint": "dashboard ui"
+    },
+    {
+      "id": "teacher-1",
+      "description": "Avatar for a teacher",
+      "imageUrl": "https://picsum.photos/seed/teacher1/48/48",
+      "imageHint": "teacher profile"
+    },
+    {
+      "id": "teacher-2",
+      "description": "Avatar for another faculty member",
+      "imageUrl": "https://picsum.photos/seed/teacher2/48/48",
+      "imageHint": "faculty member"
+    },
+    {
+      "id": "student-1",
+      "description": "Avatar for a student",
+      "imageUrl": "https://picsum.photos/seed/student1/48/48",
+      "imageHint": "student profile"
     }
   ]
 }
