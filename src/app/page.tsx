@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import Link from "next/link";
@@ -22,9 +23,9 @@ export default function Home() {
 
   return (
     <div className="flex flex-col min-h-screen bg-background font-body text-black">
-      <div className="p-4">
+      <div className="sticky top-0 z-50 p-4">
         <AnimatedDiv variants="fadeInDown">
-        <header className="container mx-auto bg-black text-white rounded-2xl p-4 flex items-center justify-between">
+        <header className="container mx-auto bg-white/30 backdrop-blur-lg text-black rounded-2xl p-4 flex items-center justify-between border border-white/40 shadow-lg">
           <Link href="#" className="flex items-center justify-center gap-2" prefetch={false}>
             <span className="text-2xl font-bold">SmartSched</span>
           </Link>
@@ -52,15 +53,15 @@ export default function Home() {
           </nav>
           <Link href="/login" prefetch={false}>
             <motion.div whileHover={{ scale: 1.05 }}>
-                <Button className="bg-white text-black rounded-full px-6 py-3 font-semibold hover:bg-gray-200 transition-all">Get Started</Button>
+                <Button className="bg-black text-white rounded-full px-6 py-3 font-semibold hover:bg-gray-800 transition-all">Get Started</Button>
             </motion.div>
           </Link>
         </header>
         </AnimatedDiv>
       </div>
 
-      <main className="flex-1 container mx-auto px-4 py-8">
-        <AnimatedDiv variants="fadeIn" className="w-full bg-muted rounded-2xl p-8">
+      <main className="flex-1 container mx-auto px-4 py-8 -mt-24">
+        <AnimatedDiv variants="fadeIn" className="w-full bg-muted rounded-2xl p-8 pt-28">
           <div className="grid md:grid-cols-2 gap-8 items-center">
             <div className="space-y-6">
               <h1 className="text-5xl font-bold tracking-tighter">
