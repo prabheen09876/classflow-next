@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import {
   Card,
   CardContent,
@@ -6,18 +9,82 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Plus } from "lucide-react";
 
+interface Student {
+  id: string;
+  name: string;
+  email: string;
+  class: string;
+}
+
 export default function TeacherStudentsPage() {
+  const [studentList, setStudentList] = useState<Student[]>([]);
+  const [studentName, setStudentName] = useState("");
+  const [studentEmail, setStudentEmail] = useState("");
+  const [studentClass, setStudentClass] = useState("");
+
+  const handleAddStudent = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (studentName && studentEmail && studentClass) {
+      setStudentList([...studentList, { id: Date.now().toString(), name: studentName, email: studentEmail, class: studentClass }]);
+      setStudentName("");
+      setStudentEmail("");
+      setStudentClass("");
+    }
+  };
+
   return (
     <div className="flex flex-col">
        <header className="flex h-14 lg:h-[60px] items-center gap-4 border-b bg-muted/40 px-6">
         <div className="flex-1">
           <h1 className="font-semibold text-lg">Manage Students</h1>
         </div>
-        <Button><Plus className="mr-2 h-4 w-4" /> Add Student</Button>
       </header>
       <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
+        <Card>
+          <CardHeader>
+            <CardTitle>Add New Student</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleAddStudent} className="grid gap-4 md:grid-cols-4">
+              <div className="grid gap-2">
+                <Label htmlFor="student-name">Name</Label>
+                <Input
+                  id="student-name"
+                  placeholder="Alice Wonderland"
+                  value={studentName}
+                  onChange={(e) => setStudentName(e.target.value)}
+                />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="student-email">Email</Label>
+                <Input
+                  id="student-email"
+                  type="email"
+                  placeholder="student@example.com"
+                  value={studentEmail}
+                  onChange={(e) => setStudentEmail(e.target.value)}
+                />
+              </div>
+               <div className="grid gap-2">
+                <Label htmlFor="student-class">Class</Label>
+                <Input
+                  id="student-class"
+                  placeholder="CS 3A"
+                  value={studentClass}
+                  onChange={(e) => setStudentClass(e.target.value)}
+                />
+              </div>
+              <div className="flex items-end">
+                <Button type="submit"><Plus className="mr-2 h-4 w-4" /> Add Student</Button>
+              </div>
+            </form>
+          </CardContent>
+        </Card>
         <Card>
           <CardHeader>
             <CardTitle>Student List</CardTitle>
@@ -26,8 +93,36 @@ export default function TeacherStudentsPage() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            {/* TODO: Add student list table */}
-            <p>Student management functionality coming soon.</p>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Name</TableHead>
+                  <TableHead>Email</TableHead>
+                  <TableHead>Class</TableHead>
+                  <TableHead>Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {studentList.length > 0 ? (
+                  studentList.map((student) => (
+                    <TableRow key={student.id}>
+                      <TableCell>{student.name}</TableCell>
+                      <TableCell>{student.email}</TableCell>
+                       <TableCell>{student.class}</TableCell>
+                      <TableCell>
+                        <Button variant="outline" size="sm">Edit</Button>
+                      </TableCell>
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell colSpan={4} className="text-center">
+                      No students added yet.
+                    </TableCell>
+                  </TableRow>
+                )}
+              </TableBody>
+            </Table>
           </CardContent>
         </Card>
       </main>

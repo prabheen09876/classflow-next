@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
 import {
   Card,
@@ -10,6 +13,11 @@ import { Users, UserCheck, BarChart, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function HosPage() {
+  const [teachers, setTeachers] = useState(35);
+  const [teachersPresent, setTeachersPresent] = useState(30);
+  const [students, setStudents] = useState(500);
+  const [studentsPresent, setStudentsPresent] = useState(450);
+
   return (
     <div className="flex flex-col">
       <header className="flex h-14 lg:h-[60px] items-center gap-4 border-b bg-muted/40 px-6">
@@ -27,9 +35,9 @@ export default function HosPage() {
               <UserCheck className="w-4 h-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">30 / 35</div>
+              <div className="text-2xl font-bold">{teachersPresent} / {teachers}</div>
               <p className="text-xs text-muted-foreground">
-                85% attendance today
+                {((teachersPresent/teachers) * 100).toFixed(0)}% attendance today
               </p>
             </CardContent>
           </Card>
@@ -41,9 +49,9 @@ export default function HosPage() {
               <Users className="w-4 h-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">450 / 500</div>
+              <div className="text-2xl font-bold">{studentsPresent} / {students}</div>
               <p className="text-xs text-muted-foreground">
-                90% attendance today
+                 {((studentsPresent/students) * 100).toFixed(0)}% attendance today
               </p>
             </CardContent>
           </Card>
@@ -71,11 +79,11 @@ export default function HosPage() {
               </CardDescription>
             </div>
              <Button asChild>
-                <Link href="/hos/teachers"><Plus className="mr-2 h-4 w-4" /> Add Teacher</Link>
+                <Link href="/hos/teachers"><Plus className="mr-2 h-4 w-4" /> Go to Teachers</Link>
             </Button>
           </CardHeader>
           <CardContent>
-            <p>Teacher management functionality coming soon.</p>
+             <p>Click the button above to manage teachers.</p>
           </CardContent>
         </Card>
       </main>

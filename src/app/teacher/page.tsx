@@ -1,4 +1,6 @@
+"use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import {
   Card,
@@ -8,10 +10,22 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { CheckCircle, XCircle, Users, Plus, BookOpen } from "lucide-react";
+import { CheckCircle, XCircle, BookOpen, Plus } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 
 export default function TeacherPage() {
+  const [attendance, setAttendance] = useState<"present" | "absent" | null>(null);
+  const { toast } = useToast();
+
+  const handleAttendance = (status: "present" | "absent") => {
+    setAttendance(status);
+    toast({
+      title: "Attendance Marked",
+      description: `You have marked yourself as ${status} for today.`,
+    });
+  };
+
   return (
     <div className="flex flex-col">
        <header className="flex h-14 lg:h-[60px] items-center gap-4 border-b bg-muted/40 px-6">
@@ -26,11 +40,12 @@ export default function TeacherPage() {
               <CardTitle>Mark Your Attendance</CardTitle>
               <CardDescription>
                 Mark yourself present or absent for today.
+                 {attendance && <p className="mt-2 font-semibold">You are marked as: <span className={attendance === 'present' ? 'text-green-500' : 'text-red-500'}>{attendance.toUpperCase()}</span></p>}
               </CardDescription>
             </CardHeader>
             <CardContent className="flex gap-4">
-              <Button className="w-full" variant="outline"><CheckCircle className="mr-2 h-4 w-4 text-green-500" /> Present</Button>
-              <Button className="w-full" variant="outline"><XCircle className="mr-2 h-4 w-4 text-red-500" /> Absent</Button>
+              <Button className="w-full" variant="outline" onClick={() => handleAttendance('present')} disabled={attendance === 'present'}><CheckCircle className="mr-2 h-4 w-4 text-green-500" /> Present</Button>
+              <Button className="w-full" variant="outline" onClick={() => handleAttendance('absent')} disabled={attendance === 'absent'}><XCircle className="mr-2 h-4 w-4 text-red-500" /> Absent</Button>
             </CardContent>
           </Card>
           <Card>
@@ -69,11 +84,11 @@ export default function TeacherPage() {
               </CardDescription>
             </div>
             <Button asChild>
-                <Link href="/teacher/students"><Plus className="mr-2 h-4 w-4" /> Add Student</Link>
+                <Link href="/teacher/students"><Plus className="mr-2 h-4 w-4" /> Manage Students</Link>
             </Button>
           </CardHeader>
           <CardContent>
-             <p>Student management functionality coming soon.</p>
+             <p>Click the button above to manage students in your classes.</p>
           </CardContent>
         </Card>
       </main>

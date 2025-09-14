@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import {
   Card,
   CardContent,
@@ -9,8 +12,20 @@ import { Button } from "@/components/ui/button";
 import { CheckCircle, XCircle } from "lucide-react";
 import { TimetableView } from "@/components/dashboard/timetable";
 import { mockTimetable } from "@/lib/placeholder-data";
+import { useToast } from "@/hooks/use-toast";
 
 export default function StudentPage() {
+  const [attendance, setAttendance] = useState<"present" | "absent" | null>(null);
+  const { toast } = useToast();
+
+  const handleAttendance = (status: "present" | "absent") => {
+    setAttendance(status);
+    toast({
+      title: "Attendance Marked",
+      description: `You have been marked as ${status}.`,
+    });
+  };
+
   return (
     <div className="flex flex-col">
       <header className="flex h-14 lg:h-[60px] items-center gap-4 border-b bg-muted/40 px-6">
@@ -24,11 +39,12 @@ export default function StudentPage() {
             <CardTitle>Mark Your Attendance</CardTitle>
             <CardDescription>
               Mark yourself present or absent for today's classes.
+              {attendance && <p className="mt-2 font-semibold">Today you are marked as: <span className={attendance === 'present' ? 'text-green-500' : 'text-red-500'}>{attendance.toUpperCase()}</span></p>}
             </CardDescription>
           </CardHeader>
           <CardContent className="flex gap-4">
-             <Button className="w-full max-w-xs" variant="outline"><CheckCircle className="mr-2 h-4 w-4 text-green-500" /> Present</Button>
-             <Button className="w-full max-w-xs" variant="outline"><XCircle className="mr-2 h-4 w-4 text-red-500" /> Absent</Button>
+             <Button className="w-full max-w-xs" variant="outline" onClick={() => handleAttendance("present")} disabled={attendance === "present"}><CheckCircle className="mr-2 h-4 w-4 text-green-500" /> Present</Button>
+             <Button className="w-full max-w-xs" variant="outline" onClick={() => handleAttendance("absent")} disabled={attendance === "absent"}><XCircle className="mr-2 h-4 w-4 text-red-500" /> Absent</Button>
           </CardContent>
         </Card>
         <TimetableView events={mockTimetable} />
