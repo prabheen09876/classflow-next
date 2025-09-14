@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Card,
   CardContent,
@@ -13,6 +13,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Plus } from "lucide-react";
+import { collection, addDoc, onSnapshot } from "firebase/firestore";
+import { db } from "@/lib/firebase";
 
 interface Student {
   id: string;
@@ -27,10 +29,22 @@ export default function TeacherStudentsPage() {
   const [studentEmail, setStudentEmail] = useState("");
   const [studentClass, setStudentClass] = useState("");
 
-  const handleAddStudent = (e: React.FormEvent) => {
+  useEffect(() => {
+    const unsubscribe = onSnapshot(collection(db, "students"), (snapshot) => {
+      const newStudentList: Student[] = [];
+      snapshot.forEach((doc) => {
+        newStudentList.push({ id: doc.id, ...doc.data() } as Student);
+      });
+      setStudentList(newStudentList);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  const handleAddStudent = async (e: React.FormEvent) => {
     e.preventDefault();
     if (studentName && studentEmail && studentClass) {
-      setStudentList([...studentList, { id: Date.now().toString(), name: studentName, email: studentEmail, class: studentClass }]);
+      await addDoc(collection(db, "students"), { name: studentName, email: studentEmail, class: studentClass });
       setStudentName("");
       setStudentEmail("");
       setStudentClass("");

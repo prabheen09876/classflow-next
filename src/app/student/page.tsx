@@ -13,17 +13,36 @@ import { CheckCircle, XCircle } from "lucide-react";
 import { TimetableView } from "@/components/dashboard/timetable";
 import { mockTimetable } from "@/lib/placeholder-data";
 import { useToast } from "@/hooks/use-toast";
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "@/lib/firebase";
+import { useAuth } from "@/components/auth-provider";
 
 export default function StudentPage() {
   const [attendance, setAttendance] = useState<"present" | "absent" | null>(null);
   const { toast } = useToast();
+  const { user } = useAuth();
 
-  const handleAttendance = (status: "present" | "absent") => {
-    setAttendance(status);
-    toast({
-      title: "Attendance Marked",
-      description: `You have been marked as ${status}.`,
-    });
+  const handleAttendance = async (status: "present" | "absent") => {
+    if (user) {
+      try {
+        await setDoc(doc(db, "studentAttendance", user.uid), {
+          status,
+          date: new Date().toISOString().split('T')[0],
+          name: user.displayName || user.email,
+        });
+        setAttendance(status);
+        toast({
+          title: "Attendance Marked",
+          description: `You have been marked as ${status}.`,
+        });
+      } catch (error) {
+        toast({
+          title: "Error",
+          description: "Failed to mark attendance.",
+          variant: "destructive",
+        });
+      }
+    }
   };
 
   return (

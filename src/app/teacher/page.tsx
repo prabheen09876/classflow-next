@@ -12,18 +12,37 @@ import {
 import { Button } from "@/components/ui/button";
 import { CheckCircle, XCircle, BookOpen, Plus } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "@/lib/firebase";
+import { useAuth } from "@/components/auth-provider";
 
 
 export default function TeacherPage() {
   const [attendance, setAttendance] = useState<"present" | "absent" | null>(null);
   const { toast } = useToast();
+  const { user } = useAuth();
 
-  const handleAttendance = (status: "present" | "absent") => {
-    setAttendance(status);
-    toast({
-      title: "Attendance Marked",
-      description: `You have marked yourself as ${status} for today.`,
-    });
+  const handleAttendance = async (status: "present" | "absent") => {
+    if (user) {
+      try {
+        await setDoc(doc(db, "teacherAttendance", user.uid), {
+          status,
+          date: new Date().toISOString().split('T')[0],
+          name: user.displayName || user.email,
+        });
+        setAttendance(status);
+        toast({
+          title: "Attendance Marked",
+          description: `You have marked yourself as ${status} for today.`,
+        });
+      } catch (error) {
+        toast({
+          title: "Error",
+          description: "Failed to mark attendance.",
+          variant: "destructive",
+        });
+      }
+    }
   };
 
   return (

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import {
   Card,
@@ -11,12 +11,53 @@ import {
 } from "@/components/ui/card";
 import { Users, UserCheck, BarChart, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { collection, onSnapshot } from "firebase/firestore";
+import { db } from "@/lib/firebase";
 
 export default function HosPage() {
-  const [teachers, setTeachers] = useState(35);
-  const [teachersPresent, setTeachersPresent] = useState(30);
-  const [students, setStudents] = useState(500);
-  const [studentsPresent, setStudentsPresent] = useState(450);
+  const [teachers, setTeachers] = useState(0);
+  const [teachersPresent, setTeachersPresent] = useState(0);
+  const [students, setStudents] = useState(0);
+  const [studentsPresent, setStudentsPresent] = useState(0);
+
+  useEffect(() => {
+    const today = new Date().toISOString().split('T')[0];
+
+    const unsubTeachers = onSnapshot(collection(db, "teachers"), (snapshot) => {
+      setTeachers(snapshot.size);
+    });
+
+    const unsubStudents = onSnapshot(collection(db, "students"), (snapshot) => {
+      setStudents(snapshot.size);
+    });
+
+    const unsubTeacherAttendance = onSnapshot(collection(db, "teacherAttendance"), (snapshot) => {
+      let presentCount = 0;
+      snapshot.forEach(doc => {
+        if (doc.data().date === today && doc.data().status === 'present') {
+          presentCount++;
+        }
+      });
+      setTeachersPresent(presentCount);
+    });
+    
+    const unsubStudentAttendance = onSnapshot(collection(db, "studentAttendance"), (snapshot) => {
+      let presentCount = 0;
+      snapshot.forEach(doc => {
+        if (doc.data().date === today && doc.data().status === 'present') {
+          presentCount++;
+        }
+      });
+      setStudentsPresent(presentCount);
+    });
+
+    return () => {
+      unsubTeachers();
+      unsubStudents();
+      unsubTeacherAttendance();
+      unsubStudentAttendance();
+    }
+  }, []);
 
   return (
     <div className="flex flex-col">
@@ -37,7 +78,7 @@ export default function HosPage() {
             <CardContent>
               <div className="text-2xl font-bold">{teachersPresent} / {teachers}</div>
               <p className="text-xs text-muted-foreground">
-                {((teachersPresent/teachers) * 100).toFixed(0)}% attendance today
+                {teachers > 0 ? ((teachersPresent/teachers) * 100).toFixed(0) : 0}% attendance today
               </p>
             </CardContent>
           </Card>
@@ -51,7 +92,7 @@ export default function HosPage() {
             <CardContent>
               <div className="text-2xl font-bold">{studentsPresent} / {students}</div>
               <p className="text-xs text-muted-foreground">
-                 {((studentsPresent/students) * 100).toFixed(0)}% attendance today
+                 {students > 0 ? ((studentsPresent/students) * 100).toFixed(0) : 0}% attendance today
               </p>
             </CardContent>
           </Card>

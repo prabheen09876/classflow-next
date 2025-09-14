@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Card,
   CardContent,
@@ -13,6 +13,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Plus } from "lucide-react";
+import { collection, addDoc, onSnapshot } from "firebase/firestore";
+import { db } from "@/lib/firebase";
 
 interface Hos {
   id: string;
@@ -25,10 +27,22 @@ export default function HosManagementPage() {
   const [hosName, setHosName] = useState("");
   const [hosEmail, setHosEmail] = useState("");
 
-  const handleAddHos = (e: React.FormEvent) => {
+  useEffect(() => {
+    const unsubscribe = onSnapshot(collection(db, "hos"), (snapshot) => {
+      const newHosList: Hos[] = [];
+      snapshot.forEach((doc) => {
+        newHosList.push({ id: doc.id, ...doc.data() } as Hos);
+      });
+      setHosList(newHosList);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  const handleAddHos = async (e: React.FormEvent) => {
     e.preventDefault();
     if (hosName && hosEmail) {
-      setHosList([...hosList, { id: Date.now().toString(), name: hosName, email: hosEmail }]);
+      await addDoc(collection(db, "hos"), { name: hosName, email: hosEmail });
       setHosName("");
       setHosEmail("");
     }
