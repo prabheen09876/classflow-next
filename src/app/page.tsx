@@ -8,7 +8,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { ArrowLeft, ArrowRight, Bolt, Calendar, CheckCircle, Bell, UserCheck, Users, Fingerprint, GitBranch, Mail, CalendarCheck, Shield, Building, UserCog, User } from "lucide-react";
 import {PlaceHolderImages} from "@/lib/placeholder-images";
 import { Video, Users as UsersIcon, Calendar as CalendarIcon, Bot, GraduationCap } from 'lucide-react';
-
+import { motion } from "framer-motion";
+import { AnimatedDiv, childVariants } from "@/components/common/animated-div";
 
 export default function Home() {
     const heroImage = PlaceHolderImages.find(p => p.id === 'hero-classroom');
@@ -22,32 +23,44 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen bg-background font-body text-black">
       <div className="p-4">
+        <AnimatedDiv variants="fadeInDown">
         <header className="container mx-auto bg-black text-white rounded-2xl p-4 flex items-center justify-between">
           <Link href="#" className="flex items-center justify-center gap-2" prefetch={false}>
             <span className="text-2xl font-bold">SmartSched</span>
           </Link>
           <nav className="hidden md:flex items-center gap-8">
-            <Link href="#" className="text-sm font-medium hover:text-primary transition-colors" prefetch={false}>
+            <motion.div whileHover={{ scale: 1.1, color: '#FF4DA6' }}>
+            <Link href="#" className="text-sm font-medium transition-colors" prefetch={false}>
               About
             </Link>
-            <Link href="#features" className="text-sm font-medium hover:text-primary transition-colors" prefetch={false}>
+            </motion.div>
+            <motion.div whileHover={{ scale: 1.1, color: '#FF4DA6' }}>
+            <Link href="#features" className="text-sm font-medium transition-colors" prefetch={false}>
               Features
             </Link>
-             <Link href="#" className="text-sm font-medium hover:text-primary transition-colors" prefetch={false}>
+            </motion.div>
+             <motion.div whileHover={{ scale: 1.1, color: '#FF4DA6' }}>
+             <Link href="#" className="text-sm font-medium transition-colors" prefetch={false}>
               Pricing
             </Link>
-             <Link href="#" className="text-sm font-medium hover:text-primary transition-colors" prefetch={false}>
+            </motion.div>
+             <motion.div whileHover={{ scale: 1.1, color: '#FF4DA6' }}>
+             <Link href="#" className="text-sm font-medium transition-colors" prefetch={false}>
               Contact
             </Link>
+            </motion.div>
           </nav>
           <Link href="/login" prefetch={false}>
-            <Button className="bg-white text-black rounded-full px-6 py-3 font-semibold hover:bg-gray-200 transition-all">Get Started</Button>
+            <motion.div whileHover={{ scale: 1.05 }}>
+                <Button className="bg-white text-black rounded-full px-6 py-3 font-semibold hover:bg-gray-200 transition-all">Get Started</Button>
+            </motion.div>
           </Link>
         </header>
+        </AnimatedDiv>
       </div>
 
       <main className="flex-1 container mx-auto px-4 py-8">
-        <section className="w-full bg-muted rounded-2xl p-8">
+        <AnimatedDiv variants="fadeIn" className="w-full bg-muted rounded-2xl p-8">
           <div className="grid md:grid-cols-2 gap-8 items-center">
             <div className="space-y-6">
               <h1 className="text-5xl font-bold tracking-tighter">
@@ -58,10 +71,14 @@ export default function Home() {
               </p>
               <div className="flex items-center gap-4">
                 <Link href="/signup" prefetch={false}>
-                  <Button className="bg-primary text-white rounded-full px-8 py-6 font-semibold hover:scale-105 transition-transform">Get Started</Button>
+                  <motion.div whileHover={{ scale: 1.1, boxShadow: "0px 4px 20px rgba(255, 77, 166, 0.4)" }}>
+                  <Button className="bg-primary text-white rounded-full px-8 py-6 font-semibold">Get Started</Button>
+                  </motion.div>
                 </Link>
                 <Link href="#" prefetch={false}>
+                  <motion.div whileHover={{ scale: 1.1 }}>
                   <Button variant="outline" className="text-black border-black rounded-full px-8 py-6 font-medium hover:bg-gray-100 transition-all">Learn More</Button>
+                  </motion.div>
                 </Link>
               </div>
               <div className="flex items-center pt-4">
@@ -74,6 +91,7 @@ export default function Home() {
               </div>
             </div>
             <div className="flex justify-center">
+                <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ duration: 1 }}>
                 {heroImage && <Image
                     src={heroImage.imageUrl}
                     width={600}
@@ -82,13 +100,15 @@ export default function Home() {
                     className="rounded-2xl shadow-2xl"
                     data-ai-hint={heroImage.imageHint}
                 />}
+                </motion.div>
             </div>
           </div>
-        </section>
+        </AnimatedDiv>
 
-        <section id="features" className="w-full mt-8">
+        <AnimatedDiv variants="stagger" id="features" className="w-full mt-8">
           <div className="grid md:grid-cols-3 gap-6">
-            <div className="md:col-span-2">
+            <motion.div variants={childVariants} className="md:col-span-2">
+                <motion.div whileHover={{ scale: 1.05, boxShadow: "0 8px 30px rgba(0,0,0,0.15)" }} className="h-full">
                 <Card className="bg-[#E5D9FF] rounded-2xl p-6 shadow-lg h-full flex flex-col justify-between">
                     <div>
                         <h3 className="text-3xl font-bold">Streamline Timetables, Save Hours</h3>
@@ -109,8 +129,10 @@ export default function Home() {
                         </div>
                     </div>
                 </Card>
-            </div>
-            <div className="md:col-span-1">
+                </motion.div>
+            </motion.div>
+            <motion.div variants={childVariants} className="md:col-span-1">
+                 <motion.div whileHover={{ scale: 1.05, boxShadow: "0 8px 30px rgba(0,0,0,0.15)" }} className="h-full">
                  <Card className="bg-[#FFD1E9] rounded-2xl p-8 shadow-lg h-full">
                     <h3 className="text-3xl font-bold">5k+ Classes Scheduled</h3>
                     <p className="text-lg mt-2 mb-8">Trusted by top institutions to manage thousands of classes, faculty schedules, and extracurricular events seamlessly.</p>
@@ -133,11 +155,12 @@ export default function Home() {
                         </div>
                     </div>
                 </Card>
-            </div>
+                </motion.div>
+            </motion.div>
           </div>
-        </section>
+        </AnimatedDiv>
 
-        <section id="attendance" className="w-full mt-16">
+        <AnimatedDiv variants="fadeIn" id="attendance" className="w-full mt-16">
           <div className="grid md:grid-cols-2 gap-8 items-center bg-muted p-8 rounded-2xl">
             <div className="flex justify-center">
               {attendanceFeatureImage && <Image
@@ -175,9 +198,9 @@ export default function Home() {
               </ul>
             </div>
           </div>
-        </section>
+        </AnimatedDiv>
 
-         <section id="google-integration" className="w-full mt-16 py-12 text-center">
+         <AnimatedDiv variants="fadeIn" id="google-integration" className="w-full mt-16 py-12 text-center">
             <h2 className="text-4xl font-bold tracking-tighter mb-4">Seamlessly Integrated with Google</h2>
             <p className="text-muted-foreground text-lg max-w-3xl mx-auto mb-12">
                 Leverage the power of Google's ecosystem. Sync timetables with Google Calendar, conduct online classes with Google Meet, and manage coursework with Google Classroom.
@@ -211,15 +234,17 @@ export default function Home() {
                     </CardContent>
                 </Card>
             </div>
-        </section>
+        </AnimatedDiv>
 
-        <section id="roles" className="w-full mt-16 py-12 text-center">
+        <AnimatedDiv variants="stagger" id="roles" className="w-full mt-16 py-12 text-center">
           <h2 className="text-4xl font-bold tracking-tighter mb-4">Roles & Responsibilities</h2>
           <p className="text-muted-foreground text-lg max-w-3xl mx-auto mb-12">
             A clear hierarchy designed for seamless management and collaboration across your institution. Each role has tailored permissions to ensure smooth operations.
           </p>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <Card className="text-left p-6 bg-muted">
+            <motion.div variants={childVariants}>
+            <motion.div whileHover={{ scale: 1.05, borderColor: '#FF4DA6' }} className="h-full border-2 border-transparent rounded-lg">
+            <Card className="text-left p-6 bg-muted h-full">
               <CardContent className="p-0">
                 <div className="flex items-center gap-4 mb-4">
                   <div className="p-3 bg-primary/10 rounded-lg">
@@ -235,7 +260,11 @@ export default function Home() {
                 </ul>
               </CardContent>
             </Card>
-            <Card className="text-left p-6 bg-muted">
+            </motion.div>
+            </motion.div>
+            <motion.div variants={childVariants}>
+            <motion.div whileHover={{ scale: 1.05, borderColor: '#FF4DA6' }} className="h-full border-2 border-transparent rounded-lg">
+            <Card className="text-left p-6 bg-muted h-full">
               <CardContent className="p-0">
                 <div className="flex items-center gap-4 mb-4">
                   <div className="p-3 bg-primary/10 rounded-lg">
@@ -251,7 +280,11 @@ export default function Home() {
                 </ul>
               </CardContent>
             </Card>
-             <Card className="text-left p-6 bg-muted">
+            </motion.div>
+            </motion.div>
+            <motion.div variants={childVariants}>
+            <motion.div whileHover={{ scale: 1.05, borderColor: '#FF4DA6' }} className="h-full border-2 border-transparent rounded-lg">
+             <Card className="text-left p-6 bg-muted h-full">
               <CardContent className="p-0">
                 <div className="flex items-center gap-4 mb-4">
                   <div className="p-3 bg-primary/10 rounded-lg">
@@ -267,7 +300,11 @@ export default function Home() {
                 </ul>
               </CardContent>
             </Card>
-             <Card className="text-left p-6 bg-muted">
+            </motion.div>
+            </motion.div>
+            <motion.div variants={childVariants}>
+            <motion.div whileHover={{ scale: 1.05, borderColor: '#FF4DA6' }} className="h-full border-2 border-transparent rounded-lg">
+             <Card className="text-left p-6 bg-muted h-full">
               <CardContent className="p-0">
                 <div className="flex items-center gap-4 mb-4">
                   <div className="p-3 bg-primary/10 rounded-lg">
@@ -283,13 +320,15 @@ export default function Home() {
                 </ul>
               </CardContent>
             </Card>
+            </motion.div>
+            </motion.div>
           </div>
-        </section>
+        </AnimatedDiv>
 
 
       </main>
 
-      <footer className="w-full mt-16 py-6 border-t">
+      <AnimatedDiv variants="fadeIn" className="w-full mt-16 py-6 border-t">
         <div className="container mx-auto flex flex-col md:flex-row items-center justify-between px-4">
             <p className="text-sm text-muted-foreground">&copy; 2024 SmartSched. All rights reserved.</p>
             <nav className="flex gap-4 sm:gap-6 mt-4 md:mt-0">
@@ -301,9 +340,7 @@ export default function Home() {
                 </Link>
             </nav>
         </div>
-      </footer>
+      </AnimatedDiv>
     </div>
   );
 }
-
-    
