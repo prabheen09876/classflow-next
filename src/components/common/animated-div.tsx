@@ -9,7 +9,6 @@ interface AnimatedDivProps {
   className?: string;
   variants: "fadeIn" | "fadeInDown" | "stagger";
   staggerChildren?: number;
-  delay?: number;
   once?: boolean;
 }
 
@@ -53,7 +52,7 @@ export const childVariants: Variants = {
     y: 0,
     transition: {
       duration: 0.6,
-      ease: [0.6, 0.05, -0.01, 0.9],
+      ease: "easeOut",
     },
   },
 };
