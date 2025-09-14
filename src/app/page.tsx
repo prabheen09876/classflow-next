@@ -25,7 +25,7 @@ export default function Home() {
     <div className="flex flex-col min-h-screen bg-background font-body text-black">
       <div className="sticky top-0 z-50 p-4">
         <AnimatedDiv variants="fadeInDown">
-        <header className="container mx-auto bg-white/30 backdrop-blur-lg text-black rounded-2xl p-4 flex items-center justify-between border border-white/40 shadow-lg">
+        <header className="container mx-auto bg-black/30 backdrop-blur-lg text-white rounded-2xl p-4 flex items-center justify-between border border-white/40 shadow-lg">
           <Link href="#" className="flex items-center justify-center gap-2" prefetch={false}>
             <span className="text-2xl font-bold">SmartSched</span>
           </Link>
@@ -53,7 +53,7 @@ export default function Home() {
           </nav>
           <Link href="/login" prefetch={false}>
             <motion.div whileHover={{ scale: 1.05 }}>
-                <Button className="bg-black text-white rounded-full px-6 py-3 font-semibold hover:bg-gray-800 transition-all">Get Started</Button>
+                <Button className="bg-white text-black rounded-full px-6 py-3 font-semibold hover:bg-gray-200 transition-all">Get Started</Button>
             </motion.div>
           </Link>
         </header>
