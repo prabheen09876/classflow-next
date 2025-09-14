@@ -1,9 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { ArrowLeft, ArrowRight, Bolt, Calendar, CheckCircle, Bell } from "lucide-react";
-import { Logo } from "@/components/icons";
 import {PlaceHolderImages} from "@/lib/placeholder-images";
 
 export default function Home() {
@@ -34,7 +33,7 @@ export default function Home() {
               Contact
             </Link>
           </nav>
-          <Link href="/dashboard" prefetch={false}>
+          <Link href="/login" prefetch={false}>
             <Button className="bg-white text-black rounded-full px-6 py-3 font-semibold hover:bg-gray-200 transition-all">Get Started</Button>
           </Link>
         </header>
@@ -51,7 +50,7 @@ export default function Home() {
                 Automate, optimize, and simplify class timetables for colleges and institutions with real-time adjustments and AI-powered scheduling.
               </p>
               <div className="flex items-center gap-4">
-                <Link href="/dashboard" prefetch={false}>
+                <Link href="/signup" prefetch={false}>
                   <Button className="bg-primary text-white rounded-full px-8 py-6 font-semibold hover:scale-105 transition-transform">Get Started</Button>
                 </Link>
                 <Link href="#" prefetch={false}>
