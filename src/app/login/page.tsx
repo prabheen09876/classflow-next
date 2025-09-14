@@ -27,13 +27,32 @@ export default function LoginPage() {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+
+    // Mock login for different roles for testing
+    if (email === "admin@example.com" || email === "hos@example.com") {
+      toast({
+        title: "Login Successful",
+        description: "Redirecting to admin dashboard...",
+      });
+      router.push("/admin");
+      return;
+    }
+    if (email === "teacher@example.com" || email === "student@example.com") {
+      toast({
+        title: "Login Successful",
+        description: "Redirecting to dashboard...",
+      });
+       router.push("/dashboard");
+       return;
+    }
+
     try {
       await signInWithEmailAndPassword(auth, email, password);
       router.push("/dashboard");
     } catch (error: any) {
       toast({
         title: "Login Failed",
-        description: error.message,
+        description: "Invalid credentials for mock users. Use one of the provided emails.",
         variant: "destructive",
       });
       setLoading(false);
