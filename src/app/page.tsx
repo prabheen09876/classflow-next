@@ -1,10 +1,11 @@
+
 "use client";
 
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { ArrowLeft, ArrowRight, Bolt, Calendar, CheckCircle, Bell, UserCheck, Users, Fingerprint, GitBranch, Mail, CalendarCheck } from "lucide-react";
+import { ArrowLeft, ArrowRight, Bolt, Calendar, CheckCircle, Bell, UserCheck, Users, Fingerprint, GitBranch, Mail, CalendarCheck, Shield, Building, UserCog, User } from "lucide-react";
 import {PlaceHolderImages} from "@/lib/placeholder-images";
 
 export default function Home() {
@@ -14,7 +15,6 @@ export default function Home() {
     const teacher2 = PlaceHolderImages.find(p => p.id === 'teacher-2');
     const student1 = PlaceHolderImages.find(p => p.id === 'student-1');
     const attendanceFeatureImage = PlaceHolderImages.find(p => p.id === 'attendance-feature');
-    const hierarchyIllustration = PlaceHolderImages.find(p => p.id === 'hierarchy-illustration');
 
 
   return (
@@ -175,44 +175,76 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="hierarchy" className="w-full mt-16 py-12 text-center">
-          <h2 className="text-4xl font-bold tracking-tighter mb-4">Live Attendance Workflow</h2>
+        <section id="roles" className="w-full mt-16 py-12 text-center">
+          <h2 className="text-4xl font-bold tracking-tighter mb-4">Roles & Responsibilities</h2>
           <p className="text-muted-foreground text-lg max-w-3xl mx-auto mb-12">
-            Our system provides a real-time, transparent flow of information. See how attendance and leave marking works seamlessly across the hierarchy.
+            A clear hierarchy designed for seamless management and collaboration across your institution. Each role has tailored permissions to ensure smooth operations.
           </p>
-          <div className="relative flex justify-center items-center h-[500px] w-full">
-            <svg className="w-full h-full" viewBox="0 0 800 500">
-              {/* Nodes */}
-              <g className="node" id="hos-node" style={{ animation: "fade-in 0.5s 0.2s forwards" }}>
-                <rect x="350" y="20" width="100" height="60" rx="10" fill="hsl(var(--primary))" />
-                <text x="400" y="50" textAnchor="middle" fill="white" className="font-bold text-sm">HOS</text>
-                <UserCheck x="375" y="30" width="50" height="20" className="text-white" />
-              </g>
-              <g className="node" id="teacher-node" style={{ animation: "fade-in 0.5s 0.5s forwards" }}>
-                <rect x="150" y="220" width="100" height="60" rx="10" fill="hsl(var(--accent))" />
-                <text x="200" y="250" textAnchor="middle" fill="hsl(var(--accent-foreground))" className="font-bold text-sm">Teacher</text>
-                 <Users x="175" y="230" width="50" height="20" className="text-primary" />
-              </g>
-              <g className="node" id="student-node" style={{ animation: "fade-in 0.5s 0.8s forwards" }}>
-                <rect x="550" y="220" width="100" height="60" rx="10" fill="hsl(var(--muted))" />
-                <text x="600" y="250" textAnchor="middle" fill="hsl(var(--muted-foreground))" className="font-bold text-sm">Student</text>
-                 <GitBranch x="575" y="230" width="50" height="20" />
-              </g>
-
-              {/* Paths */}
-              <path id="teacher-to-hos" className="path" d="M 200 220 Q 250 120, 375 80" stroke="hsl(var(--border))" strokeWidth="2" fill="none" />
-              <path id="student-to-teacher" className="path" d="M 550 240 Q 400 320, 250 260" stroke="hsl(var(--border))" strokeWidth="2" fill="none" />
-
-              {/* Animated Icons */}
-              <g id="leave-icon" className="icon-group">
-                <Mail className="moving-icon" fill="hsl(var(--primary))" color="white" />
-                <text x="0" y="35" className="icon-label" fill="hsl(var(--primary))">Leave Request</text>
-              </g>
-              <g id="attendance-icon" className="icon-group">
-                <CalendarCheck className="moving-icon" fill="hsl(var(--accent-foreground))" color="hsl(var(--accent))" />
-                 <text x="0" y="35" className="icon-label" fill="hsl(var(--accent-foreground))">Attendance Marked</text>
-              </g>
-            </svg>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <Card className="text-left p-6 bg-muted">
+              <CardContent className="p-0">
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="p-3 bg-primary/10 rounded-lg">
+                    <Shield className="h-6 w-6 text-primary" />
+                  </div>
+                  <h3 className="text-xl font-bold">Admin</h3>
+                </div>
+                <p className="text-muted-foreground mb-4">Full control over the entire platform, from managing users to configuring system-wide settings.</p>
+                <ul className="space-y-2 text-sm">
+                  <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-green-500"/> Manage HOS & Depts.</li>
+                  <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-green-500"/> Configure AI Rules</li>
+                  <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-green-500"/> Access Global Reports</li>
+                </ul>
+              </CardContent>
+            </Card>
+            <Card className="text-left p-6 bg-muted">
+              <CardContent className="p-0">
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="p-3 bg-primary/10 rounded-lg">
+                    <UserCog className="h-6 w-6 text-primary" />
+                  </div>
+                  <h3 className="text-xl font-bold">HOS</h3>
+                </div>
+                <p className="text-muted-foreground mb-4">Manages departmental resources, including faculty, classrooms, and timetables.</p>
+                <ul className="space-y-2 text-sm">
+                  <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-green-500"/> Add & Manage Teachers</li>
+                  <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-green-500"/> Approve Timetables</li>
+                  <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-green-500"/> Manage Rooms & Labs</li>
+                </ul>
+              </CardContent>
+            </Card>
+             <Card className="text-left p-6 bg-muted">
+              <CardContent className="p-0">
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="p-3 bg-primary/10 rounded-lg">
+                     <Users className="h-6 w-6 text-primary" />
+                  </div>
+                  <h3 className="text-xl font-bold">Teacher</h3>
+                </div>
+                <p className="text-muted-foreground mb-4">Handles day-to-day classroom activities, from attendance to assigning homework.</p>
+                <ul className="space-y-2 text-sm">
+                  <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-green-500"/> Mark Attendance</li>
+                  <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-green-500"/> Assign Homework</li>
+                  <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-green-500"/> View Schedule</li>
+                </ul>
+              </CardContent>
+            </Card>
+             <Card className="text-left p-6 bg-muted">
+              <CardContent className="p-0">
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="p-3 bg-primary/10 rounded-lg">
+                    <User className="h-6 w-6 text-primary" />
+                  </div>
+                  <h3 className="text-xl font-bold">Student</h3>
+                </div>
+                <p className="text-muted-foreground mb-4">Stays organized with a personalized timetable and receives instant updates.</p>
+                <ul className="space-y-2 text-sm">
+                  <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-green-500"/> View Timetable</li>
+                  <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-green-500"/> Receive Notifications</li>
+                  <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-green-500"/> Access Homework</li>
+                </ul>
+              </CardContent>
+            </Card>
           </div>
         </section>
 
@@ -232,74 +264,8 @@ export default function Home() {
             </nav>
         </div>
       </footer>
-       <style jsx>{`
-        .node {
-            opacity: 0;
-            transform-origin: center;
-        }
-        @keyframes fade-in {
-          from { opacity: 0; transform: scale(0.8); }
-          to { opacity: 1; transform: scale(1); }
-        }
-
-        .path {
-          stroke-dasharray: 1000;
-          stroke-dashoffset: 1000;
-          animation: draw-line 2s 1s ease-out forwards;
-        }
-
-        @keyframes draw-line {
-          to {
-            stroke-dashoffset: 0;
-          }
-        }
-        
-        .moving-icon {
-           width: 24px;
-           height: 24px;
-        }
-
-        .icon-group {
-            opacity: 0;
-            transform-origin: center;
-        }
-        
-        #leave-icon {
-            offset-path: path('M 200 220 Q 250 120, 375 80');
-            animation: move-icon 2.5s 2.5s linear forwards, fade-in-icon 0.5s 2.5s forwards;
-        }
-
-        #attendance-icon {
-            offset-path: path('M 550 240 Q 400 320, 250 260');
-            animation: move-icon 2.5s 3s linear forwards, fade-in-icon 0.5s 3s forwards;
-        }
-
-        .icon-label {
-            font-size: 10px;
-            font-weight: 500;
-            text-anchor: middle;
-        }
-
-        @keyframes move-icon {
-            0% {
-                offset-distance: 0%;
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
-            100% {
-                offset-distance: 100%;
-                opacity: 0;
-            }
-        }
-        
-        @keyframes fade-in-icon {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-      `}</style>
     </div>
   );
 }
+
+    
