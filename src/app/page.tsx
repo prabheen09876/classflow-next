@@ -1,8 +1,10 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { ArrowLeft, ArrowRight, Bolt, Calendar, CheckCircle, Bell } from "lucide-react";
+import { ArrowLeft, ArrowRight, Bolt, Calendar, CheckCircle, Bell, UserCheck, Users, Fingerprint, GitBranch } from "lucide-react";
 import {PlaceHolderImages} from "@/lib/placeholder-images";
 
 export default function Home() {
@@ -11,6 +13,9 @@ export default function Home() {
     const teacher1 = PlaceHolderImages.find(p => p.id === 'teacher-1');
     const teacher2 = PlaceHolderImages.find(p => p.id === 'teacher-2');
     const student1 = PlaceHolderImages.find(p => p.id === 'student-1');
+    const attendanceFeatureImage = PlaceHolderImages.find(p => p.id === 'attendance-feature');
+    const hierarchyIllustration = PlaceHolderImages.find(p => p.id === 'hierarchy-illustration');
+
 
   return (
     <div className="flex flex-col min-h-screen bg-background font-body text-black">
@@ -129,6 +134,92 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        <section id="attendance" className="w-full mt-16">
+          <div className="grid md:grid-cols-2 gap-8 items-center bg-muted p-8 rounded-2xl">
+            <div className="flex justify-center">
+              {attendanceFeatureImage && <Image
+                src={attendanceFeatureImage.imageUrl}
+                width={600}
+                height={400}
+                alt="Attendance tracking illustration"
+                className="rounded-2xl shadow-2xl"
+                data-ai-hint={attendanceFeatureImage.imageHint}
+              />}
+            </div>
+            <div className="space-y-6">
+              <div className="flex items-center gap-3">
+                <Fingerprint className="h-8 w-8 text-primary" />
+                <h2 className="text-4xl font-bold tracking-tighter">Effortless Attendance Tracking</h2>
+              </div>
+              <p className="text-muted-foreground text-lg">
+                Marking attendance has never been easier. Teachers and students can mark their presence with a single click, providing real-time data to administrators and HOS.
+              </p>
+              <ul className="space-y-4">
+                <li className="flex items-start gap-3">
+                  <CheckCircle className="h-6 w-6 text-green-500 mt-1 flex-shrink-0" />
+                  <div>
+                    <h4 className="font-semibold">Instant Updates for All</h4>
+                    <p className="text-muted-foreground">Attendance data is instantly synced, allowing HOS to see who is present and make immediate adjustments if needed.</p>
+                  </div>
+                </li>
+                <li className="flex items-start gap-3">
+                  <CheckCircle className="h-6 w-6 text-green-500 mt-1 flex-shrink-0" />
+                  <div>
+                    <h4 className="font-semibold">AI-Powered Substitutions</h4>
+                    <p className="text-muted-foreground">If a teacher is absent, our AI automatically finds an available substitute and reassigns the class, minimizing disruption.</p>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section id="hierarchy" className="w-full mt-16 py-12 text-center">
+          <h2 className="text-4xl font-bold tracking-tighter mb-4">A Clear & Structured Hierarchy</h2>
+          <p className="text-muted-foreground text-lg max-w-3xl mx-auto mb-12">
+            SmartSched is designed with a clear role-based hierarchy to ensure that everyone has the right level of access and control.
+          </p>
+          <div className="relative flex flex-col items-center">
+            {/* HOS Node */}
+            <div className="animate-fade-in-down z-10">
+              <div className="bg-primary text-primary-foreground rounded-full p-6 shadow-lg flex flex-col items-center w-48 h-48 justify-center">
+                <UserCheck className="h-12 w-12 mb-2" />
+                <h3 className="text-xl font-bold">HOS</h3>
+              </div>
+            </div>
+
+            {/* Connecting Lines to Teachers */}
+            <div className="absolute top-36 h-20 w-px bg-border animate-draw-line" style={{animationDelay: '0.5s'}}></div>
+            <div className="absolute top-56 h-px w-64 bg-border animate-draw-line-h" style={{animationDelay: '1s'}}></div>
+            
+            {/* Teacher Nodes */}
+            <div className="flex justify-center gap-24 mt-20 relative z-10">
+              <div className="animate-fade-in-up" style={{animationDelay: '1.5s'}}>
+                 <div className="bg-accent text-accent-foreground rounded-xl p-6 shadow-md flex flex-col items-center w-40 h-40 justify-center">
+                   <Users className="h-10 w-10 mb-2 text-primary" />
+                   <h3 className="text-lg font-semibold">Teachers</h3>
+                </div>
+              </div>
+            </div>
+             
+             {/* Connecting Lines to Students */}
+            <div className="absolute top-[21.5rem] h-20 w-px bg-border animate-draw-line" style={{animationDelay: '2s'}}></div>
+            <div className="absolute top-[26.5rem] h-px w-96 bg-border animate-draw-line-h-2" style={{animationDelay: '2.5s'}}></div>
+            
+            {/* Student Nodes */}
+            <div className="flex justify-center gap-32 mt-20 relative z-10">
+              <div className="animate-fade-in-up" style={{animationDelay: '3s'}}>
+                <div className="bg-muted text-muted-foreground rounded-lg p-4 shadow-sm flex flex-col items-center w-36 h-36 justify-center">
+                  <GitBranch className="h-8 w-8 mb-2" />
+                  <h3 className="text-md font-semibold">Students</h3>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+
       </main>
 
       <footer className="w-full mt-16 py-6 border-t">
@@ -144,6 +235,33 @@ export default function Home() {
             </nav>
         </div>
       </footer>
+       <style jsx>{`
+        @keyframes fade-in-down {
+          from { opacity: 0; transform: translateY(-20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fade-in-up {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes draw-line {
+            from { height: 0; }
+            to { height: 5rem; }
+        }
+        @keyframes draw-line-h {
+            from { width: 0; }
+            to { width: 16rem; }
+        }
+         @keyframes draw-line-h-2 {
+            from { width: 0; }
+            to { width: 24rem; }
+        }
+        .animate-fade-in-down { animation: fade-in-down 0.5s ease-out forwards; animation-delay: 0.2s; opacity: 0; }
+        .animate-fade-in-up { animation: fade-in-up 0.5s ease-out forwards; opacity: 0; }
+        .animate-draw-line { animation: draw-line 0.5s linear forwards; height: 0; }
+        .animate-draw-line-h { animation: draw-line-h 0.5s linear forwards; width: 0; }
+        .animate-draw-line-h-2 { animation: draw-line-h-2 0.5s linear forwards; width: 0; }
+      `}</style>
     </div>
   );
 }

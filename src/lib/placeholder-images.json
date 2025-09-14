@@ -42,6 +42,18 @@
       "description": "Avatar for a student",
       "imageUrl": "https://picsum.photos/seed/student1/48/48",
       "imageHint": "student profile"
+    },
+    {
+      "id": "attendance-feature",
+      "description": "An image illustrating the attendance feature",
+      "imageUrl": "https://picsum.photos/seed/attendance/600/400",
+      "imageHint": "attendance checkmark"
+    },
+    {
+      "id": "hierarchy-illustration",
+      "description": "An image for the organizational hierarchy section",
+      "imageUrl": "https://picsum.photos/seed/hierarchy/600/500",
+      "imageHint": "organization chart"
     }
   ]
 }
