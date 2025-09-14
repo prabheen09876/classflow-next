@@ -6,7 +6,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { School, Book, Users, Building } from "lucide-react";
+import { School, Book, Users, Building, UserCheck } from "lucide-react";
 
 export default function AdminPage() {
   return (
@@ -17,7 +17,26 @@ export default function AdminPage() {
         </div>
       </header>
       <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-sm font-medium">
+                Manage HOS
+              </CardTitle>
+              <UserCheck className="w-4 h-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">4</div>
+              <p className="text-xs text-muted-foreground">
+                +1 from last year
+              </p>
+            </CardContent>
+            <CardContent>
+                <Link href="/admin/hos">
+                    <p className="text-sm font-medium hover:underline">View HOS</p>
+                </Link>
+            </CardContent>
+          </Card>
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium">

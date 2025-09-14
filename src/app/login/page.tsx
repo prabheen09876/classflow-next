@@ -29,7 +29,7 @@ export default function LoginPage() {
     setLoading(true);
 
     // Mock login for different roles for testing
-    if (email === "admin@example.com" || email === "hos@example.com") {
+    if (email === "admin@example.com") {
       toast({
         title: "Login Successful",
         description: "Redirecting to admin dashboard...",
@@ -37,14 +37,31 @@ export default function LoginPage() {
       router.push("/admin");
       return;
     }
-    if (email === "teacher@example.com" || email === "student@example.com") {
+    if (email === "hos@example.com") {
       toast({
         title: "Login Successful",
-        description: "Redirecting to dashboard...",
+        description: "Redirecting to HOS dashboard...",
       });
-       router.push("/dashboard");
+      router.push("/hos");
+      return;
+    }
+    if (email === "teacher@example.com") {
+      toast({
+        title: "Login Successful",
+        description: "Redirecting to teacher dashboard...",
+      });
+       router.push("/teacher");
        return;
     }
+    if (email === "student@example.com") {
+        toast({
+            title: "Login Successful",
+            description: "Redirecting to student dashboard...",
+        });
+        router.push("/student");
+        return;
+    }
+
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
