@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowLeft, ArrowRight, Bolt, Calendar, CheckCircle, Bell, UserCheck, Users, Fingerprint, GitBranch, Mail, CalendarCheck, Shield, Building, UserCog, User } from "lucide-react";
 import {PlaceHolderImages} from "@/lib/placeholder-images";
+import { Video, Users as UsersIcon, Calendar as CalendarIcon, Bot, GraduationCap } from 'lucide-react';
+
 
 export default function Home() {
     const heroImage = PlaceHolderImages.find(p => p.id === 'hero-classroom');
@@ -173,6 +175,42 @@ export default function Home() {
               </ul>
             </div>
           </div>
+        </section>
+
+         <section id="google-integration" className="w-full mt-16 py-12 text-center">
+            <h2 className="text-4xl font-bold tracking-tighter mb-4">Seamlessly Integrated with Google</h2>
+            <p className="text-muted-foreground text-lg max-w-3xl mx-auto mb-12">
+                Leverage the power of Google's ecosystem. Sync timetables with Google Calendar, conduct online classes with Google Meet, and manage coursework with Google Classroom.
+            </p>
+            <div className="grid md:grid-cols-3 gap-6">
+                <Card className="text-left p-6 bg-muted">
+                    <CardContent className="p-0 flex flex-col items-center text-center">
+                        <div className="p-3 bg-blue-500/10 rounded-lg mb-4">
+                            <CalendarIcon className="h-8 w-8 text-blue-500" />
+                        </div>
+                        <h3 className="text-xl font-bold">Google Calendar</h3>
+                        <p className="text-muted-foreground mt-2">Sync timetables, holidays, and events automatically. Never miss a class or deadline.</p>
+                    </CardContent>
+                </Card>
+                <Card className="text-left p-6 bg-muted">
+                    <CardContent className="p-0 flex flex-col items-center text-center">
+                        <div className="p-3 bg-green-500/10 rounded-lg mb-4">
+                            <Video className="h-8 w-8 text-green-500" />
+                        </div>
+                        <h3 className="text-xl font-bold">Google Meet</h3>
+                        <p className="text-muted-foreground mt-2">Conduct online classes with a single click. Substitutions can be virtual, ensuring no class is missed.</p>
+                    </CardContent>
+                </Card>
+                <Card className="text-left p-6 bg-muted">
+                    <CardContent className="p-0 flex flex-col items-center text-center">
+                        <div className="p-3 bg-yellow-500/10 rounded-lg mb-4">
+                           <GraduationCap className="h-8 w-8 text-yellow-500" />
+                        </div>
+                        <h3 className="text-xl font-bold">Google Classroom</h3>
+                        <p className="text-muted-foreground mt-2">Assign and track homework, share resources, and manage coursework seamlessly.</p>
+                    </CardContent>
+                </Card>
+            </div>
         </section>
 
         <section id="roles" className="w-full mt-16 py-12 text-center">
