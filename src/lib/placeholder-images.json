@@ -6,6 +6,12 @@
       "description": "A placeholder user avatar",
       "imageUrl": "https://picsum.photos/seed/avatar/100/100",
       "imageHint": "person face"
+    },
+    {
+      "id": "ai-assistant-avatar",
+      "description": "A placeholder AI assistant avatar",
+      "imageUrl": "https://picsum.photos/seed/ai-assistant/400/400",
+      "imageHint": "abstract art"
     }
   ]
 }

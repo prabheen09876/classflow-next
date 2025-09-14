@@ -5,9 +5,8 @@ import {
   BookUser,
   Users,
   Settings,
-  CalendarPlus,
-  ShieldAlert,
-  Bot
+  Bot,
+  Shield
 } from 'lucide-react'
 
 import {
@@ -34,7 +33,7 @@ export default function AppSidebar() {
           <Tooltip>
             <TooltipTrigger asChild>
               <Link
-                href="#"
+                href="/dashboard"
                 className="flex h-9 w-9 items-center justify-center rounded-lg bg-accent text-accent-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
                 prefetch={false}
               >
@@ -73,7 +72,7 @@ export default function AppSidebar() {
           <Tooltip>
             <TooltipTrigger asChild>
               <Link
-                href="#"
+                href="/admin/faculty"
                 className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
                 prefetch={false}
               >
@@ -82,6 +81,19 @@ export default function AppSidebar() {
               </Link>
             </TooltipTrigger>
             <TooltipContent side="right">Faculty</TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Link
+                href="/admin"
+                className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
+                prefetch={false}
+              >
+                <Shield className="h-5 w-5" />
+                <span className="sr-only">Admin</span>
+              </Link>
+            </TooltipTrigger>
+            <TooltipContent side="right">Admin</TooltipContent>
           </Tooltip>
         </nav>
         <nav className="mt-auto flex flex-col items-center gap-4 px-2 sm:py-5">

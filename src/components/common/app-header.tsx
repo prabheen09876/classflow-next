@@ -10,6 +10,7 @@ import {
   Search,
   ShoppingCart,
   Users2,
+  Shield,
 } from "lucide-react";
 
 import {
@@ -56,7 +57,7 @@ export default function AppHeader() {
               <span className="sr-only">ClassMaster AI</span>
             </Link>
             <Link
-              href="#"
+              href="/dashboard"
               className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
               prefetch={false}
             >
@@ -80,12 +81,20 @@ export default function AppHeader() {
               Assignments
             </Link>
             <Link
-              href="#"
+              href="/admin/faculty"
               className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
               prefetch={false}
             >
               <Users2 className="h-5 w-5" />
               Faculty
+            </Link>
+            <Link
+              href="/admin"
+              className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
+              prefetch={false}
+            >
+              <Shield className="h-5 w-5" />
+              Admin
             </Link>
             <Link
               href="#"
@@ -102,7 +111,7 @@ export default function AppHeader() {
         <BreadcrumbList>
           <BreadcrumbItem>
             <BreadcrumbLink asChild>
-              <Link href="#" prefetch={false}>
+              <Link href="/dashboard" prefetch={false}>
                 Dashboard
               </Link>
             </BreadcrumbLink>

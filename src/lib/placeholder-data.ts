@@ -1,15 +1,15 @@
 import { TimetableEntry, Day } from './types';
 
 const subjects = [
-  { name: 'Intro to AI', color: 'bg-blue-200 text-blue-800 border-blue-300' },
-  { name: 'Data Structures', color: 'bg-green-200 text-green-800 border-green-300' },
-  { name: 'Algorithms', color: 'bg-purple-200 text-purple-800 border-purple-300' },
-  { name: 'Web Development', color: 'bg-yellow-200 text-yellow-800 border-yellow-300' },
-  { name: 'Database Systems', color: 'bg-red-200 text-red-800 border-red-300' },
-  { name: 'Operating Systems', color: 'bg-indigo-200 text-indigo-800 border-indigo-300' },
-  { name: 'Linear Algebra', color: 'bg-pink-200 text-pink-800 border-pink-300' },
-  { name: 'Calculus II', color: 'bg-orange-200 text-orange-800 border-orange-300' },
-  { name: 'Physics I', color: 'bg-cyan-200 text-cyan-800 border-cyan-300' },
+  { name: 'Intro to AI', color: 'border-purple-500 bg-purple-50' },
+  { name: 'Data Structures', color: 'border-yellow-500 bg-yellow-50' },
+  { name: 'Algorithms', color: 'border-green-500 bg-green-50' },
+  { name: 'Web Development', color: 'border-pink-500 bg-pink-50' },
+  { name: 'Database Systems', color: 'border-red-500 bg-red-50' },
+  { name: 'Operating Systems', color: 'border-blue-500 bg-blue-50' },
+  { name: 'Linear Algebra', color: 'border-indigo-500 bg-indigo-50' },
+  { name: 'Calculus II', color: 'border-gray-500 bg-gray-50' },
+  { name: 'Physics I', color: 'border-orange-500 bg-orange-50' },
 ];
 
 const faculties = ['Dr. Smith', 'Prof. Jones', 'Dr. Lee', 'Prof. Davis', 'Dr. Patel'];
@@ -103,7 +103,7 @@ export const mockTimetable: TimetableEntry[] = [
     faculty: 'N/A',
     room: 'Auditorium',
     classId: 'EXTRA',
-    color: 'bg-gray-200 text-gray-800 border-gray-300',
+    color: 'border-gray-500 bg-gray-100',
   },
    {
     id: '9',
