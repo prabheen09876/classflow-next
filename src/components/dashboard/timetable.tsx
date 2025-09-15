@@ -5,7 +5,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { cn } from "@/lib/utils";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
-import { CalendarIcon, Plus, Search } from "lucide-react";
+import { CalendarIcon, Plus, Search, Video, CalendarPlus } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 const timeSlots = Array.from({ length: 15 }, (_, i) => `${(i + 8).toString().padStart(2, '0')}:00`);
 const days: Day[] = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
@@ -28,6 +29,15 @@ interface TimetableViewProps {
 }
 
 export function TimetableView({ events }: TimetableViewProps) {
+  const { toast } = useToast();
+
+  const handleAddToCalendar = (event: TimetableEntry) => {
+    toast({
+      title: "Added to Calendar",
+      description: `${event.subject} has been added to your Google Calendar.`,
+    });
+  };
+
   return (
     <Card className="h-full">
       <CardHeader className="flex flex-row items-center justify-between">
@@ -37,7 +47,7 @@ export function TimetableView({ events }: TimetableViewProps) {
         </div>
         <div className="flex items-center gap-2">
             <Button variant="ghost" size="icon"><Search className="h-5 w-5"/></Button>
-            <Button><Plus className="h-5 w-5 mr-2"/> Add new docs</Button>
+            <Button><Plus className="h-5 w-5 mr-2"/> Add new event</Button>
         </div>
       </CardHeader>
       <CardContent>
@@ -80,17 +90,29 @@ export function TimetableView({ events }: TimetableViewProps) {
               return (
                 <div
                   key={event.id}
-                  className="relative p-1"
+                  className="relative p-1 group"
                   style={{
                     gridColumnStart: colIndex,
                     gridRow: `${rowStart} / span ${rowSpan}`,
                   }}
                 >
-                  <div className={cn("h-full w-full p-3 rounded-lg border-l-4 text-xs", event.color)}>
+                  <div className={cn("h-full w-full p-3 rounded-lg border-l-4 text-xs flex flex-col justify-between", event.color)}>
+                    <div>
                       <p className="font-bold text-sm">{event.subject}</p>
                       <p className="text-muted-foreground">{event.startTime} - {event.endTime}</p>
-                      <p className="font-semibold mt-2">{event.room}</p>
+                      <p className="font-semibold mt-2">{event.eventType === 'online' ? 'Google Meet' : event.room}</p>
                       <p>{event.faculty}</p>
+                    </div>
+                     <div className="flex items-center justify-end gap-2 mt-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                        {event.eventType === 'online' && (
+                           <Button variant="ghost" size="icon" className="h-7 w-7 bg-white/50 rounded-full">
+                                <Video className="h-4 w-4 text-blue-600" />
+                           </Button>
+                        )}
+                         <Button variant="ghost" size="icon" className="h-7 w-7 bg-white/50 rounded-full" onClick={() => handleAddToCalendar(event)}>
+                            <CalendarPlus className="h-4 w-4 text-green-600" />
+                        </Button>
+                    </div>
                   </div>
                 </div>
               );

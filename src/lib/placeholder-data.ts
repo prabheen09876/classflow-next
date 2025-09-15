@@ -27,6 +27,7 @@ export const mockTimetable: TimetableEntry[] = [
     room: 'A101',
     classId: 'CS301',
     color: subjects[0].color,
+    eventType: 'in-person',
   },
   {
     id: '2',
@@ -38,6 +39,7 @@ export const mockTimetable: TimetableEntry[] = [
     room: 'B202',
     classId: 'CS201',
     color: subjects[1].color,
+     eventType: 'in-person',
   },
   {
     id: '3',
@@ -49,6 +51,7 @@ export const mockTimetable: TimetableEntry[] = [
     room: 'Lab-1',
     classId: 'CS405',
     color: subjects[3].color,
+    eventType: 'online',
   },
   {
     id: '4',
@@ -60,6 +63,7 @@ export const mockTimetable: TimetableEntry[] = [
     room: 'C303',
     classId: 'CS302',
     color: subjects[2].color,
+     eventType: 'in-person',
   },
   {
     id: '5',
@@ -71,6 +75,7 @@ export const mockTimetable: TimetableEntry[] = [
     room: 'Lab-2',
     classId: 'CS305',
     color: subjects[4].color,
+    eventType: 'online',
   },
   {
     id: '6',
@@ -82,6 +87,7 @@ export const mockTimetable: TimetableEntry[] = [
     room: 'B202',
     classId: 'CS201',
     color: subjects[1].color,
+     eventType: 'in-person',
   },
   {
     id: '7',
@@ -93,6 +99,7 @@ export const mockTimetable: TimetableEntry[] = [
     room: 'A101',
     classId: 'CS401',
     color: subjects[5].color,
+    eventType: 'in-person',
   },
   {
     id: '8',
@@ -104,6 +111,7 @@ export const mockTimetable: TimetableEntry[] = [
     room: 'Auditorium',
     classId: 'EXTRA',
     color: 'border-gray-500 bg-gray-100',
+    eventType: 'in-person',
   },
    {
     id: '9',
@@ -115,6 +123,7 @@ export const mockTimetable: TimetableEntry[] = [
     room: 'D401',
     classId: 'MA202',
     color: subjects[7].color,
+    eventType: 'in-person',
   },
   {
     id: '10',
@@ -126,6 +135,7 @@ export const mockTimetable: TimetableEntry[] = [
     room: 'PHY-Lab',
     classId: 'PHY101',
     color: subjects[8].color,
+    eventType: 'in-person',
   },
   {
     id: '11',
@@ -137,6 +147,7 @@ export const mockTimetable: TimetableEntry[] = [
     room: 'C303',
     classId: 'CS302',
     color: subjects[2].color,
+    eventType: 'online',
   },
   {
     id: '12',
@@ -148,5 +159,6 @@ export const mockTimetable: TimetableEntry[] = [
     room: 'D401',
     classId: 'MA203',
     color: subjects[6].color,
+     eventType: 'in-person',
   },
 ];

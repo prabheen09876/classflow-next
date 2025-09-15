@@ -10,4 +10,5 @@ export type TimetableEntry = {
   endTime: string; // "HH:mm"
   dayOfWeek: Day;
   color: string;
+  eventType?: 'online' | 'in-person';
 };
