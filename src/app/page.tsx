@@ -27,7 +27,7 @@ export default function Home() {
         <AnimatedDiv variants="fadeInDown">
         <header className="container mx-auto bg-black/30 backdrop-blur-lg text-white rounded-2xl p-4 flex items-center justify-between border border-white/40 shadow-lg">
           <Link href="#" className="flex items-center justify-center gap-2" prefetch={false}>
-            <span className="text-2xl font-bold">SmartSched</span>
+            <span className="text-2xl font-bold">ClassFlow</span>
           </Link>
           <nav className="hidden md:flex items-center gap-8">
             <motion.div whileHover={{ scale: 1.1, color: '#FF4DA6' }}>
@@ -331,7 +331,7 @@ export default function Home() {
 
       <AnimatedDiv variants="fadeIn" className="w-full mt-16 py-6 border-t">
         <div className="container mx-auto flex flex-col md:flex-row items-center justify-between px-4">
-            <p className="text-sm text-muted-foreground">&copy; 2024 SmartSched. All rights reserved.</p>
+            <p className="text-sm text-muted-foreground">&copy; 2024 ClassFlow. All rights reserved.</p>
             <nav className="flex gap-4 sm:gap-6 mt-4 md:mt-0">
                 <Link href="#" className="text-sm hover:underline underline-offset-4" prefetch={false}>
                     Terms of Service
