@@ -1,12 +1,19 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { TimetableEntry, Day } from "@/lib/types";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { cn } from "@/lib/utils";
-import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
-import { CalendarIcon, Plus, Search, Video, CalendarPlus } from "lucide-react";
+import { CalendarIcon, Plus, Search, Video, CalendarPlus, XCircle, BookOpen } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { collection, onSnapshot, doc, setDoc } from "firebase/firestore";
+import { db } from "@/lib/firebase";
+import { useAuth } from "@/components/auth-provider";
+import { mockTimetable } from "@/lib/placeholder-data";
+import { format, parse } from 'date-fns';
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
 
 const timeSlots = Array.from({ length: 15 }, (_, i) => `${(i + 8).toString().padStart(2, '0')}:00`);
 const days: Day[] = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
@@ -24,18 +31,99 @@ const getRowStart = (startTime: string) => {
   return (hours - startHour) * 2 + (minutes / 30) + 2; 
 };
 
-interface TimetableViewProps {
-  events: TimetableEntry[];
-}
-
-export function TimetableView({ events }: TimetableViewProps) {
+export function TimetableView() {
   const { toast } = useToast();
+  const { user } = useAuth();
+  const [events, setEvents] = useState<TimetableEntry[]>(mockTimetable);
+  const [leaveDate, setLeaveDate] = useState<Date | undefined>(new Date());
+
+  useEffect(() => {
+    const unsubHomework = onSnapshot(collection(db, "homework"), (snapshot) => {
+        const homeworkEvents: TimetableEntry[] = [];
+        snapshot.forEach((doc) => {
+            const data = doc.data();
+            const dueDate = parse(data.dueDate, "yyyy-MM-dd", new Date());
+            const dayOfWeek = format(dueDate, 'EEEE') as Day;
+
+            if (days.includes(dayOfWeek)) {
+                homeworkEvents.push({
+                    id: `hw-${doc.id}`,
+                    classId: data.class,
+                    subject: `Due: ${data.title}`,
+                    faculty: `For: ${data.class}`,
+                    room: "Homework",
+                    startTime: "08:30",
+                    endTime: "09:00",
+                    dayOfWeek: dayOfWeek,
+                    color: "border-orange-500 bg-orange-50",
+                    eventType: "task"
+                });
+            }
+        });
+        setEvents(currentEvents => [...currentEvents.filter(e => e.eventType !== 'task' && e.eventType !== 'leave'), ...homeworkEvents]);
+    });
+
+    const unsubLeave = onSnapshot(collection(db, "teacherAttendance"), (snapshot) => {
+        const leaveEvents: TimetableEntry[] = [];
+        snapshot.forEach((doc) => {
+            const data = doc.data();
+            const date = parse(data.date, "yyyy-MM-dd", new Date());
+            const dayOfWeek = format(date, 'EEEE') as Day;
+
+            if (days.includes(dayOfWeek)) {
+                leaveEvents.push({
+                    id: `leave-${doc.id}`,
+                    classId: 'N/A',
+                    subject: `${data.name || 'Teacher'} on Leave`,
+                    faculty: 'All Day',
+                    room: 'Leave',
+                    startTime: '09:00',
+                    endTime: '17:00',
+                    dayOfWeek,
+                    color: 'border-red-500 bg-red-50',
+                    eventType: 'leave',
+                });
+            }
+        });
+        setEvents(currentEvents => [...currentEvents.filter(e => e.eventType !== 'leave' && e.eventType !== 'task'), ...leaveEvents]);
+    });
+
+    return () => {
+        unsubHomework();
+        unsubLeave();
+    };
+}, []);
+
 
   const handleAddToCalendar = (event: TimetableEntry) => {
     toast({
       title: "Added to Calendar",
       description: `${event.subject} has been added to your Google Calendar.`,
     });
+  };
+
+  const handleMarkLeave = async () => {
+    if (user && leaveDate) {
+      try {
+        const docId = `${user.uid}_${format(leaveDate, "yyyy-MM-dd")}`;
+        await setDoc(doc(db, "teacherAttendance", docId), {
+          status: "absent",
+          date: format(leaveDate, "yyyy-MM-dd"),
+          name: user.displayName || user.email,
+          uid: user.uid,
+        });
+        toast({
+          title: "Leave Marked",
+          description: `You have marked yourself on leave for ${format(leaveDate, "PPP")}.`,
+        });
+      } catch (error) {
+        toast({
+          title: "Error",
+          description: "Failed to mark leave.",
+          variant: "destructive",
+        });
+      }
+    }
   };
 
   return (
@@ -46,7 +134,24 @@ export function TimetableView({ events }: TimetableViewProps) {
             <CardTitle className="font-headline text-2xl">Calendar</CardTitle>
         </div>
         <div className="flex items-center gap-2">
-            <Button variant="ghost" size="icon"><Search className="h-5 w-5"/></Button>
+            <Popover>
+                <PopoverTrigger asChild>
+                  <Button variant="outline"><XCircle className="h-5 w-5 mr-2"/> Mark Leave</Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0">
+                  <Calendar
+                    mode="single"
+                    selected={leaveDate}
+                    onSelect={setLeaveDate}
+                    initialFocus
+                  />
+                  <div className="p-4 border-t">
+                    <Button onClick={handleMarkLeave} disabled={!leaveDate} className="w-full">
+                      Confirm Leave
+                    </Button>
+                  </div>
+                </PopoverContent>
+              </Popover>
             <Button><Plus className="h-5 w-5 mr-2"/> Add new event</Button>
         </div>
       </CardHeader>
@@ -99,14 +204,19 @@ export function TimetableView({ events }: TimetableViewProps) {
                   <div className={cn("h-full w-full p-3 rounded-lg border-l-4 text-xs flex flex-col justify-between", event.color)}>
                     <div>
                       <p className="font-bold text-sm">{event.subject}</p>
-                      <p className="text-muted-foreground">{event.startTime} - {event.endTime}</p>
+                      <p className="text-muted-foreground">{event.eventType === 'leave' ? event.faculty : `${event.startTime} - ${event.endTime}`}</p>
                       <p className="font-semibold mt-2">{event.eventType === 'online' ? 'Google Meet' : event.room}</p>
-                      <p>{event.faculty}</p>
+                      {event.eventType !== 'leave' && event.eventType !== 'task' && <p>{event.faculty}</p>}
                     </div>
                      <div className="flex items-center justify-end gap-2 mt-2 opacity-0 group-hover:opacity-100 transition-opacity">
                         {event.eventType === 'online' && (
                            <Button variant="ghost" size="icon" className="h-7 w-7 bg-white/50 rounded-full">
                                 <Video className="h-4 w-4 text-blue-600" />
+                           </Button>
+                        )}
+                        {event.eventType === 'task' && (
+                           <Button variant="ghost" size="icon" className="h-7 w-7 bg-white/50 rounded-full">
+                                <BookOpen className="h-4 w-4 text-orange-600" />
                            </Button>
                         )}
                          <Button variant="ghost" size="icon" className="h-7 w-7 bg-white/50 rounded-full" onClick={() => handleAddToCalendar(event)}>

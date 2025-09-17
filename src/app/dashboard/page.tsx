@@ -1,7 +1,6 @@
 "use client"
 
 import { TimetableView } from "@/components/dashboard/timetable";
-import { mockTimetable } from "@/lib/placeholder-data";
 import { AIChat } from "@/components/dashboard/ai-chat";
 import { Sidebar, SidebarProvider, SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
@@ -23,7 +22,7 @@ function DashboardContent() {
         </Button>
       </header>
       <div className="p-4">
-        <TimetableView events={mockTimetable} />
+        <TimetableView />
       </div>
     </SidebarInset>
   );
