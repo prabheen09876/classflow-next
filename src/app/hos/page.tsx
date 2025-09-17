@@ -17,18 +17,12 @@ import { db } from "@/lib/firebase";
 export default function HosPage() {
   const [teachers, setTeachers] = useState(0);
   const [teachersPresent, setTeachersPresent] = useState(0);
-  const [students, setStudents] = useState(0);
-  const [studentsPresent, setStudentsPresent] = useState(0);
 
   useEffect(() => {
     const today = new Date().toISOString().split('T')[0];
 
     const unsubTeachers = onSnapshot(collection(db, "teachers"), (snapshot) => {
       setTeachers(snapshot.size);
-    });
-
-    const unsubStudents = onSnapshot(collection(db, "students"), (snapshot) => {
-      setStudents(snapshot.size);
     });
 
     const unsubTeacherAttendance = onSnapshot(collection(db, "teacherAttendance"), (snapshot) => {
@@ -40,22 +34,10 @@ export default function HosPage() {
       });
       setTeachersPresent(presentCount);
     });
-    
-    const unsubStudentAttendance = onSnapshot(collection(db, "studentAttendance"), (snapshot) => {
-      let presentCount = 0;
-      snapshot.forEach(doc => {
-        if (doc.data().date === today && doc.data().status === 'present') {
-          presentCount++;
-        }
-      });
-      setStudentsPresent(presentCount);
-    });
 
     return () => {
       unsubTeachers();
-      unsubStudents();
       unsubTeacherAttendance();
-      unsubStudentAttendance();
     }
   }, []);
 
@@ -71,7 +53,7 @@ export default function HosPage() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium">
-                Teachers Present
+                Teachers Present Today
               </CardTitle>
               <UserCheck className="w-4 h-4 text-muted-foreground" />
             </CardHeader>
@@ -85,14 +67,14 @@ export default function HosPage() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium">
-                Students Present
+                Total Teachers
               </CardTitle>
               <Users className="w-4 h-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{studentsPresent} / {students}</div>
+              <div className="text-2xl font-bold">{teachers}</div>
               <p className="text-xs text-muted-foreground">
-                 {students > 0 ? ((studentsPresent/students) * 100).toFixed(0) : 0}% attendance today
+                Total number of teachers in the department.
               </p>
             </CardContent>
           </Card>

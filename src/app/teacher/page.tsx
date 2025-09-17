@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { format } from "date-fns";
 import {
   Card,
   CardContent,
@@ -10,35 +11,39 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { CheckCircle, XCircle, BookOpen, Plus } from "lucide-react";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { CheckCircle, XCircle, BookOpen, Plus, Calendar as CalendarIcon } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { useAuth } from "@/components/auth-provider";
-
+import { cn } from "@/lib/utils";
 
 export default function TeacherPage() {
-  const [attendance, setAttendance] = useState<"present" | "absent" | null>(null);
+  const [date, setDate] = useState<Date | undefined>(new Date());
   const { toast } = useToast();
   const { user } = useAuth();
 
-  const handleAttendance = async (status: "present" | "absent") => {
-    if (user) {
+  const handleMarkLeave = async () => {
+    if (user && date) {
       try {
-        await setDoc(doc(db, "teacherAttendance", user.uid), {
-          status,
-          date: new Date().toISOString().split('T')[0],
+        // Use a composite key for the document ID to allow multiple entries per user
+        const docId = `${user.uid}_${format(date, "yyyy-MM-dd")}`;
+        await setDoc(doc(db, "teacherAttendance", docId), {
+          status: "absent",
+          date: format(date, "yyyy-MM-dd"),
           name: user.displayName || user.email,
+          uid: user.uid,
         });
-        setAttendance(status);
         toast({
-          title: "Attendance Marked",
-          description: `You have marked yourself as ${status} for today.`,
+          title: "Leave Marked",
+          description: `You have marked yourself on leave for ${format(date, "PPP")}.`,
         });
       } catch (error) {
         toast({
           title: "Error",
-          description: "Failed to mark attendance.",
+          description: "Failed to mark leave.",
           variant: "destructive",
         });
       }
@@ -47,40 +52,49 @@ export default function TeacherPage() {
 
   return (
     <div className="flex flex-col">
-       <header className="flex h-14 lg:h-[60px] items-center gap-4 border-b bg-muted/40 px-6">
+      <header className="flex h-14 lg:h-[60px] items-center gap-4 border-b bg-muted/40 px-6">
         <div className="flex-1">
           <h1 className="font-semibold text-lg">Teacher Dashboard</h1>
         </div>
       </header>
       <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-6">
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          <Card>
+          <Card className="lg:col-span-2">
             <CardHeader>
-              <CardTitle>Mark Your Attendance</CardTitle>
+              <CardTitle>Mark Your Leave</CardTitle>
               <CardDescription>
-                Mark yourself present or absent for today.
-                 {attendance && <p className="mt-2 font-semibold">You are marked as: <span className={attendance === 'present' ? 'text-green-500' : 'text-red-500'}>{attendance.toUpperCase()}</span></p>}
+                Select a date to mark yourself on leave. The HOS will be notified.
               </CardDescription>
             </CardHeader>
-            <CardContent className="flex gap-4">
-              <Button className="w-full" variant="outline" onClick={() => handleAttendance('present')} disabled={attendance === 'present'}><CheckCircle className="mr-2 h-4 w-4 text-green-500" /> Present</Button>
-              <Button className="w-full" variant="outline" onClick={() => handleAttendance('absent')} disabled={attendance === 'absent'}><XCircle className="mr-2 h-4 w-4 text-red-500" /> Absent</Button>
+            <CardContent className="flex flex-col md:flex-row gap-4 items-center">
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant={"outline"}
+                    className={cn(
+                      "w-[280px] justify-start text-left font-normal",
+                      !date && "text-muted-foreground"
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {date ? format(date, "PPP") : <span>Pick a date</span>}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0">
+                  <Calendar
+                    mode="single"
+                    selected={date}
+                    onSelect={setDate}
+                    initialFocus
+                  />
+                </PopoverContent>
+              </Popover>
+              <Button onClick={handleMarkLeave} disabled={!date}>
+                <XCircle className="mr-2 h-4 w-4" /> Mark as on Leave
+              </Button>
             </CardContent>
           </Card>
           <Card>
-            <CardHeader>
-              <CardTitle>Student Attendance</CardTitle>
-              <CardDescription>
-                View attendance for your classes.
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-                <Link href="/teacher/attendance">
-                    <p className="text-sm font-medium hover:underline">View Student Attendance</p>
-                </Link>
-            </CardContent>
-          </Card>
-           <Card>
             <CardHeader>
               <CardTitle>Assign Homework</CardTitle>
               <CardDescription>
