@@ -6,7 +6,8 @@ import {
   Users,
   Settings,
   Bot,
-  Shield
+  Shield,
+  Calendar as CalendarIcon
 } from 'lucide-react'
 
 import {
@@ -34,7 +35,7 @@ export default function AppSidebar() {
             <TooltipTrigger asChild>
               <Link
                 href="/dashboard"
-                className="flex h-9 w-9 items-center justify-center rounded-lg bg-accent text-accent-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
+                className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
                 prefetch={false}
               >
                 <Home className="h-5 w-5" />
@@ -42,6 +43,19 @@ export default function AppSidebar() {
               </Link>
             </TooltipTrigger>
             <TooltipContent side="right">Dashboard</TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Link
+                href="/dashboard/calendar"
+                className="flex h-9 w-9 items-center justify-center rounded-lg bg-accent text-accent-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
+                prefetch={false}
+              >
+                <CalendarIcon className="h-5 w-5" />
+                <span className="sr-only">Calendar</span>
+              </Link>
+            </TooltipTrigger>
+            <TooltipContent side="right">Calendar</TooltipContent>
           </Tooltip>
           <Tooltip>
             <TooltipTrigger asChild>
@@ -59,7 +73,7 @@ export default function AppSidebar() {
            <Tooltip>
             <TooltipTrigger asChild>
               <Link
-                href="#"
+                href="/teacher/homework"
                 className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
                 prefetch={false}
               >

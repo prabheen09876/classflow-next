@@ -11,6 +11,7 @@ import {
   ShoppingCart,
   Users2,
   Shield,
+  Calendar
 } from "lucide-react";
 
 import {
@@ -65,8 +66,16 @@ export default function AppHeader() {
               Dashboard
             </Link>
             <Link
-              href="#"
+              href="/dashboard/calendar"
               className="flex items-center gap-4 px-2.5 text-foreground"
+              prefetch={false}
+            >
+              <Calendar className="h-5 w-5" />
+              Calendar
+            </Link>
+            <Link
+              href="#"
+              className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
               prefetch={false}
             >
               <ShoppingCart className="h-5 w-5" />
@@ -118,7 +127,7 @@ export default function AppHeader() {
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage>Timetable</BreadcrumbPage>
+            <BreadcrumbPage>Calendar</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
