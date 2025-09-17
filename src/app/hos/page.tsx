@@ -11,35 +11,38 @@ import {
 } from "@/components/ui/card";
 import { Users, UserCheck, BarChart, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { collection, onSnapshot } from "firebase/firestore";
+import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { db } from "@/lib/firebase";
+import { format } from "date-fns";
 
 export default function HosPage() {
-  const [teachers, setTeachers] = useState(0);
-  const [teachersPresent, setTeachersPresent] = useState(0);
+  const [totalTeachers, setTotalTeachers] = useState(0);
+  const [absentTeachers, setAbsentTeachers] = useState(0);
 
   useEffect(() => {
-    const today = new Date().toISOString().split('T')[0];
-
     const unsubTeachers = onSnapshot(collection(db, "teachers"), (snapshot) => {
-      setTeachers(snapshot.size);
+      setTotalTeachers(snapshot.size);
     });
 
-    const unsubTeacherAttendance = onSnapshot(collection(db, "teacherAttendance"), (snapshot) => {
-      let presentCount = 0;
-      snapshot.forEach(doc => {
-        if (doc.data().date === today && doc.data().status === 'present') {
-          presentCount++;
-        }
-      });
-      setTeachersPresent(presentCount);
+    const today = format(new Date(), "yyyy-MM-dd");
+    const attendanceQuery = query(
+      collection(db, "teacherAttendance"),
+      where("date", "==", today),
+      where("status", "==", "absent")
+    );
+    
+    const unsubAttendance = onSnapshot(attendanceQuery, (snapshot) => {
+      setAbsentTeachers(snapshot.size);
     });
 
     return () => {
       unsubTeachers();
-      unsubTeacherAttendance();
-    }
+      unsubAttendance();
+    };
   }, []);
+
+  const teachersPresent = totalTeachers - absentTeachers;
+  const attendancePercentage = totalTeachers > 0 ? ((teachersPresent / totalTeachers) * 100).toFixed(0) : 0;
 
   return (
     <div className="flex flex-col">
@@ -58,9 +61,9 @@ export default function HosPage() {
               <UserCheck className="w-4 h-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{teachersPresent} / {teachers}</div>
+              <div className="text-2xl font-bold">{teachersPresent} / {totalTeachers}</div>
               <p className="text-xs text-muted-foreground">
-                {teachers > 0 ? ((teachersPresent/teachers) * 100).toFixed(0) : 0}% attendance today
+                {attendancePercentage}% attendance today
               </p>
             </CardContent>
           </Card>
@@ -72,7 +75,7 @@ export default function HosPage() {
               <Users className="w-4 h-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{teachers}</div>
+              <div className="text-2xl font-bold">{totalTeachers}</div>
               <p className="text-xs text-muted-foreground">
                 Total number of teachers in the department.
               </p>
