@@ -29,31 +29,34 @@ export default function Home() {
           <Link href="#" className="flex items-center justify-center gap-2" prefetch={false}>
             <span className="text-2xl font-bold">ClassFlow</span>
           </Link>
-          <nav className="hidden md:flex items-center gap-8">
-            <motion.div whileHover={{ scale: 1.1, color: '#FF4DA6' }}>
-            <Link href="#" className="text-sm font-medium transition-colors" prefetch={false}>
+          <nav className="hidden md:flex items-center gap-2 bg-muted/80 rounded-full p-2">
+            <motion.div whileHover={{ scale: 1.1 }}>
+            <Link href="#" className="text-sm font-medium transition-colors px-4 py-2 rounded-full hover:bg-background" prefetch={false}>
               About
             </Link>
             </motion.div>
-            <motion.div whileHover={{ scale: 1.1, color: '#FF4DA6' }}>
-            <Link href="#features" className="text-sm font-medium transition-colors" prefetch={false}>
+            <span className="text-muted-foreground">&bull;</span>
+            <motion.div whileHover={{ scale: 1.1 }}>
+            <Link href="#features" className="text-sm font-medium transition-colors px-4 py-2 rounded-full hover:bg-background" prefetch={false}>
               Features
             </Link>
             </motion.div>
-             <motion.div whileHover={{ scale: 1.1, color: '#FF4DA6' }}>
-             <Link href="#" className="text-sm font-medium transition-colors" prefetch={false}>
+             <span className="text-muted-foreground">&bull;</span>
+             <motion.div whileHover={{ scale: 1.1}}>
+             <Link href="#" className="text-sm font-medium transition-colors px-4 py-2 rounded-full hover:bg-background" prefetch={false}>
               Pricing
             </Link>
             </motion.div>
-             <motion.div whileHover={{ scale: 1.1, color: '#FF4DA6' }}>
-             <Link href="#" className="text-sm font-medium transition-colors" prefetch={false}>
+             <span className="text-muted-foreground">&bull;</span>
+             <motion.div whileHover={{ scale: 1.1}}>
+             <Link href="#" className="text-sm font-medium transition-colors px-4 py-2 rounded-full hover:bg-background" prefetch={false}>
               Contact
             </Link>
             </motion.div>
           </nav>
           <Link href="/login" prefetch={false}>
             <motion.div whileHover={{ scale: 1.05 }}>
-                <Button className="bg-white text-black rounded-full px-6 py-3 font-semibold hover:bg-gray-200 transition-all">Get Started</Button>
+                <Button className="bg-primary text-primary-foreground rounded-full px-6 py-3 font-semibold transition-all">Get Started</Button>
             </motion.div>
           </Link>
         </header>
@@ -61,7 +64,7 @@ export default function Home() {
       </div>
 
       <main className="flex-1 container mx-auto px-4 py-8 mt-[50px]">
-        <AnimatedDiv variants="fadeIn" className="w-full bg-muted rounded-2xl p-8 pt-40">
+        <AnimatedDiv variants="fadeIn" className="w-full bg-muted rounded-2xl p-8 pt-8">
           <div className="grid md:grid-cols-2 gap-8 items-center">
             <div className="space-y-6">
               <h1 className="text-5xl font-bold tracking-tighter">
