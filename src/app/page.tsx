@@ -55,7 +55,7 @@ export default function Home() {
 
 
   return (
-    <div className="flex flex-col min-h-screen font-body bg-transparent text-black">
+    <div className="flex flex-col min-h-screen font-body text-black">
       <div className="sticky top-0 z-50">
         <AnimatedDiv variants="fadeInDown">
         <header className="w-full backdrop-blur-lg text-black px-8 py-4 flex items-center justify-between">
@@ -172,7 +172,7 @@ export default function Home() {
         </AnimatedDiv>
 
         <AnimatedDiv variants="stagger" id="features" className="w-full mt-8">
-          <div className="grid md:grid-cols-4 gap-6">
+          <div className="grid md:grid-cols-3 gap-6">
             <motion.div variants={childVariants} className="md:col-span-2">
                 <motion.div whileHover={{ scale: 1.05, boxShadow: "0 8px 30px rgba(0,0,0,0.15)" }} className="h-full">
                 <Card className="bg-[#E5D9FF] rounded-2xl p-6 shadow-lg h-full flex flex-col justify-between">
@@ -197,7 +197,7 @@ export default function Home() {
                 </Card>
                 </motion.div>
             </motion.div>
-            <motion.div variants={childVariants} className="md:col-span-2">
+            <motion.div variants={childVariants}>
                  <motion.div whileHover={{ scale: 1.05, boxShadow: "0 8px 30px rgba(0,0,0,0.15)" }} className="h-full">
                  <Card className="bg-[#FFD1E9] rounded-2xl p-8 shadow-lg h-full">
                     <h3 className="text-3xl font-bold">5k+ Classes Scheduled</h3>
@@ -426,4 +426,5 @@ export default function Home() {
     
 
     
+
 
