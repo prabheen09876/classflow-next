@@ -460,9 +460,7 @@ function Footer() {
         </div>
         <div className="container mx-auto px-8 py-8">
           <div className="border-t border-[hsl(var(--footer-foreground)_/_0.2)] pt-8 flex flex-col md:flex-row items-center justify-between">
-            <div className="flex flex-col md:flex-row items-center gap-6">
-               <p className="text-sm">&copy; 2024 ClassFlow, Inc. All rights reserved.</p>
-            </div>
+            <p className="text-sm">&copy; 2024 ClassFlow, Inc. All rights reserved.</p>
             <div className="flex items-center gap-4 mt-6 md:mt-0">
               <Link href="#" className="hover:text-white"><Instagram className="h-5 w-5" /></Link>
               <Link href="#" className="hover:text-white"><Youtube className="h-5 w-5" /></Link>
