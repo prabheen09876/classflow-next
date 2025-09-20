@@ -5,9 +5,10 @@ import { TimetableEntry, Day } from "@/lib/types";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { cn } from "@/lib/utils";
 import { Button } from "../ui/button";
-import { CalendarIcon, Plus, Video, CalendarPlus, BookOpen } from "lucide-react";
+import { CalendarIcon, Plus, Video, CalendarPlus, BookOpen, Bot } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { mockTimetable } from "@/lib/placeholder-data";
+import { useSidebar } from "../ui/sidebar";
 
 const timeSlots = Array.from({ length: 15 }, (_, i) => `${(i + 8).toString().padStart(2, '0')}:00`);
 const days: Day[] = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
@@ -28,6 +29,7 @@ const getRowStart = (startTime: string) => {
 export function TimetableView() {
   const { toast } = useToast();
   const [events, setEvents] = useState<TimetableEntry[]>(mockTimetable);
+  const { toggleSidebar } = useSidebar();
 
   const handleAddToCalendar = (event: TimetableEntry) => {
     toast({
@@ -43,7 +45,12 @@ export function TimetableView() {
             <CalendarIcon className="h-6 w-6" />
             <CardTitle className="font-headline text-2xl">Weekly Timetable</CardTitle>
         </div>
-        <Button><Plus className="h-5 w-5 mr-2"/> Add new event</Button>
+        <div className="flex items-center gap-2">
+            <Button><Plus className="h-5 w-5 mr-2"/> Add new event</Button>
+            <Button variant="outline" onClick={toggleSidebar}>
+                <Bot className="h-5 w-5"/>
+            </Button>
+        </div>
       </CardHeader>
       <CardContent>
         <div className="relative overflow-auto rounded-lg border">
