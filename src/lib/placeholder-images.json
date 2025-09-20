@@ -54,6 +54,26 @@
       "description": "An image for the organizational hierarchy section",
       "imageUrl": "https://picsum.photos/seed/hierarchy/600/500",
       "imageHint": "organization chart"
+    },
+    {
+      "id": "google-calendar-integration",
+      "description": "Image for Google Calendar integration",
+      "imageUrl": "https://picsum.photos/seed/google-calendar/500/400",
+      "imageHint": "modern calendar"
+    },
+    {
+      "id": "google-meet-integration",
+      "description": "Image for Google Meet integration",
+      "imageUrl": "https://picsum.photos/seed/google-meet/500/400",
+      "imageHint": "video conference"
+    },
+    {
+      "id": "google-classroom-integration",
+      "description": "Image for Google Classroom integration",
+      "imageUrl": "https://picsum.photos/seed/google-classroom/500/400",
+      "imageHint": "online learning"
     }
   ]
 }
+
+    

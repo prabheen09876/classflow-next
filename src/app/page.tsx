@@ -9,8 +9,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import { ArrowLeft, ArrowRight, Bolt, Calendar, CheckCircle, Bell, UserCheck, Users, Fingerprint, GitBranch, Mail, CalendarCheck, Shield, Building, UserCog, User } from "lucide-react";
 import {PlaceHolderImages} from "@/lib/placeholder-images";
 import { Video, Users as UsersIcon, Calendar as CalendarIcon, Bot, GraduationCap } from 'lucide-react';
-import { motion } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { AnimatedDiv, childVariants } from "@/components/common/animated-div";
+import { useRef } from "react";
 
 export default function Home() {
     const heroImage = PlaceHolderImages.find(p => p.id === 'hero-classroom');
@@ -19,6 +20,17 @@ export default function Home() {
     const teacher2 = PlaceHolderImages.find(p => p.id === 'teacher-2');
     const student1 = PlaceHolderImages.find(p => p.id === 'student-1');
     const attendanceFeatureImage = PlaceHolderImages.find(p => p.id === 'attendance-feature');
+    const googleCalendarImage = PlaceHolderImages.find(p => p.id === 'google-calendar-integration');
+    const googleMeetImage = PlaceHolderImages.find(p => p.id === 'google-meet-integration');
+    const googleClassroomImage = PlaceHolderImages.find(p => p.id === 'google-classroom-integration');
+    
+    const scrollRef = useRef(null);
+    const { scrollYProgress } = useScroll({
+        target: scrollRef,
+        offset: ["start start", "end end"]
+    });
+    
+    const x = useTransform(scrollYProgress, [0, 1], ["0%", "-66.66%"]);
 
 
   return (
@@ -204,41 +216,46 @@ export default function Home() {
           </div>
         </AnimatedDiv>
 
-         <AnimatedDiv variants="fadeIn" id="google-integration" className="w-full mt-16 py-12 text-center">
-            <h2 className="text-4xl font-bold tracking-tighter mb-4">Seamlessly Integrated with Google</h2>
-            <p className="text-muted-foreground text-lg max-w-3xl mx-auto mb-12">
-                Leverage the power of Google's ecosystem. Sync timetables with Google Calendar, conduct online classes with Google Meet, and manage coursework with Google Classroom.
-            </p>
-            <div className="grid md:grid-cols-3 gap-6">
-                <Card className="text-left p-6 bg-muted">
-                    <CardContent className="p-0 flex flex-col items-center text-center">
-                        <div className="p-3 bg-blue-500/10 rounded-lg mb-4">
-                            <CalendarIcon className="h-8 w-8 text-blue-500" />
-                        </div>
-                        <h3 className="text-xl font-bold">Google Calendar</h3>
-                        <p className="text-muted-foreground mt-2">Sync timetables, holidays, and events automatically. Never miss a class or deadline.</p>
-                    </CardContent>
-                </Card>
-                <Card className="text-left p-6 bg-muted">
-                    <CardContent className="p-0 flex flex-col items-center text-center">
-                        <div className="p-3 bg-green-500/10 rounded-lg mb-4">
-                            <Video className="h-8 w-8 text-green-500" />
-                        </div>
-                        <h3 className="text-xl font-bold">Google Meet</h3>
-                        <p className="text-muted-foreground mt-2">Conduct online classes with a single click. Substitutions can be virtual, ensuring no class is missed.</p>
-                    </CardContent>
-                </Card>
-                <Card className="text-left p-6 bg-muted">
-                    <CardContent className="p-0 flex flex-col items-center text-center">
-                        <div className="p-3 bg-yellow-500/10 rounded-lg mb-4">
-                           <GraduationCap className="h-8 w-8 text-yellow-500" />
-                        </div>
-                        <h3 className="text-xl font-bold">Google Classroom</h3>
-                        <p className="text-muted-foreground mt-2">Assign and track homework, share resources, and manage coursework seamlessly.</p>
-                    </CardContent>
-                </Card>
+        <section ref={scrollRef} className="h-[300vh] w-full mt-16 relative">
+            <div className="sticky top-0 h-screen flex items-center overflow-hidden">
+                <motion.div style={{ x }} className="flex">
+                    <div className="w-screen h-screen flex flex-col items-center justify-center gap-8 px-16">
+                         <h2 className="text-5xl font-bold tracking-tighter text-center">Seamlessly Integrated with Google</h2>
+                        <p className="text-muted-foreground text-xl max-w-3xl mx-auto text-center">
+                            Leverage the power of Google's ecosystem. Sync timetables with Google Calendar, conduct online classes with Google Meet, and manage coursework with Google Classroom.
+                        </p>
+                    </div>
+                    <div className="w-screen h-screen flex items-center justify-center">
+                        <Card className="w-[90%] h-[80vh] bg-blue-100 rounded-3xl grid grid-cols-2 items-center p-12 gap-8">
+                             <div className="space-y-4">
+                                <h3 className="text-5xl font-bold">Google Calendar</h3>
+                                <p className="text-lg text-blue-900">Sync timetables, holidays, and events automatically. Never miss a class or deadline.</p>
+                            </div>
+                            {googleCalendarImage && <Image src={googleCalendarImage.imageUrl} alt="Google Calendar" width={500} height={400} className="rounded-2xl shadow-xl" data-ai-hint={googleCalendarImage.imageHint}/>}
+                        </Card>
+                    </div>
+                     <div className="w-screen h-screen flex items-center justify-center">
+                        <Card className="w-[90%] h-[80vh] bg-green-100 rounded-3xl grid grid-cols-2 items-center p-12 gap-8">
+                             <div className="space-y-4">
+                                <h3 className="text-5xl font-bold">Google Meet</h3>
+                                <p className="text-lg text-green-900">Conduct online classes with a single click. Substitutions can be virtual, ensuring no class is missed.</p>
+                            </div>
+                            {googleMeetImage && <Image src={googleMeetImage.imageUrl} alt="Google Meet" width={500} height={400} className="rounded-2xl shadow-xl" data-ai-hint={googleMeetImage.imageHint} />}
+                        </Card>
+                    </div>
+                     <div className="w-screen h-screen flex items-center justify-center">
+                        <Card className="w-[90%] h-[80vh] bg-yellow-100 rounded-3xl grid grid-cols-2 items-center p-12 gap-8">
+                             <div className="space-y-4">
+                                <h3 className="text-5xl font-bold">Google Classroom</h3>
+                                <p className="text-lg text-yellow-900">Assign and track homework, share resources, and manage coursework seamlessly.</p>
+                            </div>
+                            {googleClassroomImage && <Image src={googleClassroomImage.imageUrl} alt="Google Classroom" width={500} height={400} className="rounded-2xl shadow-xl" data-ai-hint={googleClassroomImage.imageHint} />}
+                        </Card>
+                    </div>
+                </motion.div>
             </div>
-        </AnimatedDiv>
+        </section>
+
 
         <AnimatedDiv variants="stagger" id="roles" className="w-full mt-16 py-12 text-center">
           <h2 className="text-4xl font-bold tracking-tighter mb-4">Roles & Responsibilities</h2>
@@ -354,3 +371,6 @@ export default function Home() {
     
 
 
+
+
+    
