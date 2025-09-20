@@ -25,7 +25,7 @@ export default function Home() {
     <div className="flex flex-col min-h-screen bg-background font-body text-black">
       <div className="sticky top-0 z-50">
         <AnimatedDiv variants="fadeInDown">
-        <header className="w-full backdrop-blur-lg text-black px-8 py-4 flex items-center justify-between shadow-lg">
+        <header className="w-full backdrop-blur-lg text-black px-8 py-4 flex items-center justify-between">
           <Link href="#" className="flex items-center justify-center gap-2" prefetch={false}>
             <span className="text-2xl font-bold">ClassFlow</span>
           </Link>
@@ -352,4 +352,5 @@ export default function Home() {
     
 
     
+
 
