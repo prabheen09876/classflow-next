@@ -410,11 +410,6 @@ function Footer() {
   return (
     <AnimatedDiv variants="fadeIn">
       <footer className="w-full bg-[hsl(var(--footer-background))] text-[hsl(var(--footer-foreground))]">
-        <div className="container mx-auto px-8 pt-24 pb-12 text-center">
-            <h2 className="text-6xl md:text-8xl font-bold text-white tracking-tighter">
-                Get started with <br /> ClassFlow today
-            </h2>
-        </div>
         <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-12 px-8 py-16">
           <div className="lg:col-span-2">
             <h3 className="text-xl font-bold text-white">
