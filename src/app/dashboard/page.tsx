@@ -12,7 +12,7 @@ export default function DashboardPage() {
 
   return (
     <SidebarProvider open={isSidebarOpen} onOpenChange={setIsSidebarOpen}>
-      <div className="flex">
+      <div className="flex h-full">
          <SidebarInset>
             <div className="p-4">
                 <TimetableView setIsSidebarOpen={setIsSidebarOpen}/>

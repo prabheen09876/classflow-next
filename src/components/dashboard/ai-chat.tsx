@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useRef, useEffect } from "react";
@@ -54,7 +55,7 @@ export function AIChat() {
   };
 
   return (
-    <Card className="h-full flex flex-col">
+    <Card className="h-full flex flex-col border-0 shadow-none">
       <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle className="font-headline text-2xl flex items-center gap-2"><Bot className="h-6 w-6 text-primary" />AI Chat</CardTitle>
         <Button variant="ghost" size="icon" onClick={toggleSidebar}>
