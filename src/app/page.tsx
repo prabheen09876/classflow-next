@@ -408,81 +408,72 @@ export default function Home() {
 
 function Footer() {
   return (
-    <footer className="w-full bg-[hsl(var(--footer-background))] text-[hsl(var(--footer-foreground))]">
-      <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-12 px-8 py-16">
-        <div className="lg:col-span-2">
-          <h2 className="text-4xl font-bold text-white max-w-sm">
-            Meet modern scheduling needs without compromising
-          </h2>
+    <AnimatedDiv variants="fadeIn">
+      <footer className="w-full bg-[hsl(var(--footer-background))] text-[hsl(var(--footer-foreground))]">
+        <div className="container mx-auto px-8 pt-24 pb-12 text-center">
+            <h2 className="text-6xl md:text-8xl font-bold text-white tracking-tighter">
+                Get started with <br /> ClassFlow today
+            </h2>
         </div>
-        <div className="space-y-4">
-          <h4 className="font-semibold text-white">For Companies</h4>
-          <ul className="space-y-2">
-            <li><Link href="#" className="hover:text-white">Why ClassFlow</Link></li>
-            <li><Link href="#" className="hover:text-white">How It Works</Link></li>
-            <li><Link href="#" className="hover:text-white">FAQ</Link></li>
-            <li><Link href="#" className="hover:text-white">Book a Call</Link></li>
-            <li><Link href="#" className="hover:text-white">Schedule Demo</Link></li>
-          </ul>
+        <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-12 px-8 py-16">
+          <div className="lg:col-span-2">
+            <h3 className="text-xl font-bold text-white">
+              ClassFlow
+            </h3>
+            <p className="mt-2 text-sm">The future of smart class scheduling.</p>
+          </div>
+          <div className="space-y-4">
+            <h4 className="font-semibold text-white">Product</h4>
+            <ul className="space-y-2">
+              <li><Link href="#" className="hover:text-white">Features</Link></li>
+              <li><Link href="#" className="hover:text-white">Integrations</Link></li>
+              <li><Link href="#" className="hover:text-white">Pricing</Link></li>
+              <li><Link href="#" className="hover:text-white">Changelog</Link></li>
+            </ul>
+          </div>
+          <div className="space-y-4">
+            <h4 className="font-semibold text-white">Company</h4>
+            <ul className="space-y-2">
+              <li><Link href="#" className="hover:text-white">About</Link></li>
+              <li><Link href="#" className="hover:text-white">Blog</Link></li>
+              <li><Link href="#" className="hover:text-white">Careers</Link></li>
+              <li><Link href="#" className="hover:text-white">Contact</Link></li>
+            </ul>
+          </div>
+          <div className="space-y-4">
+            <h4 className="font-semibold text-white">Resources</h4>
+            <ul className="space-y-2">
+              <li><Link href="#" className="hover:text-white">Help Center</Link></li>
+              <li><Link href="#" className="hover:text-white">Terms of Service</Link></li>
+              <li><Link href="#" className="hover:text-white">Privacy Policy</Link></li>
+            </ul>
+          </div>
+          <div className="space-y-4">
+            <h4 className="font-semibold text-white">Follow Us</h4>
+            <ul className="space-y-2">
+              <li><Link href="#" className="hover:text-white">Twitter</Link></li>
+              <li><Link href="#" className="hover:text-white">LinkedIn</Link></li>
+              <li><Link href="#" className="hover:text-white">Facebook</Link></li>
+              <li><Link href="#" className="hover:text-white">Instagram</Link></li>
+            </ul>
+          </div>
         </div>
-        <div className="space-y-4">
-          <h4 className="font-semibold text-white">For Employees</h4>
-          <ul className="space-y-2">
-            <li><Link href="#" className="hover:text-white">Why ClassFlow Pay</Link></li>
-            <li><Link href="#" className="hover:text-white">Check Eligibility</Link></li>
-            <li><Link href="#" className="hover:text-white">Support Team</Link></li>
-          </ul>
-        </div>
-        <div className="space-y-4">
-          <h4 className="font-semibold text-white">Partnerships</h4>
-          <ul className="space-y-2">
-            <li><Link href="#" className="hover:text-white">About Partnerships</Link></li>
-            <li><Link href="#" className="hover:text-white">Marketplace</Link></li>
-            <li><Link href="#" className="hover:text-white">Partnership Contact</Link></li>
-          </ul>
-        </div>
-        <div className="space-y-4">
-          <h4 className="font-semibold text-white">About ClassFlow</h4>
-          <ul className="space-y-2">
-            <li><Link href="#" className="hover:text-white">Company</Link></li>
-            <li><Link href="#" className="hover:text-white">Insights</Link></li>
-            <li><Link href="#" className="hover:text-white">Security</Link></li>
-            <li><Link href="#" className="hover:text-white">Contact Us</Link></li>
-          </ul>
-        </div>
-      </div>
-      <div className="container mx-auto px-8 py-8">
-        <div className="border-t border-[hsl(var(--footer-foreground)_/_0.2)] pt-8 flex flex-col md:flex-row items-center justify-between">
-          <div className="flex flex-col md:flex-row items-center gap-6">
-            <div className="space-y-2">
-              <p className="text-sm font-medium">Download ClassFlow</p>
-              <div className="flex gap-2">
-                <Link href="#">
-                  <Image src="/app-store-badge.svg" alt="Download on the App Store" width={120} height={40} />
-                </Link>
-                <Link href="#">
-                  <Image src="/google-play-badge.png" alt="Get it on Google Play" width={135} height={40} />
-                </Link>
-              </div>
+        <div className="container mx-auto px-8 py-8">
+          <div className="border-t border-[hsl(var(--footer-foreground)_/_0.2)] pt-8 flex flex-col md:flex-row items-center justify-between">
+            <div className="flex flex-col md:flex-row items-center gap-6">
+               <p className="text-sm">&copy; 2024 ClassFlow, Inc. All rights reserved.</p>
+            </div>
+            <div className="flex items-center gap-4 mt-6 md:mt-0">
+              <Link href="#" className="hover:text-white"><Instagram className="h-5 w-5" /></Link>
+              <Link href="#" className="hover:text-white"><Youtube className="h-5 w-5" /></Link>
+              <Link href="#" className="hover:text-white"><X className="h-5 w-5" /></Link>
+              <Link href="#" className="hover:text-white"><Facebook className="h-5 w-5" /></Link>
+              <Link href="#" className="hover:text-white"><Linkedin className="h-5 w-5" /></Link>
             </div>
           </div>
-          <div className="flex items-center gap-4 mt-6 md:mt-0">
-            <Link href="#" className="hover:text-white"><Instagram className="h-5 w-5" /></Link>
-            <Link href="#" className="hover:text-white"><Youtube className="h-5 w-5" /></Link>
-            <Link href="#" className="hover:text-white"><X className="h-5 w-5" /></Link>
-            <Link href="#" className="hover:text-white"><Facebook className="h-5 w-5" /></Link>
-            <Link href="#" className="hover:text-white"><Linkedin className="h-5 w-5" /></Link>
-          </div>
         </div>
-        <div className="border-t border-[hsl(var(--footer-foreground)_/_0.2)] mt-8 pt-8 flex flex-col md:flex-row items-center justify-between text-sm">
-          <div className="flex gap-6">
-            <Link href="#" className="hover:text-white">Privacy Policy</Link>
-            <Link href="#" className="hover:text-white">Accessibility</Link>
-          </div>
-          <p className="mt-4 md:mt-0">&copy; 2024 ClassFlow, Inc. All rights reserved.</p>
-        </div>
-      </div>
-    </footer>
+      </footer>
+    </AnimatedDiv>
   );
 }
 

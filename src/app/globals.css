@@ -28,8 +28,8 @@ body {
     --input: 220 13% 91%;
     --ring: 224 71.4% 4.1%;
     --radius: 1.5rem;
-    --footer-background: 140 45% 20%;
-    --footer-foreground: 140 10% 85%;
+    --footer-background: 224 71.4% 4.1%;
+    --footer-foreground: 210 20% 85%;
   }
 
   .dark {
@@ -52,8 +52,8 @@ body {
     --border: 215 27.9% 16.9%;
     --input: 215 27.9% 16.9%;
     --ring: 216 12.2% 83.9%;
-    --footer-background: 140 45% 15%;
-    --footer-foreground: 140 10% 80%;
+    --footer-background: 224 71.4% 4.1%;
+    --footer-foreground: 210 20% 85%;
   }
 }
 
