@@ -472,29 +472,12 @@ function Footer() {
             </div>
           </div>
         </div>
+        <div className="relative w-full h-48 overflow-hidden">
+          <span className="absolute -bottom-1/2 left-0 text-[20rem] font-bold text-white/5 leading-none tracking-tighter">
+            ClassFlow
+          </span>
+        </div>
       </footer>
     </AnimatedDiv>
   );
 }
-
-    
-
-    
-
-
-
-
-    
-
-    
-
-
-
-
-    
-
-    
-
-
-
-    
