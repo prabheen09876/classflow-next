@@ -26,7 +26,11 @@ const getRowStart = (startTime: string) => {
   return (hours - startHour) * 2 + (minutes / 30) + 2; 
 };
 
-export function TimetableView() {
+interface TimetableViewProps {
+  setIsSidebarOpen: (isOpen: boolean) => void;
+}
+
+export function TimetableView({ setIsSidebarOpen }: TimetableViewProps) {
   const { toast } = useToast();
   const [events, setEvents] = useState<TimetableEntry[]>(mockTimetable);
   const { toggleSidebar } = useSidebar();
@@ -47,7 +51,7 @@ export function TimetableView() {
         </div>
         <div className="flex items-center gap-2">
             <Button><Plus className="h-5 w-5 mr-2"/> Add new event</Button>
-            <Button variant="outline" onClick={toggleSidebar}>
+            <Button variant="outline" onClick={() => setIsSidebarOpen(true)}>
                 <Bot className="h-5 w-5"/>
             </Button>
         </div>

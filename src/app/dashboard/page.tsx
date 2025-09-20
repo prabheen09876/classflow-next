@@ -15,7 +15,7 @@ export default function DashboardPage() {
       <div className="flex">
          <SidebarInset>
             <div className="p-4">
-                <TimetableView />
+                <TimetableView setIsSidebarOpen={setIsSidebarOpen}/>
             </div>
         </SidebarInset>
         <Sidebar side="right" collapsible="offcanvas">
