@@ -6,12 +6,12 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { ArrowLeft, ArrowRight, Bolt, Calendar, CheckCircle, Bell, UserCheck, Users, Fingerprint, GitBranch, Mail, CalendarCheck, Shield, Building, UserCog, User } from "lucide-react";
+import { ArrowLeft, ArrowRight, Bolt, Calendar, CheckCircle, Bell, UserCheck, Users, Fingerprint, GitBranch, Mail, CalendarCheck, Shield, Building, UserCog, User, Menu, X } from "lucide-react";
 import {PlaceHolderImages} from "@/lib/placeholder-images";
 import { Video, Users as UsersIcon, Calendar as CalendarIcon, Bot, GraduationCap } from 'lucide-react';
 import { motion, useScroll, useTransform } from "framer-motion";
 import { AnimatedDiv, childVariants } from "@/components/common/animated-div";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 export default function Home() {
     const heroImage = PlaceHolderImages.find(p => p.id === 'hero-classroom');
@@ -24,13 +24,34 @@ export default function Home() {
     const googleMeetImage = PlaceHolderImages.find(p => p.id === 'google-meet-integration');
     const googleClassroomImage = PlaceHolderImages.find(p => p.id === 'google-classroom-integration');
     
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    
     const scrollRef = useRef(null);
     const { scrollYProgress } = useScroll({
         target: scrollRef,
         offset: ["start start", "end end"]
     });
     
-    const x = useTransform(scrollYProgress, [0, 1], ["0%", "-66.66%"]);
+    const x = useTransform(scrollYProgress, [0, 1], ["0%", "-75%"]);
+
+    const menuVariants = {
+        hidden: {
+            y: "-100%",
+            transition: {
+                type: "tween",
+                ease: "easeInOut",
+                duration: 0.5
+            }
+        },
+        visible: {
+            y: 0,
+            transition: {
+                type: "tween",
+                ease: "easeInOut",
+                duration: 0.5
+            }
+        }
+    }
 
 
   return (
@@ -66,14 +87,43 @@ export default function Home() {
             </Link>
             </motion.div>
           </nav>
-          <Link href="/login" prefetch={false}>
-            <motion.div whileHover={{ scale: 1.05 }}>
-                <Button className="bg-primary text-primary-foreground rounded-full px-6 py-3 font-semibold transition-all">Get Started</Button>
-            </motion.div>
-          </Link>
+           <div className="hidden md:flex">
+                <Link href="/login" prefetch={false}>
+                    <motion.div whileHover={{ scale: 1.05 }}>
+                        <Button className="bg-primary text-primary-foreground rounded-full px-6 py-3 font-semibold transition-all">Get Started</Button>
+                    </motion.div>
+                </Link>
+           </div>
+
+          <div className="md:hidden">
+              <Button onClick={() => setIsMenuOpen(true)} variant="ghost" size="icon">
+                  <Menu className="h-6 w-6"/>
+              </Button>
+          </div>
         </header>
         </AnimatedDiv>
       </div>
+
+       <motion.div 
+            initial="hidden"
+            animate={isMenuOpen ? "visible" : "hidden"}
+            variants={menuVariants}
+            className="fixed top-0 left-0 w-full h-screen bg-background z-50 md:hidden"
+       >
+           <div className="flex flex-col items-center justify-center h-full gap-8">
+               <Button onClick={() => setIsMenuOpen(false)} variant="ghost" size="icon" className="absolute top-6 right-6">
+                  <X className="h-6 w-6"/>
+               </Button>
+                <Link href="#" className="text-2xl font-medium" onClick={() => setIsMenuOpen(false)}>About</Link>
+                <Link href="#features" className="text-2xl font-medium" onClick={() => setIsMenuOpen(false)}>Features</Link>
+                <Link href="#" className="text-2xl font-medium" onClick={() => setIsMenuOpen(false)}>Pricing</Link>
+                <Link href="#" className="text-2xl font-medium" onClick={() => setIsMenuOpen(false)}>Contact</Link>
+                <Link href="/login" onClick={() => setIsMenuOpen(false)}>
+                    <Button className="bg-primary text-primary-foreground rounded-full px-8 py-6 font-semibold text-lg">Get Started</Button>
+                </Link>
+           </div>
+       </motion.div>
+
 
       <main className="flex-1 container mx-auto px-4 py-8 mt-[50px]">
         <AnimatedDiv variants="fadeIn" className="w-full bg-muted rounded-2xl p-8 pt-8">
