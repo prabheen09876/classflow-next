@@ -180,7 +180,7 @@ export default function Home() {
                         <h3 className="text-3xl font-bold">Streamline Timetables, Save Hours</h3>
                         <p className="text-lg mt-2 max-w-md">Create clash-free timetables in minutes with AI-powered optimization. No more manual adjustments or scheduling conflicts.</p>
                     </div>
-                    <div className="mt-6">
+                    <div className="mt-6 relative">
                         {dashboardPreview && <Image 
                             src={dashboardPreview.imageUrl}
                             width={400}
@@ -189,7 +189,7 @@ export default function Home() {
                             className="rounded-xl shadow-2xl mx-auto"
                             data-ai-hint={dashboardPreview.imageHint}
                         />}
-                        <div className="flex gap-2 justify-center mt-4">
+                        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 justify-center">
                              <Button variant="outline" size="icon" className="rounded-full bg-white/50 backdrop-blur-sm"><ArrowLeft/></Button>
                              <Button variant="outline" size="icon" className="rounded-full bg-white/50 backdrop-blur-sm"><ArrowRight/></Button>
                         </div>
@@ -434,3 +434,6 @@ export default function Home() {
 
     
 
+
+
+    
