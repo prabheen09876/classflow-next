@@ -8,7 +8,6 @@ import { Button } from "../ui/button";
 import { CalendarIcon, Plus, Video, CalendarPlus, BookOpen, Bot } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { mockTimetable } from "@/lib/placeholder-data";
-import { useSidebar } from "../ui/sidebar";
 
 const timeSlots = Array.from({ length: 15 }, (_, i) => `${(i + 8).toString().padStart(2, '0')}:00`);
 const days: Day[] = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
@@ -27,13 +26,12 @@ const getRowStart = (startTime: string) => {
 };
 
 interface TimetableViewProps {
-  setIsSidebarOpen: (isOpen: boolean) => void;
+  setIsSidebarOpen?: (isOpen: boolean) => void;
 }
 
 export function TimetableView({ setIsSidebarOpen }: TimetableViewProps) {
   const { toast } = useToast();
   const [events, setEvents] = useState<TimetableEntry[]>(mockTimetable);
-  const { toggleSidebar } = useSidebar();
 
   const handleAddToCalendar = (event: TimetableEntry) => {
     toast({
@@ -51,9 +49,11 @@ export function TimetableView({ setIsSidebarOpen }: TimetableViewProps) {
         </div>
         <div className="flex items-center gap-2">
             <Button><Plus className="h-5 w-5 mr-2"/> Add new event</Button>
-            <Button variant="outline" onClick={() => setIsSidebarOpen(true)}>
-                <Bot className="h-5 w-5"/>
-            </Button>
+            {setIsSidebarOpen && (
+              <Button variant="outline" onClick={() => setIsSidebarOpen(true)}>
+                  <Bot className="h-5 w-5"/>
+              </Button>
+            )}
         </div>
       </CardHeader>
       <CardContent>
