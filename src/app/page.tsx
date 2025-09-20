@@ -172,8 +172,8 @@ export default function Home() {
         </AnimatedDiv>
 
         <AnimatedDiv variants="stagger" id="features" className="w-full mt-8">
-          <div className="grid md:grid-cols-3 gap-6">
-            <motion.div variants={childVariants} className="md:col-span-2">
+          <div className="grid md:grid-cols-2 gap-6">
+            <motion.div variants={childVariants}>
                 <motion.div whileHover={{ scale: 1.05, boxShadow: "0 8px 30px rgba(0,0,0,0.15)" }} className="h-full">
                 <Card className="bg-[#E5D9FF] rounded-2xl p-6 shadow-lg h-full flex flex-col justify-between">
                     <div>
@@ -428,3 +428,6 @@ export default function Home() {
     
 
 
+
+
+    
