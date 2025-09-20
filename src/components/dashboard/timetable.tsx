@@ -1,6 +1,7 @@
+
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { TimetableEntry, Day } from "@/lib/types";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { cn } from "@/lib/utils";
@@ -31,7 +32,7 @@ interface TimetableViewProps {
 
 export function TimetableView({ setIsSidebarOpen }: TimetableViewProps) {
   const { toast } = useToast();
-  const [events, setEvents] = useState<TimetableEntry[]>(mockTimetable);
+  const [events] = useState<TimetableEntry[]>(mockTimetable);
 
   const handleAddToCalendar = (event: TimetableEntry) => {
     toast({
@@ -58,7 +59,7 @@ export function TimetableView({ setIsSidebarOpen }: TimetableViewProps) {
       </CardHeader>
       <CardContent>
         <div className="relative overflow-auto rounded-lg border">
-          <div className="grid grid-cols-[auto_repeat(5,1fr)] min-w-[1200px]">
+          <div className="grid grid-cols-[auto_repeat(5,1fr)] min-w-[1000px]">
             {/* Time column header */}
             <div className="sticky left-0 z-10 p-2 text-xs font-medium text-muted-foreground bg-card border-r border-b"></div>
 
