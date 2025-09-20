@@ -276,7 +276,7 @@ export default function Home() {
                         </p>
                     </div>
                     <div className="w-screen h-screen flex items-center justify-center">
-                        <Card className="w-[90%] h-[70vh] bg-blue-100 rounded-3xl grid grid-cols-2 items-center p-12 gap-8">
+                        <Card className="w-[85%] h-[70vh] bg-blue-100 rounded-3xl grid grid-cols-2 items-center p-12 gap-8">
                              <div className="space-y-4">
                                 <h3 className="text-5xl font-bold">Google Calendar</h3>
                                 <p className="text-lg text-blue-900">Sync timetables, holidays, and events automatically. Never miss a class or deadline.</p>
@@ -285,7 +285,7 @@ export default function Home() {
                         </Card>
                     </div>
                      <div className="w-screen h-screen flex items-center justify-center">
-                        <Card className="w-[90%] h-[70vh] bg-green-100 rounded-3xl grid grid-cols-2 items-center p-12 gap-8">
+                        <Card className="w-[85%] h-[70vh] bg-green-100 rounded-3xl grid grid-cols-2 items-center p-12 gap-8">
                              <div className="space-y-4">
                                 <h3 className="text-5xl font-bold">Google Meet</h3>
                                 <p className="text-lg text-green-900">Conduct online classes with a single click. Substitutions can be virtual, ensuring no class is missed.</p>
@@ -294,7 +294,7 @@ export default function Home() {
                         </Card>
                     </div>
                      <div className="w-screen h-screen flex items-center justify-center">
-                        <Card className="w-[90%] h-[70vh] bg-yellow-100 rounded-3xl grid grid-cols-2 items-center p-12 gap-8">
+                        <Card className="w-[85%] h-[70vh] bg-yellow-100 rounded-3xl grid grid-cols-2 items-center p-12 gap-8">
                              <div className="space-y-4">
                                 <h3 className="text-5xl font-bold">Google Classroom</h3>
                                 <p className="text-lg text-yellow-900">Assign and track homework, share resources, and manage coursework seamlessly.</p>
