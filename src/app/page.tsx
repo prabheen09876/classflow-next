@@ -174,8 +174,8 @@ export default function Home() {
         <AnimatedDiv variants="stagger" id="features" className="w-full mt-8">
           <div className="grid md:grid-cols-2 gap-6">
             <motion.div variants={childVariants}>
-                <motion.div whileHover={{ scale: 1.05, boxShadow: "0 8px 30px rgba(0,0,0,0.15)" }} className="h-full">
-                <Card className="bg-[#E5D9FF] rounded-2xl p-6 shadow-lg h-full flex flex-col justify-between">
+                <motion.div whileHover={{ scale: 1.05, boxShadow: "0 8px 30px rgba(0,0,0,0.15)" }}>
+                <Card className="bg-[#E5D9FF] rounded-2xl p-6 shadow-lg flex flex-col justify-between">
                     <div>
                         <h3 className="text-3xl font-bold">Streamline Timetables, Save Hours</h3>
                         <p className="text-lg mt-2 max-w-md">Create clash-free timetables in minutes with AI-powered optimization. No more manual adjustments or scheduling conflicts.</p>
@@ -198,8 +198,8 @@ export default function Home() {
                 </motion.div>
             </motion.div>
             <motion.div variants={childVariants}>
-                 <motion.div whileHover={{ scale: 1.05, boxShadow: "0 8px 30px rgba(0,0,0,0.15)" }} className="h-full">
-                 <Card className="bg-[#FFD1E9] rounded-2xl p-8 shadow-lg h-full">
+                 <motion.div whileHover={{ scale: 1.05, boxShadow: "0 8px 30px rgba(0,0,0,0.15)" }}>
+                 <Card className="bg-[#FFD1E9] rounded-2xl p-8 shadow-lg">
                     <h3 className="text-3xl font-bold">5k+ Classes Scheduled</h3>
                     <p className="text-lg mt-2 mb-8">Trusted by top institutions to manage thousands of classes, faculty schedules, and extracurricular events seamlessly.</p>
                     <div className="space-y-6">
