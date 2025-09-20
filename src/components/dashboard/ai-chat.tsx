@@ -7,10 +7,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
-import { Bot, Mic, Send, User } from "lucide-react";
+import { Bot, Mic, Send, User, PanelRightClose } from "lucide-react";
 import { askTimetable } from "@/ai/flows/ask-timetable-flow";
 import { textToSpeech } from "@/ai/flows/tts-flow";
 import { mockTimetable } from "@/lib/placeholder-data";
+import { useSidebar } from "../ui/sidebar";
 
 export function AIChat() {
   const aiAssistantAvatar = PlaceHolderImages.find(p => p.id === 'ai-assistant-avatar');
@@ -18,6 +19,7 @@ export function AIChat() {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const { toggleSidebar } = useSidebar();
 
   const handleSend = async () => {
     if (!input.trim()) return;
@@ -54,8 +56,10 @@ export function AIChat() {
   return (
     <Card className="h-full flex flex-col">
       <CardHeader className="flex flex-row items-center justify-between">
-        <CardTitle className="font-headline text-2xl">AI Chat</CardTitle>
-        <Bot className="h-6 w-6 text-primary" />
+        <CardTitle className="font-headline text-2xl flex items-center gap-2"><Bot className="h-6 w-6 text-primary" />AI Chat</CardTitle>
+        <Button variant="ghost" size="icon" onClick={toggleSidebar}>
+            <PanelRightClose className="h-5 w-5" />
+        </Button>
       </CardHeader>
       <CardContent className="flex-1 flex flex-col gap-4">
         <div className="flex-1 flex flex-col items-center justify-center text-center">
