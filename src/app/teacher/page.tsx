@@ -16,7 +16,7 @@ export default function TeacherPage() {
             <h1 className="font-semibold text-lg">Teacher Dashboard</h1>
           </div>
         </header>
-        <main className="flex flex-1">
+        <main className="flex flex-1 h-[calc(100vh-60px)]">
           <SidebarInset className="flex-1">
             <div className="p-4 md:p-6">
               <TimetableView setIsSidebarOpen={setIsSidebarOpen} />

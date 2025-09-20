@@ -12,12 +12,10 @@ export default function DashboardPage() {
 
   return (
     <SidebarProvider open={isSidebarOpen} onOpenChange={setIsSidebarOpen}>
-      <div className="flex h-full">
-         <SidebarInset>
-            <div className="p-4">
-                <TimetableView setIsSidebarOpen={setIsSidebarOpen}/>
-            </div>
-        </SidebarInset>
+      <div className="flex flex-col h-full">
+        <div className="p-4 flex-1">
+          <TimetableView setIsSidebarOpen={setIsSidebarOpen}/>
+        </div>
         <Sidebar side="right" collapsible="offcanvas">
           <AIChat />
         </Sidebar>
