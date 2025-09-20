@@ -162,7 +162,7 @@ export default function CalendarPage() {
                         head_row: "flex",
                         head_cell: "text-muted-foreground rounded-md w-full font-normal text-[0.8rem]",
                         row: "flex w-full mt-2",
-                        cell: "h-24 w-full text-center text-sm p-1 relative [&:has([aria-selected])]:bg-accent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20",
+                        cell: "h-20 w-full text-center text-sm p-1 relative [&:has([aria-selected])]:bg-accent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20",
                         day: "h-full w-full p-0 font-normal aria-selected:opacity-100 rounded-md hover:bg-accent",
                         day_selected: "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground",
                     }}
