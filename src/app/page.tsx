@@ -6,12 +6,14 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { ArrowLeft, ArrowRight, Bolt, Calendar, CheckCircle, Bell, UserCheck, Users, Fingerprint, GitBranch, Mail, CalendarCheck, Shield, Building, UserCog, User, Menu, X } from "lucide-react";
+import { ArrowLeft, ArrowRight, Bolt, Calendar, CheckCircle, Bell, UserCheck, Users, Fingerprint, GitBranch, Mail, CalendarCheck, Shield, Building, UserCog, User, Menu, X, Instagram, Youtube, Linkedin, Facebook } from "lucide-react";
 import {PlaceHolderImages} from "@/lib/placeholder-images";
 import { Video, Users as UsersIcon, Calendar as CalendarIcon, Bot, GraduationCap } from 'lucide-react';
 import { motion, useScroll, useTransform } from "framer-motion";
 import { AnimatedDiv, childVariants } from "@/components/common/animated-div";
 import { useRef, useState } from "react";
+import { cn } from "@/lib/utils";
+import { Logo } from "@/components/icons";
 
 export default function Home() {
     const heroImage = PlaceHolderImages.find(p => p.id === 'hero-classroom');
@@ -172,7 +174,7 @@ export default function Home() {
         </AnimatedDiv>
 
         <AnimatedDiv variants="stagger" id="features" className="w-full mt-8">
-          <div className="grid md:grid-cols-2 gap-6">
+        <div className="grid md:grid-cols-2 gap-6">
             <motion.div variants={childVariants}>
                 <motion.div whileHover={{ scale: 1.05, boxShadow: "0 8px 30px rgba(0,0,0,0.15)" }} className="h-full">
                 <Card className="bg-[#E5D9FF] rounded-2xl p-6 shadow-lg h-full flex flex-col justify-between">
@@ -399,20 +401,88 @@ export default function Home() {
 
       </main>
 
-      <AnimatedDiv variants="fadeIn" className="w-full mt-16 py-6 border-t">
-        <div className="container mx-auto flex flex-col md:flex-row items-center justify-between px-4">
-            <p className="text-sm text-muted-foreground">&copy; 2024 ClassFlow. All rights reserved.</p>
-            <nav className="flex gap-4 sm:gap-6 mt-4 md:mt-0">
-                <Link href="#" className="text-sm hover:underline underline-offset-4" prefetch={false}>
-                    Terms of Service
-                </Link>
-                <Link href="#" className="text-sm hover:underline underline-offset-4" prefetch={false}>
-                    Privacy
-                </Link>
-            </nav>
-        </div>
-      </AnimatedDiv>
+      <Footer />
     </div>
+  );
+}
+
+function Footer() {
+  return (
+    <footer className="w-full bg-[hsl(var(--footer-background))] text-[hsl(var(--footer-foreground))]">
+      <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-12 px-8 py-16">
+        <div className="lg:col-span-2">
+          <h2 className="text-4xl font-bold text-white max-w-sm">
+            Meet modern scheduling needs without compromising
+          </h2>
+        </div>
+        <div className="space-y-4">
+          <h4 className="font-semibold text-white">For Companies</h4>
+          <ul className="space-y-2">
+            <li><Link href="#" className="hover:text-white">Why ClassFlow</Link></li>
+            <li><Link href="#" className="hover:text-white">How It Works</Link></li>
+            <li><Link href="#" className="hover:text-white">FAQ</Link></li>
+            <li><Link href="#" className="hover:text-white">Book a Call</Link></li>
+            <li><Link href="#" className="hover:text-white">Schedule Demo</Link></li>
+          </ul>
+        </div>
+        <div className="space-y-4">
+          <h4 className="font-semibold text-white">For Employees</h4>
+          <ul className="space-y-2">
+            <li><Link href="#" className="hover:text-white">Why ClassFlow Pay</Link></li>
+            <li><Link href="#" className="hover:text-white">Check Eligibility</Link></li>
+            <li><Link href="#" className="hover:text-white">Support Team</Link></li>
+          </ul>
+        </div>
+        <div className="space-y-4">
+          <h4 className="font-semibold text-white">Partnerships</h4>
+          <ul className="space-y-2">
+            <li><Link href="#" className="hover:text-white">About Partnerships</Link></li>
+            <li><Link href="#" className="hover:text-white">Marketplace</Link></li>
+            <li><Link href="#" className="hover:text-white">Partnership Contact</Link></li>
+          </ul>
+        </div>
+        <div className="space-y-4">
+          <h4 className="font-semibold text-white">About ClassFlow</h4>
+          <ul className="space-y-2">
+            <li><Link href="#" className="hover:text-white">Company</Link></li>
+            <li><Link href="#" className="hover:text-white">Insights</Link></li>
+            <li><Link href="#" className="hover:text-white">Security</Link></li>
+            <li><Link href="#" className="hover:text-white">Contact Us</Link></li>
+          </ul>
+        </div>
+      </div>
+      <div className="container mx-auto px-8 py-8">
+        <div className="border-t border-[hsl(var(--footer-foreground)_/_0.2)] pt-8 flex flex-col md:flex-row items-center justify-between">
+          <div className="flex flex-col md:flex-row items-center gap-6">
+            <div className="space-y-2">
+              <p className="text-sm font-medium">Download ClassFlow</p>
+              <div className="flex gap-2">
+                <Link href="#">
+                  <Image src="/app-store-badge.svg" alt="Download on the App Store" width={120} height={40} />
+                </Link>
+                <Link href="#">
+                  <Image src="/google-play-badge.png" alt="Get it on Google Play" width={135} height={40} />
+                </Link>
+              </div>
+            </div>
+          </div>
+          <div className="flex items-center gap-4 mt-6 md:mt-0">
+            <Link href="#" className="hover:text-white"><Instagram className="h-5 w-5" /></Link>
+            <Link href="#" className="hover:text-white"><Youtube className="h-5 w-5" /></Link>
+            <Link href="#" className="hover:text-white"><X className="h-5 w-5" /></Link>
+            <Link href="#" className="hover:text-white"><Facebook className="h-5 w-5" /></Link>
+            <Link href="#" className="hover:text-white"><Linkedin className="h-5 w-5" /></Link>
+          </div>
+        </div>
+        <div className="border-t border-[hsl(var(--footer-foreground)_/_0.2)] mt-8 pt-8 flex flex-col md:flex-row items-center justify-between text-sm">
+          <div className="flex gap-6">
+            <Link href="#" className="hover:text-white">Privacy Policy</Link>
+            <Link href="#" className="hover:text-white">Accessibility</Link>
+          </div>
+          <p className="mt-4 md:mt-0">&copy; 2024 ClassFlow, Inc. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
   );
 }
 
