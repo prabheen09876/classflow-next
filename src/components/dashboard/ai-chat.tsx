@@ -56,26 +56,26 @@ export function AIChat() {
 
   return (
     <Card className="h-full flex flex-col border-0 shadow-none">
-      <CardHeader className="flex flex-row items-center justify-between">
-        <CardTitle className="font-headline text-2xl flex items-center gap-2"><Bot className="h-6 w-6 text-primary" />AI Chat</CardTitle>
+      <CardHeader className="flex flex-row items-center justify-between pb-2">
+        <CardTitle className="font-headline text-xl flex items-center gap-2"><Bot className="h-5 w-5 text-primary" />AI Chat</CardTitle>
         <Button variant="ghost" size="icon" onClick={toggleSidebar}>
             <PanelRightClose className="h-5 w-5" />
         </Button>
       </CardHeader>
-      <CardContent className="flex-1 flex flex-col gap-4">
-        <div className="flex-1 flex flex-col items-center justify-center text-center">
+      <CardContent className="flex-1 flex flex-col gap-2 pt-0">
+        <div className="flex-1 flex flex-col items-center justify-center text-center py-2">
             {aiAssistantAvatar && (
                 <Image
                 src={aiAssistantAvatar.imageUrl}
-                width={150}
-                height={150}
+                width={100}
+                height={100}
                 alt="AI Assistant"
-                className="rounded-full mb-4 border-4 border-primary/20 shadow-lg"
+                className="rounded-full mb-2 border-4 border-primary/20 shadow-lg"
                 data-ai-hint={aiAssistantAvatar.imageHint}
                 />
             )}
-            <h3 className="text-xl font-bold">Good Evening, Slava</h3>
-            <p className="text-muted-foreground">How can I help you today?</p>
+            <h3 className="text-lg font-bold">Good Evening, Slava</h3>
+            <p className="text-muted-foreground text-sm">How can I help you today?</p>
         </div>
         <ScrollArea className="h-64 w-full pr-4">
             <div className="space-y-4">
