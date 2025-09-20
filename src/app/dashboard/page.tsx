@@ -1,13 +1,17 @@
+
 "use client"
 
+import { useState } from "react";
 import { TimetableView } from "@/components/dashboard/timetable";
 import { AIChat } from "@/components/dashboard/ai-chat";
 import { Sidebar, SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 
 
 export default function DashboardPage() {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+
   return (
-    <SidebarProvider defaultOpen={true} onOpenChange={() => {}}>
+    <SidebarProvider open={isSidebarOpen} onOpenChange={setIsSidebarOpen}>
       <div className="flex">
          <SidebarInset>
             <div className="p-4">
