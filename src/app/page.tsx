@@ -60,8 +60,8 @@ export default function Home() {
         </AnimatedDiv>
       </div>
 
-      <main className="flex-1 container mx-auto px-4 py-8 -mt-24">
-        <AnimatedDiv variants="fadeIn" className="w-full bg-muted rounded-2xl p-8 pt-28">
+      <main className="flex-1 container mx-auto px-4 py-8 -mt-20">
+        <AnimatedDiv variants="fadeIn" className="w-full bg-muted rounded-2xl p-8 pt-32">
           <div className="grid md:grid-cols-2 gap-8 items-center">
             <div className="space-y-6">
               <h1 className="text-5xl font-bold tracking-tighter">
