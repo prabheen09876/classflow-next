@@ -408,7 +408,7 @@ export default function Home() {
 
 function Footer() {
   return (
-    <AnimatedDiv variants="fadeIn">
+    <AnimatedDiv variants="fadeInUp">
       <footer className="w-full bg-[hsl(var(--footer-background))] text-[hsl(var(--footer-foreground))]">
         <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-12 px-8 py-16">
           <div className="lg:col-span-2">
@@ -474,3 +474,5 @@ function Footer() {
     </AnimatedDiv>
   );
 }
+
+    

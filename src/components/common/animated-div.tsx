@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 interface AnimatedDivProps {
   children: React.ReactNode;
   className?: string;
-  variants: "fadeIn" | "fadeInDown" | "stagger";
+  variants: "fadeIn" | "fadeInDown" | "stagger" | "fadeInUp";
   staggerChildren?: number;
   once?: boolean;
 }
@@ -26,6 +26,17 @@ const animationVariants: Record<string, Variants> = {
   },
   fadeInDown: {
     hidden: { opacity: 0, y: -40 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.8,
+        ease: "easeInOut",
+      },
+    },
+  },
+  fadeInUp: {
+    hidden: { opacity: 0, y: 40 },
     visible: {
       opacity: 1,
       y: 0,
@@ -82,3 +93,5 @@ export function AnimatedDiv({
     </motion.div>
   );
 }
+
+    
