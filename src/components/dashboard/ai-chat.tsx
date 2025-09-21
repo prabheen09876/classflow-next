@@ -3,7 +3,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -21,6 +21,7 @@ export function AIChat() {
   const [isLoading, setIsLoading] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const { setOpen } = useSidebar();
+  const scrollAreaRef = useRef<HTMLDivElement>(null);
 
   const handleSend = async () => {
     if (!input.trim()) return;
@@ -38,7 +39,6 @@ export function AIChat() {
       const assistantMessage = { role: 'assistant' as const, text: response.answer };
       setMessages(prev => [...prev, assistantMessage]);
 
-      // Generate and play audio
       const audioResponse = await textToSpeech(response.answer);
       if (audioResponse.media) {
         const audio = new Audio(audioResponse.media);
@@ -54,51 +54,60 @@ export function AIChat() {
     }
   };
 
+  useEffect(() => {
+    if (scrollAreaRef.current) {
+      scrollAreaRef.current.scrollTo({
+        top: scrollAreaRef.current.scrollHeight,
+        behavior: "smooth",
+      });
+    }
+  }, [messages]);
+
   return (
     <Card className="h-full flex flex-col border-0 shadow-none">
-      <CardHeader className="flex flex-row items-center justify-between pb-2">
-        <CardTitle className="font-headline text-xl flex items-center gap-2"><Bot className="h-5 w-5 text-primary" />AI Chat</CardTitle>
+      <CardHeader className="flex flex-row items-start justify-between pb-4">
+        <div>
+            <CardTitle className="font-headline text-xl flex items-center gap-2 mb-1"><Bot className="h-5 w-5 text-primary" />AI Assistant</CardTitle>
+            <CardDescription>Ask me anything about your timetable.</CardDescription>
+        </div>
         <Button variant="ghost" size="icon" onClick={() => setOpen(false)}>
             <PanelRightClose className="h-5 w-5" />
         </Button>
       </CardHeader>
-      <CardContent className="flex-1 flex flex-col gap-2 pt-0">
-        <div className="flex-1 flex flex-col items-center justify-center text-center py-2">
-            {aiAssistantAvatar && (
-                <Image
-                src={aiAssistantAvatar.imageUrl}
-                width={100}
-                height={100}
-                alt="AI Assistant"
-                className="rounded-full mb-2 border-4 border-primary/20 shadow-lg"
-                data-ai-hint={aiAssistantAvatar.imageHint}
-                />
-            )}
-            <h3 className="text-lg font-bold">Good Evening, Slava</h3>
-            <p className="text-muted-foreground text-sm">How can I help you today?</p>
-        </div>
-        <ScrollArea className="h-64 w-full pr-4">
-            <div className="space-y-4">
-            {messages.map((message, index) => (
-                <div key={index} className={`flex items-start gap-3 ${message.role === 'user' ? 'justify-end' : ''}`}>
-                    {message.role === 'assistant' && <Bot className="h-6 w-6 text-primary flex-shrink-0" />}
-                    <div className={`rounded-lg px-4 py-2 text-sm ${message.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-muted'}`}>
-                        <p>{message.text}</p>
-                    </div>
-                     {message.role === 'user' && <User className="h-6 w-6 text-muted-foreground flex-shrink-0" />}
-                </div>
-            ))}
-             {isLoading && (
-                <div className="flex items-start gap-3">
+      <CardContent className="flex-1 flex flex-col gap-4 p-0">
+        <ScrollArea className="h-full w-full p-6" ref={scrollAreaRef}>
+          {messages.length === 0 && !isLoading ? (
+             <div className="flex h-full items-center justify-center">
+                 <div className="flex items-start gap-3 text-sm">
                     <Bot className="h-6 w-6 text-primary flex-shrink-0" />
-                    <div className="rounded-lg px-4 py-2 text-sm bg-muted animate-pulse">
-                       Thinking...
+                    <div className="rounded-lg px-4 py-2 bg-muted">
+                        <p>Hello! How can I help you with your schedule today?</p>
                     </div>
                 </div>
-            )}
             </div>
+          ) : (
+            <div className="space-y-4">
+              {messages.map((message, index) => (
+                  <div key={index} className={`flex items-start gap-3 ${message.role === 'user' ? 'justify-end' : ''}`}>
+                      {message.role === 'assistant' && <Bot className="h-6 w-6 text-primary flex-shrink-0" />}
+                      <div className={`rounded-lg px-4 py-2 text-sm max-w-[80%] ${message.role === 'user' ? 'bg-primary text-primary-foreground' : 'bg-muted'}`}>
+                          <p>{message.text}</p>
+                      </div>
+                      {message.role === 'user' && <User className="h-6 w-6 text-muted-foreground flex-shrink-0" />}
+                  </div>
+              ))}
+              {isLoading && (
+                  <div className="flex items-start gap-3">
+                      <Bot className="h-6 w-6 text-primary flex-shrink-0" />
+                      <div className="rounded-lg px-4 py-2 text-sm bg-muted animate-pulse">
+                        Thinking...
+                      </div>
+                  </div>
+              )}
+            </div>
+          )}
         </ScrollArea>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 p-4 border-t">
           <Input
             placeholder="Ask about the timetable..."
             value={input}
