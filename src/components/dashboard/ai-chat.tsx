@@ -20,7 +20,7 @@ export function AIChat() {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const { toggleSidebar } = useSidebar();
+  const { setOpen } = useSidebar();
 
   const handleSend = async () => {
     if (!input.trim()) return;
@@ -58,7 +58,7 @@ export function AIChat() {
     <Card className="h-full flex flex-col border-0 shadow-none">
       <CardHeader className="flex flex-row items-center justify-between pb-2">
         <CardTitle className="font-headline text-xl flex items-center gap-2"><Bot className="h-5 w-5 text-primary" />AI Chat</CardTitle>
-        <Button variant="ghost" size="icon" onClick={toggleSidebar}>
+        <Button variant="ghost" size="icon" onClick={() => setOpen(false)}>
             <PanelRightClose className="h-5 w-5" />
         </Button>
       </CardHeader>
