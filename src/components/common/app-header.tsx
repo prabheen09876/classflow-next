@@ -70,12 +70,12 @@ export default function AppHeader() {
               <span className="sr-only">ClassMaster AI</span>
             </Link>
             <Link
-              href="/dashboard"
+              href="/"
               className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
               prefetch={false}
             >
               <Home className="h-5 w-5" />
-              Dashboard
+              Home
             </Link>
             <Link
               href="/dashboard/calendar"
