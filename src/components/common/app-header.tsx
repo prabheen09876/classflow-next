@@ -1,3 +1,6 @@
+
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -13,7 +16,7 @@ import {
   Shield,
   Calendar
 } from "lucide-react";
-
+import { useRouter } from "next/navigation";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -35,9 +38,18 @@ import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import {PlaceHolderImages} from '@/lib/placeholder-images'
 import { Logo } from "../icons";
+import { createClient } from "@/lib/supabase";
 
 export default function AppHeader() {
   const userAvatar = PlaceHolderImages.find(p => p.id === 'user-avatar');
+  const router = useRouter();
+  const supabase = createClient();
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    router.push("/login");
+  };
+
   return (
     <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
       <Sheet>
@@ -162,7 +174,7 @@ export default function AppHeader() {
           <DropdownMenuItem>Settings</DropdownMenuItem>
           <DropdownMenuItem>Support</DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>Logout</DropdownMenuItem>
+          <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </header>
