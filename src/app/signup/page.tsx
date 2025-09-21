@@ -16,13 +16,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Eye, EyeOff } from "lucide-react";
 
 
@@ -30,7 +23,6 @@ export default function SignupPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [role, setRole] = useState("student");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const { toast } = useToast();
@@ -40,6 +32,9 @@ export default function SignupPage() {
     e.preventDefault();
     setLoading(true);
     
+    // Default role is 'student'
+    const role = "student";
+
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
@@ -63,25 +58,10 @@ export default function SignupPage() {
     if (data.user) {
         toast({
           title: "Signup Successful!",
-          description: "Please check your email to verify your account.",
+          description: "Please check your email to verify your account. Redirecting to login...",
         });
         
-        switch (role) {
-            case 'admin':
-            router.push('/admin');
-            break;
-            case 'hos':
-            router.push('/hos');
-            break;
-            case 'teacher':
-            router.push('/teacher');
-            break;
-            case 'student':
-            router.push('/student');
-            break;
-            default:
-            router.push('/dashboard');
-        }
+        router.push('/login');
     }
     setLoading(false);
   };
@@ -128,20 +108,6 @@ export default function SignupPage() {
                   {showPassword ? <EyeOff /> : <Eye />}
                 </Button>
               </div>
-            </div>
-             <div className="grid gap-2">
-              <Label htmlFor="role">Role</Label>
-              <Select onValueChange={setRole} defaultValue={role}>
-                <SelectTrigger id="role">
-                  <SelectValue placeholder="Select a role" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="student">Student</SelectItem>
-                  <SelectItem value="teacher">Teacher</SelectItem>
-                  <SelectItem value="hos">HOS</SelectItem>
-                  <SelectItem value="admin">Admin</SelectItem>
-                </SelectContent>
-              </Select>
             </div>
             <Button type="submit" className="w-full" disabled={loading}>
              {loading ? "Creating account..." : "Create an account"}

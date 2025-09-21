@@ -16,12 +16,20 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Eye, EyeOff } from "lucide-react";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [role, setRole] = useState("student");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const { toast } = useToast();
@@ -47,18 +55,12 @@ export default function LoginPage() {
     }
 
     if (data.user) {
-        const { data: profile } = await supabase
-            .from('profiles')
-            .select('role')
-            .eq('id', data.user.id)
-            .single()
-
         toast({
             title: "Login Successful",
             description: "Redirecting to your dashboard...",
         });
 
-        switch (profile?.role) {
+        switch (role) {
             case 'admin':
             router.push('/admin');
             break;
@@ -128,6 +130,20 @@ export default function LoginPage() {
                   {showPassword ? <EyeOff /> : <Eye />}
                 </Button>
               </div>
+            </div>
+             <div className="grid gap-2">
+              <Label htmlFor="role">Role</Label>
+              <Select onValueChange={setRole} defaultValue={role}>
+                <SelectTrigger id="role">
+                  <SelectValue placeholder="Select a role" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="student">Student</SelectItem>
+                  <SelectItem value="teacher">Teacher</SelectItem>
+                  <SelectItem value="hos">HOS</SelectItem>
+                  <SelectItem value="admin">Admin</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
             <Button type="submit" className="w-full" disabled={loading}>
               {loading ? "Logging in..." : "Login"}
