@@ -58,14 +58,14 @@ export function TimetableView({ setIsSidebarOpen }: TimetableViewProps) {
         </div>
       </CardHeader>
       <CardContent>
-        <div className="relative overflow-auto rounded-lg border">
-          <div className="grid grid-cols-[auto_repeat(5,1fr)] min-w-[1000px]">
+        <div className="relative overflow-auto rounded-lg border h-[calc(100vh-220px)]">
+          <div className="grid grid-cols-[auto_repeat(5,1fr)]">
             {/* Time column header */}
             <div className="sticky left-0 z-10 p-2 text-xs font-medium text-muted-foreground bg-card border-r border-b"></div>
 
             {/* Day headers */}
             {days.map(day => (
-              <div key={day} className="p-3 text-center text-md font-semibold border-b">
+              <div key={day} className="p-3 text-center text-sm md:text-md font-semibold border-b whitespace-nowrap">
                 {day}
               </div>
             ))}
@@ -103,14 +103,14 @@ export function TimetableView({ setIsSidebarOpen }: TimetableViewProps) {
                     gridRow: `${rowStart} / span ${rowSpan}`,
                   }}
                 >
-                  <div className={cn("h-full w-full p-3 rounded-lg border-l-4 text-xs flex flex-col justify-between", event.color)}>
+                  <div className={cn("h-full w-full p-2 md:p-3 rounded-lg border-l-4 text-xs flex flex-col justify-between", event.color)}>
                     <div>
                       <p className="font-bold text-sm">{event.subject}</p>
-                      <p className="text-muted-foreground">{event.eventType === 'leave' ? event.faculty : `${event.startTime} - ${event.endTime}`}</p>
+                      <p className="text-muted-foreground whitespace-nowrap">{event.eventType === 'leave' ? event.faculty : `${event.startTime} - ${event.endTime}`}</p>
                       <p className="font-semibold mt-2">{event.eventType === 'online' ? 'Google Meet' : event.room}</p>
                       {event.eventType !== 'leave' && event.eventType !== 'task' && <p>{event.faculty}</p>}
                     </div>
-                     <div className="flex items-center justify-end gap-2 mt-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                     <div className="flex items-center justify-end gap-1 md:gap-2 mt-2 opacity-0 group-hover:opacity-100 transition-opacity">
                         {event.eventType === 'online' && (
                            <Button variant="ghost" size="icon" className="h-7 w-7 bg-white/50 rounded-full">
                                 <Video className="h-4 w-4 text-blue-600" />
