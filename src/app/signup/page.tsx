@@ -1,10 +1,10 @@
+
 "use client";
 
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "@/lib/firebase";
+import { createClient } from "@/lib/supabase";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -32,22 +32,56 @@ export default function SignupPage() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const { toast } = useToast();
+  const supabase = createClient();
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    try {
-      await createUserWithEmailAndPassword(auth, email, password);
-      // You can add role to user claims here using a backend function
-      router.push("/dashboard");
-    } catch (error: any) {
+    
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: {
+          role: role,
+        },
+      },
+    });
+
+    if (error) {
       toast({
         title: "Signup Failed",
         description: error.message,
         variant: "destructive",
       });
       setLoading(false);
+      return;
     }
+    
+    if (data.user) {
+        toast({
+          title: "Signup Successful!",
+          description: "Please check your email to verify your account.",
+        });
+        
+        switch (role) {
+            case 'admin':
+            router.push('/admin');
+            break;
+            case 'hos':
+            router.push('/hos');
+            break;
+            case 'teacher':
+            router.push('/teacher');
+            break;
+            case 'student':
+            router.push('/student');
+            break;
+            default:
+            router.push('/dashboard');
+        }
+    }
+    setLoading(false);
   };
 
   return (

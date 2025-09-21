@@ -1,10 +1,10 @@
+
 "use client";
 
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "@/lib/firebase";
+import { createClient } from "@/lib/supabase";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -23,57 +23,60 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const { toast } = useToast();
+  const supabase = createClient();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
-    // Mock login for different roles for testing
-    if (email === "admin@example.com") {
-      toast({
-        title: "Login Successful",
-        description: "Redirecting to admin dashboard...",
-      });
-      router.push("/admin");
-      return;
-    }
-    if (email === "hos@example.com") {
-      toast({
-        title: "Login Successful",
-        description: "Redirecting to HOS dashboard...",
-      });
-      router.push("/hos");
-      return;
-    }
-    if (email === "teacher@example.com") {
-      toast({
-        title: "Login Successful",
-        description: "Redirecting to teacher dashboard...",
-      });
-       router.push("/teacher");
-       return;
-    }
-    if (email === "student@example.com") {
-        toast({
-            title: "Login Successful",
-            description: "Redirecting to student dashboard...",
-        });
-        router.push("/student");
-        return;
-    }
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
 
-
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-      router.push("/dashboard");
-    } catch (error: any) {
+    if (error) {
       toast({
         title: "Login Failed",
-        description: "Invalid credentials for mock users. Use one of the provided emails.",
+        description: error.message,
         variant: "destructive",
       });
       setLoading(false);
+      return;
     }
+
+    // This part is tricky without server-side role checks.
+    // For now, we'll redirect based on email for demonstration,
+    // but in a real app, you'd get the role from your database after login.
+    if (data.user) {
+        const { data: profile } = await supabase
+            .from('profiles')
+            .select('role')
+            .eq('id', data.user.id)
+            .single()
+
+        toast({
+            title: "Login Successful",
+            description: "Redirecting to your dashboard...",
+        });
+
+        switch (profile?.role) {
+            case 'admin':
+            router.push('/admin');
+            break;
+            case 'hos':
+            router.push('/hos');
+            break;
+            case 'teacher':
+            router.push('/teacher');
+            break;
+            case 'student':
+            router.push('/student');
+            break;
+            default:
+            router.push('/dashboard');
+        }
+    }
+     setLoading(false);
   };
 
   return (

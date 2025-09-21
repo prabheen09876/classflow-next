@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -13,8 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Plus } from "lucide-react";
-import { collection, addDoc, onSnapshot } from "firebase/firestore";
-import { db } from "@/lib/firebase";
+import { createClient } from "@/lib/supabase";
 
 interface Hos {
   id: string;
@@ -23,26 +23,39 @@ interface Hos {
 }
 
 export default function HosManagementPage() {
+  const supabase = createClient();
   const [hosList, setHosList] = useState<Hos[]>([]);
   const [hosName, setHosName] = useState("");
   const [hosEmail, setHosEmail] = useState("");
 
   useEffect(() => {
-    const unsubscribe = onSnapshot(collection(db, "hos"), (snapshot) => {
-      const newHosList: Hos[] = [];
-      snapshot.forEach((doc) => {
-        newHosList.push({ id: doc.id, ...doc.data() } as Hos);
-      });
-      setHosList(newHosList);
-    });
-
-    return () => unsubscribe();
-  }, []);
+    const fetchHos = async () => {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('id, name, email')
+        .eq('role', 'hos');
+      
+      if (data) {
+        setHosList(data);
+      }
+    };
+    fetchHos();
+  }, [supabase]);
 
   const handleAddHos = async (e: React.FormEvent) => {
     e.preventDefault();
     if (hosName && hosEmail) {
-      await addDoc(collection(db, "hos"), { name: hosName, email: hosEmail });
+      // In a real app, you'd likely invite a user which creates an auth user
+      // and then you'd assign a role. For simplicity, we add to profiles.
+      // This won't create an actual Supabase auth user.
+      const { data, error } = await supabase
+        .from('profiles')
+        .insert([{ name: hosName, email: hosEmail, role: 'hos' }])
+        .select();
+
+      if (data) {
+        setHosList([...hosList, ...data as Hos[]]);
+      }
       setHosName("");
       setHosEmail("");
     }

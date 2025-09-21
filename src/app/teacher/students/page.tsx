@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -13,8 +14,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Plus } from "lucide-react";
-import { collection, addDoc, onSnapshot } from "firebase/firestore";
-import { db } from "@/lib/firebase";
+import { createClient } from "@/lib/supabase";
 
 interface Student {
   id: string;
@@ -24,27 +24,37 @@ interface Student {
 }
 
 export default function TeacherStudentsPage() {
+  const supabase = createClient();
   const [studentList, setStudentList] = useState<Student[]>([]);
   const [studentName, setStudentName] = useState("");
   const [studentEmail, setStudentEmail] = useState("");
   const [studentClass, setStudentClass] = useState("");
 
   useEffect(() => {
-    const unsubscribe = onSnapshot(collection(db, "students"), (snapshot) => {
-      const newStudentList: Student[] = [];
-      snapshot.forEach((doc) => {
-        newStudentList.push({ id: doc.id, ...doc.data() } as Student);
-      });
-      setStudentList(newStudentList);
-    });
-
-    return () => unsubscribe();
-  }, []);
+    const fetchStudents = async () => {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('id, name, email, class')
+        .eq('role', 'student');
+      
+      if (data) {
+        setStudentList(data as Student[]);
+      }
+    };
+    fetchStudents();
+  }, [supabase]);
 
   const handleAddStudent = async (e: React.FormEvent) => {
     e.preventDefault();
     if (studentName && studentEmail && studentClass) {
-      await addDoc(collection(db, "students"), { name: studentName, email: studentEmail, class: studentClass });
+      const { data, error } = await supabase
+        .from('profiles')
+        .insert([{ name: studentName, email: studentEmail, role: 'student', class: studentClass }])
+        .select();
+
+      if (data) {
+        setStudentList([...studentList, ...data as Student[]]);
+      }
       setStudentName("");
       setStudentEmail("");
       setStudentClass("");
@@ -105,7 +115,7 @@ export default function TeacherStudentsPage() {
             <CardDescription>
               A list of all students in your classes.
             </CardDescription>
-          </CardHeader>
+          </Header>
           <CardContent>
             <Table>
               <TableHeader>

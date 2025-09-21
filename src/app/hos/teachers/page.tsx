@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -13,8 +14,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Plus } from "lucide-react";
-import { collection, addDoc, onSnapshot } from "firebase/firestore";
-import { db } from "@/lib/firebase";
+import { createClient } from "@/lib/supabase";
+
 
 interface Teacher {
   id: string;
@@ -23,26 +24,36 @@ interface Teacher {
 }
 
 export default function HosTeachersPage() {
+  const supabase = createClient();
   const [teacherList, setTeacherList] = useState<Teacher[]>([]);
   const [teacherName, setTeacherName] = useState("");
   const [teacherEmail, setTeacherEmail] = useState("");
 
   useEffect(() => {
-    const unsubscribe = onSnapshot(collection(db, "teachers"), (snapshot) => {
-      const newTeacherList: Teacher[] = [];
-      snapshot.forEach((doc) => {
-        newTeacherList.push({ id: doc.id, ...doc.data() } as Teacher);
-      });
-      setTeacherList(newTeacherList);
-    });
-
-    return () => unsubscribe();
-  }, []);
+     const fetchTeachers = async () => {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('id, name, email')
+        .eq('role', 'teacher');
+      
+      if (data) {
+        setTeacherList(data);
+      }
+    };
+    fetchTeachers();
+  }, [supabase]);
 
   const handleAddTeacher = async (e: React.FormEvent) => {
     e.preventDefault();
     if (teacherName && teacherEmail) {
-      await addDoc(collection(db, "teachers"), { name: teacherName, email: teacherEmail });
+       const { data, error } = await supabase
+        .from('profiles')
+        .insert([{ name: teacherName, email: teacherEmail, role: 'teacher' }])
+        .select();
+      
+      if (data) {
+         setTeacherList([...teacherList, ...data as Teacher[]]);
+      }
       setTeacherName("");
       setTeacherEmail("");
     }
@@ -93,7 +104,7 @@ export default function HosTeachersPage() {
             <CardDescription>
               A list of all teachers in the department.
             </CardDescription>
-          </CardHeader>
+          </Header>
           <CardContent>
             <Table>
               <TableHeader>
