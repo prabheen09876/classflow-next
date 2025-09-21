@@ -14,9 +14,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Plus, BookOpen } from "lucide-react";
-import { collection, addDoc, onSnapshot } from "firebase/firestore";
-import { db } from "@/lib/firebase";
+import { Plus } from "lucide-react";
+import { createClient } from "@/lib/supabase";
 
 interface Homework {
   id: string;
@@ -27,6 +26,7 @@ interface Homework {
 }
 
 export default function TeacherHomeworkPage() {
+  const supabase = createClient();
   const [homeworkList, setHomeworkList] = useState<Homework[]>([]);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -34,21 +34,34 @@ export default function TeacherHomeworkPage() {
   const [dueDate, setDueDate] = useState("");
 
   useEffect(() => {
-    const unsubscribe = onSnapshot(collection(db, "homework"), (snapshot) => {
-      const newHomeworkList: Homework[] = [];
-      snapshot.forEach((doc) => {
-        newHomeworkList.push({ id: doc.id, ...doc.data() } as Homework);
-      });
-      setHomeworkList(newHomeworkList);
-    });
+    const fetchHomework = async () => {
+      const { data, error } = await supabase.from('homework').select('*');
+      if (data) {
+        setHomeworkList(data as Homework[]);
+      }
+    };
 
-    return () => unsubscribe();
-  }, []);
+    fetchHomework();
+
+    const channel = supabase
+      .channel('homework')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'homework' }, (payload) => {
+        fetchHomework();
+      })
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [supabase]);
 
   const handleAddHomework = async (e: React.FormEvent) => {
     e.preventDefault();
     if (title && description && targetClass && dueDate) {
-      await addDoc(collection(db, "homework"), { title, description, class: targetClass, dueDate });
+      await supabase
+        .from('homework')
+        .insert([{ title, description, class: targetClass, dueDate }]);
+      
       setTitle("");
       setDescription("");
       setTargetClass("");
@@ -156,4 +169,3 @@ export default function TeacherHomeworkPage() {
     </div>
   );
 }
-
