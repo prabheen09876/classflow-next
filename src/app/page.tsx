@@ -272,10 +272,12 @@ export default function Home() {
             <div className="sticky top-0 h-screen flex items-center overflow-hidden">
                 <motion.div style={{ x }} className="flex">
                     <div className="w-screen h-screen flex flex-col items-center justify-center gap-8 px-16">
-                         <h2 className="text-5xl font-bold tracking-tighter text-center">Seamlessly Integrated with Google</h2>
-                        <p className="text-muted-foreground text-xl max-w-3xl mx-auto text-center">
-                            Leverage the power of Google's ecosystem. Sync timetables with Google Calendar, conduct online classes with Google Meet, and manage coursework with Google Classroom.
-                        </p>
+                        <div className="bg-background/50 backdrop-blur-lg p-8 rounded-2xl">
+                          <h2 className="text-5xl font-bold tracking-tighter text-center">Seamlessly Integrated with Google</h2>
+                          <p className="text-muted-foreground text-xl max-w-3xl mx-auto text-center mt-4">
+                              Leverage the power of Google's ecosystem. Sync timetables with Google Calendar, conduct online classes with Google Meet, and manage coursework with Google Classroom.
+                          </p>
+                        </div>
                     </div>
                     <div className="w-screen h-screen flex items-center justify-center">
                         <Card className="w-[85%] h-[70vh] bg-blue-100 rounded-3xl grid grid-cols-2 items-center p-12 gap-8">
@@ -474,5 +476,7 @@ function Footer() {
     </AnimatedDiv>
   );
 }
+
+    
 
     
