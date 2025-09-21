@@ -38,23 +38,28 @@ export default function SignupPage() {
     // Default role is 'student'
     const role = "student";
 
-    const { data, error } = await supabase.auth.signUp({
+    const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
       email,
       password,
-      options: {
-        data: {
-          role: role,
-        },
-      },
     });
 
-    if (error) {
-      setError(error.message);
+    if (signUpError) {
+      setError(signUpError.message);
       setLoading(false);
       return;
     }
     
-    if (data.user) {
+    if (signUpData.user) {
+        const { error: profileError } = await supabase
+          .from('profiles')
+          .insert({ id: signUpData.user.id, email: email, role: role, name: email.split('@')[0] });
+
+        if (profileError) {
+            setError(profileError.message);
+            setLoading(false);
+            return;
+        }
+
         toast({
           title: "Signup Successful!",
           description: "Please check your email to verify your account. Redirecting to login...",
@@ -130,3 +135,4 @@ export default function SignupPage() {
     </div>
   );
 }
+
