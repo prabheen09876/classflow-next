@@ -77,7 +77,22 @@ export default function AppSidebar() {
               <TooltipContent side="right">Dashboard</TooltipContent>
             </Tooltip>
           )}
-          { (role === 'teacher' || role === 'student') &&
+          { role === 'admin' &&
+            <Tooltip>
+                <TooltipTrigger asChild>
+                <Link
+                    href="/admin/users"
+                    className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
+                    prefetch={false}
+                >
+                    <Users className="h-5 w-5" />
+                    <span className="sr-only">Users</span>
+                </Link>
+                </TooltipTrigger>
+                <TooltipContent side="right">Manage Users</TooltipContent>
+            </Tooltip>
+          }
+          { (role === 'teacher' || role === 'student' || role === 'admin' || role === 'hos') &&
           <Tooltip>
             <TooltipTrigger asChild>
               <Link

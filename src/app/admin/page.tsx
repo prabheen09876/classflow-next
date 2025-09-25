@@ -1,3 +1,4 @@
+
 import Link from "next/link";
 import {
   Card,
@@ -6,7 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { School, Book, Users, Building, UserCheck } from "lucide-react";
+import { School, Book, Users, Building, UserCheck, UserCog } from "lucide-react";
 
 export default function AdminPage() {
   return (
@@ -21,19 +22,19 @@ export default function AdminPage() {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium">
-                Manage HOS
+                Manage Users
               </CardTitle>
-              <UserCheck className="w-4 h-4 text-muted-foreground" />
+              <UserCog className="w-4 h-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">4</div>
+              <div className="text-2xl font-bold">All</div>
               <p className="text-xs text-muted-foreground">
-                +1 from last year
+                HOS, Teachers, Students
               </p>
             </CardContent>
             <CardContent>
-                <Link href="/admin/hos">
-                    <p className="text-sm font-medium hover:underline">View HOS</p>
+                <Link href="/admin/users">
+                    <p className="text-sm font-medium hover:underline">View Users</p>
                 </Link>
             </CardContent>
           </Card>
