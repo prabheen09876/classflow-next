@@ -9,29 +9,51 @@ interface AuthContextType {
   user: User | null;
   session: Session | null;
   loading: boolean;
+  role: string | null;
 }
 
-const AuthContext = createContext<AuthContextType>({ user: null, session: null, loading: true });
+const AuthContext = createContext<AuthContextType>({ user: null, session: null, loading: true, role: null });
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const supabase = createClient();
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
+  const [role, setRole] = useState<string | null>(null);
 
   useEffect(() => {
-    const getSession = async () => {
-        const { data } = await supabase.auth.getSession();
-        setSession(data.session);
-        setUser(data.session?.user ?? null);
-        setLoading(false);
-    }
-    getSession();
+    const getSessionAndRole = async () => {
+      const { data: { session }, error } = await supabase.auth.getSession();
+      setSession(session);
+      setUser(session?.user ?? null);
+
+      if (session?.user) {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('role')
+          .eq('id', session.user.id)
+          .single();
+        setRole(profile?.role || null);
+      }
+      setLoading(false);
+    };
+
+    getSessionAndRole();
 
     const { data: listener } = supabase.auth.onAuthStateChange(
-      (_event, session) => {
+      async (_event, session) => {
         setSession(session);
         setUser(session?.user ?? null);
+        if (session?.user) {
+            const { data: profile } = await supabase
+              .from('profiles')
+              .select('role')
+              .eq('id', session.user.id)
+              .single();
+            setRole(profile?.role || null);
+        } else {
+            setRole(null);
+        }
         setLoading(false);
       }
     );
@@ -39,11 +61,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return () => {
       listener?.subscription.unsubscribe();
     };
-  }, [supabase.auth]);
+  }, [supabase]);
 
   return (
-    <AuthContext.Provider value={{ user, session, loading }}>
-      {children}
+    <AuthContext.Provider value={{ user, session, loading, role }}>
+      {!loading && children}
     </AuthContext.Provider>
   );
 }

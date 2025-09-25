@@ -1,5 +1,4 @@
 
-
 "use client";
 
 import Link from "next/link";
@@ -14,8 +13,10 @@ import { AnimatedDiv, childVariants } from "@/components/common/animated-div";
 import { useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { Logo } from "@/components/icons";
+import { useAuth } from "@/components/auth-provider";
 
 export default function Home() {
+    const { user, role, loading } = useAuth();
     const heroImage = PlaceHolderImages.find(p => p.id === 'hero-classroom');
     const dashboardPreview = PlaceHolderImages.find(p => p.id === 'dashboard-preview');
     const teacher1 = PlaceHolderImages.find(p => p.id === 'teacher-1');
@@ -55,6 +56,17 @@ export default function Home() {
         }
     }
 
+    const getDashboardUrl = () => {
+        if (!role) return '/login';
+        switch (role) {
+            case 'admin': return '/admin';
+            case 'hos': return '/hos';
+            case 'teacher': return '/teacher';
+            case 'student': return '/student';
+            default: return '/dashboard';
+        }
+    }
+
 
   return (
     <div className="flex flex-col min-h-screen font-body text-black bg-transparent">
@@ -90,11 +102,23 @@ export default function Home() {
             </motion.div>
           </nav>
            <div className="hidden md:flex">
-                <Link href="/login" prefetch={false}>
-                    <motion.div whileHover={{ scale: 1.05 }}>
-                        <Button className="bg-primary text-primary-foreground rounded-full px-6 py-3 font-semibold transition-all">Get Started</Button>
-                    </motion.div>
-                </Link>
+                {!loading && (
+                    <>
+                        {user ? (
+                             <Link href={getDashboardUrl()} prefetch={false}>
+                                <motion.div whileHover={{ scale: 1.05 }}>
+                                    <Button className="bg-primary text-primary-foreground rounded-full px-6 py-3 font-semibold transition-all">Go to Dashboard</Button>
+                                </motion.div>
+                            </Link>
+                        ) : (
+                             <Link href="/login" prefetch={false}>
+                                <motion.div whileHover={{ scale: 1.05 }}>
+                                    <Button className="bg-primary text-primary-foreground rounded-full px-6 py-3 font-semibold transition-all">Get Started</Button>
+                                </motion.div>
+                            </Link>
+                        )}
+                    </>
+                )}
            </div>
 
           <div className="md:hidden">
@@ -138,11 +162,19 @@ export default function Home() {
                 Automate, optimize, and simplify class timetables for colleges and institutions with real-time adjustments and AI-powered scheduling.
               </p>
               <div className="flex items-center gap-4">
-                <Link href="/signup" prefetch={false}>
-                  <motion.div whileHover={{ scale: 1.1, boxShadow: "0px 4px 20px rgba(255, 77, 166, 0.4)" }}>
-                  <Button className="bg-primary text-white rounded-full px-8 py-6 font-semibold">Get Started</Button>
-                  </motion.div>
-                </Link>
+                {user ? (
+                    <Link href={getDashboardUrl()} prefetch={false}>
+                        <motion.div whileHover={{ scale: 1.1, boxShadow: "0px 4px 20px rgba(255, 77, 166, 0.4)" }}>
+                            <Button className="bg-primary text-white rounded-full px-8 py-6 font-semibold">Go to Dashboard</Button>
+                        </motion.div>
+                    </Link>
+                ) : (
+                    <Link href="/signup" prefetch={false}>
+                        <motion.div whileHover={{ scale: 1.1, boxShadow: "0px 4px 20px rgba(255, 77, 166, 0.4)" }}>
+                            <Button className="bg-primary text-white rounded-full px-8 py-6 font-semibold">Get Started</Button>
+                        </motion.div>
+                    </Link>
+                )}
                 <Link href="#" prefetch={false}>
                   <motion.div whileHover={{ scale: 1.1 }}>
                   <Button variant="outline" className="text-black border-black rounded-full px-8 py-6 font-medium hover:bg-gray-100 transition-all">Learn More</Button>
