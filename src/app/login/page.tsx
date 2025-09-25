@@ -31,7 +31,6 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [role, setRole] = useState("student");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
@@ -140,20 +139,6 @@ export default function LoginPage() {
                   {showPassword ? <EyeOff /> : <Eye />}
                 </Button>
               </div>
-            </div>
-             <div className="grid gap-2">
-              <Label htmlFor="role">Role</Label>
-              <Select onValueChange={setRole} defaultValue={role}>
-                <SelectTrigger id="role">
-                  <SelectValue placeholder="Select a role" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="student">Student</SelectItem>
-                  <SelectItem value="teacher">Teacher</SelectItem>
-                  <SelectItem value="hos">HOS</SelectItem>
-                  <SelectItem value="admin">Admin</SelectItem>
-                </SelectContent>
-              </Select>
             </div>
             <Button type="submit" className="w-full" disabled={loading}>
               {loading ? "Logging in..." : "Login"}
