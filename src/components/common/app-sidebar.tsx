@@ -10,7 +10,8 @@ import {
   Settings,
   Bot,
   Shield,
-  Calendar as CalendarIcon
+  Calendar as CalendarIcon,
+  LayoutDashboard
 } from 'lucide-react'
 
 import {
@@ -26,13 +27,13 @@ export default function AppSidebar() {
   const { user, role } = useAuth();
 
   const getDashboardUrl = () => {
-    if (!user) return "/";
+    if (!user) return "/login";
     switch (role) {
       case 'admin': return '/admin';
       case 'hos': return '/hos';
       case 'teacher': return '/teacher';
       case 'student': return '/student';
-      default: return '/';
+      default: return '/login';
     }
   };
 
@@ -46,7 +47,7 @@ export default function AppSidebar() {
             prefetch={false}
           >
             <Logo className="h-4 w-4 transition-all group-hover:scale-110" />
-            <span className="sr-only">ClassMaster AI</span>
+            <span className="sr-only">ClassFlow</span>
           </Link>
           <Tooltip>
             <TooltipTrigger asChild>
@@ -66,21 +67,22 @@ export default function AppSidebar() {
               <TooltipTrigger asChild>
                 <Link
                   href={getDashboardUrl()}
-                  className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
+                  className="flex h-9 w-9 items-center justify-center rounded-lg bg-accent text-accent-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
                   prefetch={false}
                 >
-                  <Users className="h-5 w-5" />
+                  <LayoutDashboard className="h-5 w-5" />
                   <span className="sr-only">Dashboard</span>
                 </Link>
               </TooltipTrigger>
               <TooltipContent side="right">Dashboard</TooltipContent>
             </Tooltip>
           )}
+          { (role === 'teacher' || role === 'student') &&
           <Tooltip>
             <TooltipTrigger asChild>
               <Link
                 href="/dashboard/calendar"
-                className="flex h-9 w-9 items-center justify-center rounded-lg bg-accent text-accent-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
+                className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
                 prefetch={false}
               >
                 <CalendarIcon className="h-5 w-5" />
@@ -89,73 +91,39 @@ export default function AppSidebar() {
             </TooltipTrigger>
             <TooltipContent side="right">Calendar</TooltipContent>
           </Tooltip>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Link
-                href="#"
-                className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
-                prefetch={false}
-              >
-                <CalendarDays className="h-5 w-5" />
-                <span className="sr-only">My Schedule</span>
-              </Link>
-            </TooltipTrigger>
-            <TooltipContent side="right">My Schedule</TooltipContent>
-          </Tooltip>
-           <Tooltip>
-            <TooltipTrigger asChild>
-              <Link
-                href="/teacher/homework"
-                className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
-                prefetch={false}
-              >
-                <BookUser className="h-5 w-5" />
-                <span className="sr-only">Assignments</span>
-              </Link>
-            </TooltipTrigger>
-            <TooltipContent side="right">Assignments</TooltipContent>
-          </Tooltip>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Link
-                href="/admin/faculty"
-                className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
-                prefetch={false}
-              >
-                <Users className="h-5 w-5" />
-                <span className="sr-only">Faculty</span>
-              </Link>
-            </TooltipTrigger>
-            <TooltipContent side="right">Faculty</TooltipContent>
-          </Tooltip>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Link
-                href="/admin"
-                className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
-                prefetch={false}
-              >
-                <Shield className="h-5 w-5" />
-                <span className="sr-only">Admin</span>
-              </Link>
-            </TooltipTrigger>
-            <TooltipContent side="right">Admin</TooltipContent>
-          </Tooltip>
+          }
+          { role === 'teacher' &&
+            <Tooltip>
+                <TooltipTrigger asChild>
+                <Link
+                    href="/teacher/homework"
+                    className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
+                    prefetch={false}
+                >
+                    <BookUser className="h-5 w-5" />
+                    <span className="sr-only">Assignments</span>
+                </Link>
+                </TooltipTrigger>
+                <TooltipContent side="right">Assignments</TooltipContent>
+            </Tooltip>
+          }
+           { role === 'teacher' &&
+            <Tooltip>
+                <TooltipTrigger asChild>
+                <Link
+                    href="/teacher/students"
+                    className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
+                    prefetch={false}
+                >
+                    <Users className="h-5 w-5" />
+                    <span className="sr-only">Students</span>
+                </Link>
+                </TooltipTrigger>
+                <TooltipContent side="right">Students</TooltipContent>
+            </Tooltip>
+          }
         </nav>
         <nav className="mt-auto flex flex-col items-center gap-4 px-2 sm:py-5">
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Link
-                href="#"
-                className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
-                prefetch={false}
-              >
-                <Bot className="h-5 w-5" />
-                <span className="sr-only">AI Tools</span>
-              </Link>
-            </TooltipTrigger>
-            <TooltipContent side="right">AI Tools</TooltipContent>
-          </Tooltip>
           <Tooltip>
             <TooltipTrigger asChild>
               <Link

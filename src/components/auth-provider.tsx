@@ -4,6 +4,7 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { Session, User } from "@supabase/supabase-js";
 import { createClient } from "@/lib/supabase";
+import { useRouter } from "next/navigation";
 
 interface AuthContextType {
   user: User | null;
@@ -16,6 +17,7 @@ const AuthContext = createContext<AuthContextType>({ user: null, session: null, 
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const supabase = createClient();
+  const router = useRouter();
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
@@ -55,17 +57,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             setRole(null);
         }
         setLoading(false);
+        // Refresh the page to trigger middleware
+        router.refresh();
       }
     );
 
     return () => {
       listener?.subscription.unsubscribe();
     };
-  }, [supabase]);
+  }, [supabase, router]);
 
   return (
     <AuthContext.Provider value={{ user, session, loading, role }}>
-      {!loading && children}
+      {children}
     </AuthContext.Provider>
   );
 }

@@ -60,22 +60,9 @@ export default function LoginPage() {
             description: "Redirecting to your dashboard...",
         });
 
-        switch (role) {
-            case 'admin':
-            router.push('/admin');
-            break;
-            case 'hos':
-            router.push('/hos');
-            break;
-            case 'teacher':
-            router.push('/teacher');
-            break;
-            case 'student':
-            router.push('/student');
-            break;
-            default:
-            router.push('/dashboard');
-        }
+        // The middleware will handle the redirection.
+        // We just need to refresh the page to trigger it.
+        router.refresh();
     }
      setLoading(false);
   };

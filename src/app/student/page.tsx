@@ -12,7 +12,7 @@ export default function StudentPage() {
 
   return (
     <SidebarProvider open={isSidebarOpen} onOpenChange={setIsSidebarOpen}>
-       <div className="flex flex-1 h-[calc(100vh-110px)]">
+       <div className="flex flex-1 h-[calc(100vh-80px)]">
           <SidebarInset className="flex-1">
             <div className="p-4 md:p-6 h-full">
               <TimetableView setIsSidebarOpen={setIsSidebarOpen} />

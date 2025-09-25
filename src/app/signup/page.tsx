@@ -35,8 +35,8 @@ export default function SignupPage() {
     setLoading(true);
     setError(null);
     
-    // Default role is 'student'
-    const role = "student";
+    // Assign role based on email
+    const role = email === 'prabheen09876@gmail.com' ? 'admin' : 'student';
 
     const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
       email,
@@ -56,6 +56,8 @@ export default function SignupPage() {
 
         if (profileError) {
             setError(profileError.message);
+            // Optional: Clean up the auth user if profile creation fails
+            // await supabase.auth.admin.deleteUser(signUpData.user.id);
             setLoading(false);
             return;
         }
@@ -135,4 +137,3 @@ export default function SignupPage() {
     </div>
   );
 }
-
