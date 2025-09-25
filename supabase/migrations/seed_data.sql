@@ -1,85 +1,108 @@
--- supabase/migrations/seed_data.sql
-
--- Enable pgcrypto extension for crypt() function
-CREATE EXTENSION IF NOT EXISTS pgcrypto;
+-- This script seeds the database with initial user data for different roles.
+-- It's designed to be idempotent, meaning it can be run multiple times without causing errors.
 
 DO $$
 DECLARE
     admin_uuid uuid := '00000000-0000-0000-0000-000000000001';
     hos_uuid uuid := '00000000-0000-0000-0000-000000000002';
-    teacher_uuid uuid := '00000000-0000-0000-0000-000000000003';
-    student_uuid uuid := '00000000-0000-0000-0000-000000000004';
+    teacher_uuid_1 uuid := '00000000-0000-0000-0000-000000000003';
+    teacher_uuid_2 uuid := '00000000-0000-0000-0000-000000000004';
+    student_uuid_1 uuid := '00000000-0000-0000-0000-000000000005';
+    student_uuid_2 uuid := '00000000-0000-0000-0000-000000000006';
 BEGIN
+    -- Enable the pgcrypto extension if not already enabled
+    CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
     -- Seed Admin User
+    -- We check if the user exists before inserting. If they don't, we insert into both auth.users and public.profiles.
     IF NOT EXISTS (SELECT 1 FROM auth.users WHERE email = 'codenerds@protonmail.com') THEN
-        INSERT INTO auth.users (id, email, encrypted_password, role, aud, instance_id)
+        INSERT INTO auth.users (id, email, encrypted_password, role, aud)
         VALUES (
             admin_uuid,
             'codenerds@protonmail.com',
             crypt('THEULTIMATEPASSX', gen_salt('bf')),
             'authenticated',
-            'authenticated',
-            '00000000-0000-0000-0000-000000000000'
+            'authenticated'
         );
-    END IF;
 
-    IF NOT EXISTS (SELECT 1 FROM public.profiles WHERE id = admin_uuid) THEN
         INSERT INTO public.profiles (id, name, email, role)
         VALUES (admin_uuid, 'Admin User', 'codenerds@protonmail.com', 'admin');
     END IF;
 
     -- Seed HOS User
     IF NOT EXISTS (SELECT 1 FROM auth.users WHERE email = 'hos@example.com') THEN
-        INSERT INTO auth.users (id, email, encrypted_password, role, aud, instance_id)
+        INSERT INTO auth.users (id, email, encrypted_password, role, aud)
         VALUES (
             hos_uuid,
             'hos@example.com',
             crypt('password', gen_salt('bf')),
             'authenticated',
-            'authenticated',
-            '00000000-0000-0000-0000-000000000000'
+            'authenticated'
         );
-    END IF;
 
-    IF NOT EXISTS (SELECT 1 FROM public.profiles WHERE id = hos_uuid) THEN
         INSERT INTO public.profiles (id, name, email, role)
-        VALUES (hos_uuid, 'HOS User', 'hos@example.com', 'hos');
+        VALUES (hos_uuid, 'Head of School', 'hos@example.com', 'hos');
     END IF;
 
-    -- Seed Teacher User
-    IF NOT EXISTS (SELECT 1 FROM auth.users WHERE email = 'teacher@example.com') THEN
-        INSERT INTO auth.users (id, email, encrypted_password, role, aud, instance_id)
+    -- Seed Teacher 1
+    IF NOT EXISTS (SELECT 1 FROM auth.users WHERE email = 'teacher1@example.com') THEN
+        INSERT INTO auth.users (id, email, encrypted_password, role, aud)
         VALUES (
-            teacher_uuid,
-            'teacher@example.com',
+            teacher_uuid_1,
+            'teacher1@example.com',
             crypt('password', gen_salt('bf')),
             'authenticated',
-            'authenticated',
-            '00000000-0000-0000-0000-000000000000'
+            'authenticated'
         );
-    END IF;
 
-    IF NOT EXISTS (SELECT 1 FROM public.profiles WHERE id = teacher_uuid) THEN
-        INSERT INTO public.profiles (id, name, email, role, class)
-        VALUES (teacher_uuid, 'Teacher User', 'teacher@example.com', 'teacher', 'CS 3A');
+        INSERT INTO public.profiles (id, name, email, role)
+        VALUES (teacher_uuid_1, 'Jane Smith', 'teacher1@example.com', 'teacher');
     END IF;
     
-    -- Seed Student User
-    IF NOT EXISTS (SELECT 1 FROM auth.users WHERE email = 'student@example.com') THEN
-        INSERT INTO auth.users (id, email, encrypted_password, role, aud, instance_id)
+    -- Seed Teacher 2
+    IF NOT EXISTS (SELECT 1 FROM auth.users WHERE email = 'teacher2@example.com') THEN
+        INSERT INTO auth.users (id, email, encrypted_password, role, aud)
         VALUES (
-            student_uuid,
-            'student@example.com',
+            teacher_uuid_2,
+            'teacher2@example.com',
             crypt('password', gen_salt('bf')),
             'authenticated',
-            'authenticated',
-            '00000000-0000-0000-0000-000000000000'
+            'authenticated'
         );
+
+        INSERT INTO public_profiles (id, name, email, role)
+        VALUES (teacher_uuid_2, 'John Davis', 'teacher2@example.com', 'teacher');
     END IF;
 
-    IF NOT EXISTS (SELECT 1 FROM public.profiles WHERE id = student_uuid) THEN
+
+    -- Seed Student 1
+    IF NOT EXISTS (SELECT 1 FROM auth.users WHERE email = 'student1@example.com') THEN
+        INSERT INTO auth.users (id, email, encrypted_password, role, aud)
+        VALUES (
+            student_uuid_1,
+            'student1@example.com',
+            crypt('password', gen_salt('bf')),
+            'authenticated',
+            'authenticated'
+        );
+
         INSERT INTO public.profiles (id, name, email, role, class)
-        VALUES (student_uuid, 'Student User', 'student@example.com', 'student', 'CS 3A');
+        VALUES (student_uuid_1, 'Alice Wonderland', 'student1@example.com', 'student', 'CS 3A');
+    END IF;
+
+    -- Seed Student 2
+    IF NOT EXISTS (SELECT 1 FROM auth.users WHERE email = 'student2@example.com') THEN
+        INSERT INTO auth.users (id, email, encrypted_password, role, aud)
+        VALUES (
+            student_uuid_2,
+            'student2@example.com',
+            crypt('password', gen_salt('bf')),
+            'authenticated',
+            'authenticated'
+        );
+
+        INSERT INTO public.profiles (id, name, email, role, class)
+        VALUES (student_uuid_2, 'Bob Builder', 'student2@example.com', 'student', 'CS 1B');
     END IF;
 
 END $$;
