@@ -12,7 +12,7 @@ import { Bot, Mic, Send, User, PanelRightClose } from "lucide-react";
 import { askTimetable } from "@/ai/flows/ask-timetable-flow";
 import { textToSpeech } from "@/ai/flows/tts-flow";
 import { mockTimetable } from "@/lib/placeholder-data";
-import { useSidebar } from "../ui/sidebar";
+import { useSidebar, SidebarTrigger } from "../ui/sidebar";
 
 export function AIChat() {
   const aiAssistantAvatar = PlaceHolderImages.find(p => p.id === 'ai-assistant-avatar');
@@ -70,9 +70,11 @@ export function AIChat() {
             <CardTitle className="font-headline text-xl flex items-center gap-2 mb-1"><Bot className="h-5 w-5 text-primary" />AI Assistant</CardTitle>
             <CardDescription>Ask me anything about your timetable.</CardDescription>
         </div>
-        <Button variant="ghost" size="icon" onClick={() => setOpen(false)}>
-            <PanelRightClose className="h-5 w-5" />
-        </Button>
+        <SidebarTrigger collapsible="offcanvas" asChild>
+          <Button variant="ghost" size="icon">
+              <PanelRightClose className="h-5 w-5" />
+          </Button>
+        </SidebarTrigger>
       </CardHeader>
       <CardContent className="flex-1 flex flex-col gap-4 p-0">
         <ScrollArea className="h-full w-full p-6" ref={scrollAreaRef}>

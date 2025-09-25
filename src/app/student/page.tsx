@@ -12,22 +12,15 @@ export default function StudentPage() {
 
   return (
     <SidebarProvider open={isSidebarOpen} onOpenChange={setIsSidebarOpen}>
-      <div className="flex flex-col">
-        <header className="flex h-14 lg:h-[60px] items-center gap-4 border-b bg-muted/40 px-6">
-          <div className="flex-1">
-            <h1 className="font-semibold text-lg">Student Dashboard</h1>
-          </div>
-        </header>
-        <main className="flex flex-1 h-[calc(100vh-60px)]">
+       <div className="flex flex-1 h-[calc(100vh-110px)]">
           <SidebarInset className="flex-1">
-            <div className="p-4 md:p-6">
+            <div className="p-4 md:p-6 h-full">
               <TimetableView setIsSidebarOpen={setIsSidebarOpen} />
             </div>
           </SidebarInset>
-          <Sidebar side="right" collapsible="offcanvas">
+          <Sidebar side="right" collapsible="offcanvas" className="w-[400px]">
             <AIChat />
           </Sidebar>
-        </main>
       </div>
     </SidebarProvider>
   );
