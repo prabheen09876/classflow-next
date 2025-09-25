@@ -255,7 +255,7 @@ export default function Home() {
                         </div>
                     </div>
                 </Card>
-                </motion.div>
+                </motiondiv>
             </motion.div>
           </div>
         </AnimatedDiv>
@@ -344,95 +344,45 @@ export default function Home() {
             </div>
         </section>
 
-
-        <AnimatedDiv variants="stagger" id="roles" className="w-full mt-16 py-12 text-center">
-          <h2 className="text-4xl font-bold tracking-tighter mb-4">Roles & Responsibilities</h2>
-          <p className="text-muted-foreground text-lg max-w-3xl mx-auto mb-12">
-            A clear hierarchy designed for seamless management and collaboration across your institution. Each role has tailored permissions to ensure smooth operations.
-          </p>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <motion.div variants={childVariants}>
-            <motion.div whileHover={{ scale: 1.05, borderColor: '#FF4DA6' }} className="h-full border-2 border-transparent rounded-lg">
-            <Card className="text-left p-6 bg-muted h-full">
-              <CardContent className="p-0">
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="p-3 bg-primary/10 rounded-lg">
-                    <Shield className="h-6 w-6 text-primary" />
-                  </div>
-                  <h3 className="text-xl font-bold">Admin</h3>
-                </div>
-                <p className="text-muted-foreground mb-4">Full control over the entire platform, from managing users to configuring system-wide settings.</p>
-                <ul className="space-y-2 text-sm">
-                  <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-green-500"/> Manage HOS & Depts.</li>
-                  <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-green-500"/> Configure AI Rules</li>
-                  <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-green-500"/> Access Global Reports</li>
-                </ul>
-              </CardContent>
-            </Card>
-            </motion.div>
-            </motion.div>
-            <motion.div variants={childVariants}>
-            <motion.div whileHover={{ scale: 1.05, borderColor: '#FF4DA6' }} className="h-full border-2 border-transparent rounded-lg">
-            <Card className="text-left p-6 bg-muted h-full">
-              <CardContent className="p-0">
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="p-3 bg-primary/10 rounded-lg">
-                    <UserCog className="h-6 w-6 text-primary" />
-                  </div>
-                  <h3 className="text-xl font-bold">HOS</h3>
-                </div>
-                <p className="text-muted-foreground mb-4">Manages departmental resources, including faculty, classrooms, and timetables.</p>
-                <ul className="space-y-2 text-sm">
-                  <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-green-500"/> Add & Manage Teachers</li>
-                  <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-green-500"/> Approve Timetables</li>
-                  <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-green-500"/> Manage Rooms & Labs</li>
-                </ul>
-              </CardContent>
-            </Card>
-            </motion.div>
-            </motion.div>
-            <motion.div variants={childVariants}>
-            <motion.div whileHover={{ scale: 1.05, borderColor: '#FF4DA6' }} className="h-full border-2 border-transparent rounded-lg">
-             <Card className="text-left p-6 bg-muted h-full">
-              <CardContent className="p-0">
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="p-3 bg-primary/10 rounded-lg">
-                     <Users className="h-6 w-6 text-primary" />
-                  </div>
-                  <h3 className="text-xl font-bold">Teacher</h3>
-                </div>
-                <p className="text-muted-foreground mb-4">Handles day-to-day classroom activities, from attendance to assigning homework.</p>
-                <ul className="space-y-2 text-sm">
-                  <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-green-500"/> Mark Attendance</li>
-                  <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-green-500"/> Assign Homework</li>
-                  <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-green-500"/> View Schedule</li>
-                </ul>
-              </CardContent>
-            </Card>
-            </motion.div>
-            </motion.div>
-            <motion.div variants={childVariants}>
-            <motion.div whileHover={{ scale: 1.05, borderColor: '#FF4DA6' }} className="h-full border-2 border-transparent rounded-lg">
-             <Card className="text-left p-6 bg-muted h-full">
-              <CardContent className="p-0">
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="p-3 bg-primary/10 rounded-lg">
-                    <User className="h-6 w-6 text-primary" />
-                  </div>
-                  <h3 className="text-xl font-bold">Student</h3>
-                </div>
-                <p className="text-muted-foreground mb-4">Stays organized with a personalized timetable and receives instant updates.</p>
-                <ul className="space-y-2 text-sm">
-                  <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-green-500"/> View Timetable</li>
-                  <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-green-500"/> Receive Notifications</li>
-                  <li className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-green-500"/> Access Homework</li>
-                </ul>
-              </CardContent>
-            </Card>
-            </motion.div>
-            </motion.div>
-          </div>
-        </AnimatedDiv>
+        <section id="roles" className="w-full mt-16 py-12">
+            <div className="text-center mb-16">
+                <h2 className="text-4xl font-bold tracking-tighter mb-4">Roles &amp; Responsibilities</h2>
+                <p className="text-muted-foreground text-lg max-w-3xl mx-auto">
+                    A clear hierarchy for seamless management. Each role has tailored permissions for smooth operations.
+                </p>
+            </div>
+            <div className="relative w-full max-w-4xl mx-auto">
+                <div className="absolute left-1/2 top-0 bottom-0 w-1 bg-border -translate-x-1/2"></div>
+                <RoleCard
+                    icon={Shield}
+                    title="Admin"
+                    description="Full control over the platform, managing users and configuring system-wide settings."
+                    tasks={["Manage HOS &amp; Depts.", "Configure AI Rules", "Access Global Reports"]}
+                    align="left"
+                />
+                <RoleCard
+                    icon={UserCog}
+                    title="HOS"
+                    description="Manages departmental resources, including faculty, classrooms, and timetables."
+                    tasks={["Add &amp; Manage Teachers", "Approve Timetables", "Manage Rooms &amp; Labs"]}
+                    align="right"
+                />
+                <RoleCard
+                    icon={Users}
+                    title="Teacher"
+                    description="Handles day-to-day classroom activities, from attendance to assigning homework."
+                    tasks={["Mark Attendance", "Assign Homework", "View Schedule"]}
+                    align="left"
+                />
+                <RoleCard
+                    icon={User}
+                    title="Student"
+                    description="Stays organized with a personalized timetable and receives instant updates."
+                    tasks={["View Timetable", "Receive Notifications", "Access Homework"]}
+                    align="right"
+                />
+            </div>
+        </section>
 
 
       </main>
@@ -440,6 +390,55 @@ export default function Home() {
       <Footer />
     </div>
   );
+}
+
+
+interface RoleCardProps {
+    icon: React.ElementType;
+    title: string;
+    description: string;
+    tasks: string[];
+    align: 'left' | 'right';
+}
+
+function RoleCard({ icon: Icon, title, description, tasks, align }: RoleCardProps) {
+    const cardVariants = {
+        hidden: { opacity: 0, x: align === 'left' ? -100 : 100 },
+        visible: { opacity: 1, x: 0, transition: { duration: 0.5, ease: "easeOut" } }
+    };
+
+    return (
+        <motion.div
+            className={cn("mb-12 flex items-center w-full", align === 'right' ? 'flex-row-reverse' : '')}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.5 }}
+            variants={cardVariants}
+        >
+            <div className={cn("w-1/2", align === 'left' ? 'pr-8' : 'pl-8')}>
+                <Card className="text-left p-6 bg-muted shadow-lg">
+                    <CardContent className="p-0">
+                        <div className="flex items-center gap-4 mb-4">
+                            <div className="p-3 bg-primary/10 rounded-lg">
+                                <Icon className="h-6 w-6 text-primary" />
+                            </div>
+                            <h3 className="text-xl font-bold">{title}</h3>
+                        </div>
+                        <p className="text-muted-foreground mb-4">{description}</p>
+                        <ul className="space-y-2 text-sm">
+                            {tasks.map((task, index) => (
+                                <li key={index} className="flex items-center gap-2"><CheckCircle className="h-4 w-4 text-green-500" /> {task}</li>
+                            ))}
+                        </ul>
+                    </CardContent>
+                </Card>
+            </div>
+            <div className="w-12 h-12 rounded-full bg-primary/20 border-4 border-white flex-shrink-0 z-10 flex items-center justify-center">
+                 <div className="w-4 h-4 rounded-full bg-primary"></div>
+            </div>
+            <div className="w-1/2"></div>
+        </motion.div>
+    );
 }
 
 function Footer() {
