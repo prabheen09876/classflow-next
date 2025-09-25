@@ -71,9 +71,9 @@ export function AIChat() {
             <CardDescription>Ask me anything about your timetable.</CardDescription>
         </div>
         <SidebarTrigger collapsible="offcanvas" asChild>
-          <Button variant="ghost" size="icon">
-              <PanelRightClose className="h-5 w-5" />
-          </Button>
+            <Button variant="ghost" size="icon">
+                <PanelRightClose className="h-5 w-5" />
+            </Button>
         </SidebarTrigger>
       </CardHeader>
       <CardContent className="flex-1 flex flex-col gap-4 p-0">
