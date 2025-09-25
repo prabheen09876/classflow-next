@@ -66,10 +66,12 @@ export async function middleware(request: NextRequest) {
   
   const isProtectedRoute = protectedPaths.some(p => pathname.startsWith(p));
 
+  // If user is not logged in and trying to access a protected route, redirect to login
   if (!session && isProtectedRoute) {
     return NextResponse.redirect(new URL('/login', request.url))
   }
 
+  // If user is logged in, handle role-based redirects
   if (session) {
     const { data: profile } = await supabase
       .from('profiles')
@@ -84,21 +86,27 @@ export async function middleware(request: NextRequest) {
         'hos': '/hos',
         'teacher': '/teacher',
         'student': '/student',
+        // A generic dashboard for any other role
+        'user': '/dashboard', 
     };
     
-    const requiredPath = role && rolePaths[role];
+    // Determine the user's correct dashboard path, with a fallback
+    const requiredPath = role && rolePaths[role] ? rolePaths[role] : '/dashboard';
     
-    if (requiredPath) {
-        // If user is logged in and on a public page (login, signup, or root), redirect to their dashboard
-        if (publicPaths.includes(pathname)) {
-            return NextResponse.redirect(new URL(requiredPath, request.url));
-        }
+    // If a logged-in user is on the login or signup page, redirect to their dashboard
+    if (pathname === '/login' || pathname === '/signup') {
+        return NextResponse.redirect(new URL(requiredPath, request.url));
+    }
+    
+    // If a logged-in user is on the root page, redirect to their dashboard
+    if (pathname === '/') {
+        return NextResponse.redirect(new URL(requiredPath, request.url));
+    }
 
-        // If user is on a protected path that doesn't match their role, redirect them
-        const isAtRequiredPath = pathname.startsWith(requiredPath);
-        if (isProtectedRoute && !isAtRequiredPath) {
-             return NextResponse.redirect(new URL(requiredPath, request.url))
-        }
+    // If user is on a protected path that doesn't match their role, redirect them
+    const isAtCorrectPath = pathname.startsWith(requiredPath);
+    if (isProtectedRoute && !isAtCorrectPath) {
+         return NextResponse.redirect(new URL(requiredPath, request.url))
     }
   }
 
