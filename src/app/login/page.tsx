@@ -55,16 +55,32 @@ export default function LoginPage() {
     }
 
     if (data.user) {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('role')
+          .eq('id', data.user.id)
+          .single();
+
+        const userRole = profile?.role || 'student';
+
+        const rolePaths: { [key: string]: string } = {
+          'admin': '/admin',
+          'hos': '/hos',
+          'teacher': '/teacher',
+          'student': '/student',
+        };
+
+        const destination = rolePaths[userRole] || '/dashboard';
+        
         toast({
             title: "Login Successful",
             description: "Redirecting to your dashboard...",
         });
 
-        // The middleware will handle the redirection.
-        // We just need to refresh the page to trigger it.
-        router.refresh();
+        router.push(destination);
+    } else {
+       setLoading(false);
     }
-     setLoading(false);
   };
 
   return (
