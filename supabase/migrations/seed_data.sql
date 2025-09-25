@@ -1,108 +1,78 @@
--- This script seeds the database with initial user data for different roles.
+-- supabase/migrations/seed_data.sql
+
+-- Enable pgcrypto extension for crypt() function
+create extension if not exists pgcrypto;
+
+-- This script seeds the database with initial users for different roles.
 -- It's designed to be idempotent, meaning it can be run multiple times without causing errors.
 
-DO $$
-DECLARE
+do $$
+declare
     admin_uuid uuid := '00000000-0000-0000-0000-000000000001';
     hos_uuid uuid := '00000000-0000-0000-0000-000000000002';
-    teacher_uuid_1 uuid := '00000000-0000-0000-0000-000000000003';
-    teacher_uuid_2 uuid := '00000000-0000-0000-0000-000000000004';
-    student_uuid_1 uuid := '00000000-0000-0000-0000-000000000005';
-    student_uuid_2 uuid := '00000000-0000-0000-0000-000000000006';
-BEGIN
-    -- Enable the pgcrypto extension if not already enabled
-    CREATE EXTENSION IF NOT EXISTS pgcrypto;
-
+    teacher_uuid uuid := '00000000-0000-0000-0000-000000000003';
+    student_uuid uuid := '00000000-0000-0000-0000-000000000004';
+begin
     -- Seed Admin User
-    -- We check if the user exists before inserting. If they don't, we insert into both auth.users and public.profiles.
-    IF NOT EXISTS (SELECT 1 FROM auth.users WHERE email = 'codenerds@protonmail.com') THEN
-        INSERT INTO auth.users (id, email, encrypted_password, role, aud)
-        VALUES (
-            admin_uuid,
-            'codenerds@protonmail.com',
-            crypt('THEULTIMATEPASSX', gen_salt('bf')),
-            'authenticated',
-            'authenticated'
-        );
+    -- We use ON CONFLICT DO NOTHING for auth.users because of its complex partial index.
+    INSERT INTO auth.users (id, email, encrypted_password, role, aud)
+    VALUES (
+        admin_uuid,
+        'codenerds@protonmail.com',
+        crypt('THEULTIMATEPASSX', gen_salt('bf')),
+        'authenticated',
+        'authenticated'
+    ) ON CONFLICT (email) DO NOTHING;
 
+    -- For profiles, we can check for existence before inserting.
+    IF NOT EXISTS (SELECT 1 FROM public.profiles WHERE id = admin_uuid) THEN
         INSERT INTO public.profiles (id, name, email, role)
         VALUES (admin_uuid, 'Admin User', 'codenerds@protonmail.com', 'admin');
     END IF;
 
     -- Seed HOS User
-    IF NOT EXISTS (SELECT 1 FROM auth.users WHERE email = 'hos@example.com') THEN
-        INSERT INTO auth.users (id, email, encrypted_password, role, aud)
-        VALUES (
-            hos_uuid,
-            'hos@example.com',
-            crypt('password', gen_salt('bf')),
-            'authenticated',
-            'authenticated'
-        );
+    INSERT INTO auth.users (id, email, encrypted_password, role, aud)
+    VALUES (
+        hos_uuid,
+        'hos@example.com',
+        crypt('password', gen_salt('bf')),
+        'authenticated',
+        'authenticated'
+    ) ON CONFLICT (email) DO NOTHING;
 
+    IF NOT EXISTS (SELECT 1 FROM public.profiles WHERE id = hos_uuid) THEN
         INSERT INTO public.profiles (id, name, email, role)
         VALUES (hos_uuid, 'Head of School', 'hos@example.com', 'hos');
     END IF;
 
-    -- Seed Teacher 1
-    IF NOT EXISTS (SELECT 1 FROM auth.users WHERE email = 'teacher1@example.com') THEN
-        INSERT INTO auth.users (id, email, encrypted_password, role, aud)
-        VALUES (
-            teacher_uuid_1,
-            'teacher1@example.com',
-            crypt('password', gen_salt('bf')),
-            'authenticated',
-            'authenticated'
-        );
+    -- Seed Teacher User
+    INSERT INTO auth.users (id, email, encrypted_password, role, aud)
+    VALUES (
+        teacher_uuid,
+        'teacher@example.com',
+        crypt('password', gen_salt('bf')),
+        'authenticated',
+        'authenticated'
+    ) ON CONFLICT (email) DO NOTHING;
 
+    IF NOT EXISTS (SELECT 1 FROM public.profiles WHERE id = teacher_uuid) THEN
         INSERT INTO public.profiles (id, name, email, role)
-        VALUES (teacher_uuid_1, 'Jane Smith', 'teacher1@example.com', 'teacher');
-    END IF;
-    
-    -- Seed Teacher 2
-    IF NOT EXISTS (SELECT 1 FROM auth.users WHERE email = 'teacher2@example.com') THEN
-        INSERT INTO auth.users (id, email, encrypted_password, role, aud)
-        VALUES (
-            teacher_uuid_2,
-            'teacher2@example.com',
-            crypt('password', gen_salt('bf')),
-            'authenticated',
-            'authenticated'
-        );
-
-        INSERT INTO public_profiles (id, name, email, role)
-        VALUES (teacher_uuid_2, 'John Davis', 'teacher2@example.com', 'teacher');
+        VALUES (teacher_uuid, 'Jane Teacher', 'teacher@example.com', 'teacher');
     END IF;
 
+    -- Seed Student User
+    INSERT INTO auth.users (id, email, encrypted_password, role, aud)
+    VALUES (
+        student_uuid,
+        'student@example.com',
+        crypt('password', gen_salt('bf')),
+        'authenticated',
+        'authenticated'
+    ) ON CONFLICT (email) DO NOTHING;
 
-    -- Seed Student 1
-    IF NOT EXISTS (SELECT 1 FROM auth.users WHERE email = 'student1@example.com') THEN
-        INSERT INTO auth.users (id, email, encrypted_password, role, aud)
-        VALUES (
-            student_uuid_1,
-            'student1@example.com',
-            crypt('password', gen_salt('bf')),
-            'authenticated',
-            'authenticated'
-        );
-
+    IF NOT EXISTS (SELECT 1 FROM public.profiles WHERE id = student_uuid) THEN
         INSERT INTO public.profiles (id, name, email, role, class)
-        VALUES (student_uuid_1, 'Alice Wonderland', 'student1@example.com', 'student', 'CS 3A');
+        VALUES (student_uuid, 'John Student', 'student@example.com', 'student', 'CS 101');
     END IF;
 
-    -- Seed Student 2
-    IF NOT EXISTS (SELECT 1 FROM auth.users WHERE email = 'student2@example.com') THEN
-        INSERT INTO auth.users (id, email, encrypted_password, role, aud)
-        VALUES (
-            student_uuid_2,
-            'student2@example.com',
-            crypt('password', gen_salt('bf')),
-            'authenticated',
-            'authenticated'
-        );
-
-        INSERT INTO public.profiles (id, name, email, role, class)
-        VALUES (student_uuid_2, 'Bob Builder', 'student2@example.com', 'student', 'CS 1B');
-    END IF;
-
-END $$;
+end $$;
