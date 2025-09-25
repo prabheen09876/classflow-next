@@ -1,3 +1,4 @@
+
 import { NextResponse, type NextRequest } from 'next/server'
 import { createServerClient } from '@supabase/ssr'
 
@@ -60,9 +61,12 @@ export async function middleware(request: NextRequest) {
   
   const { pathname } = request.nextUrl
 
+  const publicPaths = ['/login', '/signup', '/'];
   const protectedPaths = ['/admin', '/hos', '/teacher', '/student', '/dashboard'];
+  
+  const isProtectedRoute = protectedPaths.some(p => pathname.startsWith(p));
 
-  if (!session && protectedPaths.some(p => pathname.startsWith(p))) {
+  if (!session && isProtectedRoute) {
     return NextResponse.redirect(new URL('/login', request.url))
   }
 
@@ -83,16 +87,18 @@ export async function middleware(request: NextRequest) {
     };
     
     const requiredPath = role && rolePaths[role];
-    const isAtRequiredPath = requiredPath ? pathname.startsWith(requiredPath) : false;
-    const isAtRoot = pathname === '/';
+    
+    if (requiredPath) {
+        // If user is logged in and on a public page (login, signup, or root), redirect to their dashboard
+        if (publicPaths.includes(pathname)) {
+            return NextResponse.redirect(new URL(requiredPath, request.url));
+        }
 
-    if (isAtRoot && requiredPath) {
-        return NextResponse.redirect(new URL(requiredPath, request.url));
-    }
-
-    if (requiredPath && !isAtRequiredPath && protectedPaths.some(p => pathname.startsWith(p))) {
-         // If user is logged in and trying to access a protected path that is not for their role, redirect to their dashboard
-         return NextResponse.redirect(new URL(requiredPath, request.url))
+        // If user is on a protected path that doesn't match their role, redirect them
+        const isAtRequiredPath = pathname.startsWith(requiredPath);
+        if (isProtectedRoute && !isAtRequiredPath) {
+             return NextResponse.redirect(new URL(requiredPath, request.url))
+        }
     }
   }
 
