@@ -1,3 +1,6 @@
+
+"use client";
+
 import Link from 'next/link'
 import {
   Home,
@@ -17,6 +20,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip"
 import { Logo } from '../icons'
+import { useAuth } from '../auth-provider';
 
 export default function AppSidebar() {
   return (
