@@ -162,18 +162,26 @@ export default function Home() {
                 Automate, optimize, and simplify class timetables for colleges and institutions with real-time adjustments and AI-powered scheduling.
               </p>
               <div className="flex items-center gap-4">
-                {user ? (
-                    <Link href={getDashboardUrl()} prefetch={false}>
-                        <motion.div whileHover={{ scale: 1.1, boxShadow: "0px 4px 20px rgba(255, 77, 166, 0.4)" }}>
-                            <Button className="bg-primary text-white rounded-full px-8 py-6 font-semibold">Go to Dashboard</Button>
+                {!loading && (
+                  <>
+                    {user ? (
+                      <Link href={getDashboardUrl()} prefetch={false}>
+                        <motion.div whileHover={{ scale: 1.1, boxShadow: '0px 4px 20px rgba(255, 77, 166, 0.4)' }}>
+                          <Button className="bg-primary text-white rounded-full px-8 py-6 font-semibold">
+                            Go to Dashboard
+                          </Button>
                         </motion.div>
-                    </Link>
-                ) : (
-                    <Link href="/signup" prefetch={false}>
-                        <motion.div whileHover={{ scale: 1.1, boxShadow: "0px 4px 20px rgba(255, 77, 166, 0.4)" }}>
-                            <Button className="bg-primary text-white rounded-full px-8 py-6 font-semibold">Get Started</Button>
+                      </Link>
+                    ) : (
+                      <Link href="/signup" prefetch={false}>
+                        <motion.div whileHover={{ scale: 1.1, boxShadow: '0px 4px 20px rgba(255, 77, 166, 0.4)' }}>
+                          <Button className="bg-primary text-white rounded-full px-8 py-6 font-semibold">
+                            Get Started
+                          </Button>
                         </motion.div>
-                    </Link>
+                      </Link>
+                    )}
+                  </>
                 )}
                 <Link href="#" prefetch={false}>
                   <motion.div whileHover={{ scale: 1.1 }}>
@@ -357,14 +365,14 @@ export default function Home() {
                     icon={Shield}
                     title="Admin"
                     description="Full control over the platform, managing users and configuring system-wide settings."
-                    tasks={["Manage HOS &amp; Depts.", "Configure AI Rules", "Access Global Reports"]}
+                    tasks={["Manage HOS & Depts.", "Configure AI Rules", "Access Global Reports"]}
                     align="left"
                 />
                 <RoleCard
                     icon={UserCog}
                     title="HOS"
                     description="Manages departmental resources, including faculty, classrooms, and timetables."
-                    tasks={["Add &amp; Manage Teachers", "Approve Timetables", "Manage Rooms &amp; Labs"]}
+                    tasks={["Add & Manage Teachers", "Approve Timetables", "Manage Rooms & Labs"]}
                     align="right"
                 />
                 <RoleCard
