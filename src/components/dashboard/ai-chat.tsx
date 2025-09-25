@@ -70,8 +70,8 @@ export function AIChat() {
             <CardTitle className="font-headline text-xl flex items-center gap-2 mb-1"><Bot className="h-5 w-5 text-primary" />AI Assistant</CardTitle>
             <CardDescription>Ask me anything about your timetable.</CardDescription>
         </div>
-        <SidebarTrigger collapsible="offcanvas" asChild>
-            <Button variant="ghost" size="icon">
+        <SidebarTrigger asChild collapsible="offcanvas">
+             <Button variant="ghost" size="icon">
                 <PanelRightClose className="h-5 w-5" />
             </Button>
         </SidebarTrigger>
