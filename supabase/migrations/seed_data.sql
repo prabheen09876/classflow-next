@@ -1,121 +1,88 @@
--- supabase/migrations/seed_data.sql
+-- This script seeds the database with initial user data for different roles.
 
--- Enable pgcrypto extension for password encryption if not already enabled
-CREATE EXTENSION IF NOT EXISTS "pgcrypto";
+-- Enable pgcrypto extension for password encryption
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
 
--- Seed Admin User
--- This user will have the 'admin' role in the public.profiles table.
 DO $$
 DECLARE
-    admin_uuid uuid := 'a1b2c3d4-e5f6-7890-1234-567890abcdef';
+    admin_uuid uuid := '00000000-0000-0000-0000-000000000001';
+    hos_uuid uuid := '00000000-0000-0000-0000-000000000002';
+    teacher_uuid uuid := '00000000-0000-0000-0000-000000000003';
+    student_uuid uuid := '00000000-0000-0000-0000-000000000004';
 BEGIN
-    -- Check if user already exists in auth.users
-    IF NOT EXISTS (SELECT 1 FROM auth.users WHERE id = admin_uuid) THEN
-        INSERT INTO auth.users (id, email, encrypted_password, role, aud)
-        VALUES (
-            admin_uuid,
-            'codenerds@protonmail.com',
-            crypt('THEULTIMATEPASSX', gen_salt('bf')),
-            'authenticated',
-            'authenticated'
-        );
-    END IF;
 
-    -- Check if profile already exists in public.profiles
-    IF NOT EXISTS (SELECT 1 FROM public.profiles WHERE id = admin_uuid) THEN
-        INSERT INTO public.profiles (id, email, name, role)
-        VALUES (
-            admin_uuid,
-            'codenerds@protonmail.com',
-            'Admin User',
-            'admin'
-        );
-    END IF;
-END $$;
+    -- Create Admin User in auth.users
+    INSERT INTO auth.users (id, email, encrypted_password, role, aud)
+    VALUES (
+        admin_uuid,
+        'codenerds@protonmail.com',
+        crypt('THEULTIMATEPASSX', gen_salt('bf')),
+        'authenticated',
+        'authenticated'
+    ) ON CONFLICT (email) DO NOTHING;
+    
+    -- Create HOS User in auth.users
+    INSERT INTO auth.users (id, email, encrypted_password, role, aud)
+    VALUES (
+        hos_uuid,
+        'hos@example.com',
+        crypt('password', gen_salt('bf')),
+        'authenticated',
+        'authenticated'
+    ) ON CONFLICT (email) DO NOTHING;
 
+    -- Create Teacher User in auth.users
+    INSERT INTO auth.users (id, email, encrypted_password, role, aud)
+    VALUES (
+        teacher_uuid,
+        'teacher@example.com',
+        crypt('password', gen_salt('bf')),
+        'authenticated',
+        'authenticated'
+    ) ON CONFLICT (email) DO NOTHING;
 
--- Seed HOS User
--- This user will have the 'hos' role.
-DO $$
-DECLARE
-    hos_uuid uuid := 'b1c2d3e4-f5g6-7890-1234-567890abcdef';
-BEGIN
-    IF NOT EXISTS (SELECT 1 FROM auth.users WHERE id = hos_uuid) THEN
-        INSERT INTO auth.users (id, email, encrypted_password, role, aud)
-        VALUES (
-            hos_uuid,
-            'hos@example.com',
-            crypt('password', gen_salt('bf')),
-            'authenticated',
-            'authenticated'
-        );
-    END IF;
+    -- Create Student User in auth.users
+    INSERT INTO auth.users (id, email, encrypted_password, role, aud)
+    VALUES (
+        student_uuid,
+        'student@example.com',
+        crypt('password', gen_salt('bf')),
+        'authenticated',
+        'authenticated'
+    ) ON CONFLICT (email) DO NOTHING;
 
-    IF NOT EXISTS (SELECT 1 FROM public.profiles WHERE id = hos_uuid) THEN
-        INSERT INTO public.profiles (id, email, name, role)
-        VALUES (
-            hos_uuid,
-            'hos@example.com',
-            'Dr. Head of School',
-            'hos'
-        );
-    END IF;
-END $$;
+    -- Create corresponding profiles in public.profiles
+    INSERT INTO public.profiles (id, name, email, role)
+    VALUES (
+        admin_uuid,
+        'Admin User',
+        'codenerds@protonmail.com',
+        'admin'
+    ) ON CONFLICT (id) DO NOTHING;
 
+    INSERT INTO public.profiles (id, name, email, role)
+    VALUES (
+        hos_uuid,
+        'Dr. Head of School',
+        'hos@example.com',
+        'hos'
+    ) ON CONFLICT (id) DO NOTHING;
 
--- Seed Teacher User
--- This user will have the 'teacher' role.
-DO $$
-DECLARE
-    teacher_uuid uuid := 'c1d2e3f4-g5h6-7890-1234-567890abcdef';
-BEGIN
-    IF NOT EXISTS (SELECT 1 FROM auth.users WHERE id = teacher_uuid) THEN
-        INSERT INTO auth.users (id, email, encrypted_password, role, aud)
-        VALUES (
-            teacher_uuid,
-            'teacher@example.com',
-            crypt('password', gen_salt('bf')),
-            'authenticated',
-            'authenticated'
-        );
-    END IF;
+    INSERT INTO public.profiles (id, name, email, role)
+    VALUES (
+        teacher_uuid,
+        'Prof. Teacher',
+        'teacher@example.com',
+        'teacher'
+    ) ON CONFLICT (id) DO NOTHING;
 
-    IF NOT EXISTS (SELECT 1 FROM public.profiles WHERE id = teacher_uuid) THEN
-        INSERT INTO public.profiles (id, email, name, role)
-        VALUES (
-            teacher_uuid,
-            'teacher@example.com',
-            'Prof. Teacher',
-            'teacher'
-        );
-    END IF;
-END $$;
+    INSERT INTO public.profiles (id, name, email, role, class)
+    VALUES (
+        student_uuid,
+        'Student User',
+        'student@example.com',
+        'student',
+        'CS 101'
+    ) ON CONFLICT (id) DO NOTHING;
 
-
--- Seed Student User
--- This user will have the 'student' role.
-DO $$
-DECLARE
-    student_uuid uuid := 'd1e2f3g4-h5i6-7890-1234-567890abcdef';
-BEGIN
-    IF NOT EXISTS (SELECT 1 FROM auth.users WHERE id = student_uuid) THEN
-        INSERT INTO auth.users (id, email, encrypted_password, role, aud)
-        VALUES (
-            student_uuid,
-            'student@example.com',
-            crypt('password', gen_salt('bf')),
-            'authenticated',
-            'authenticated'
-        );
-    END IF;
-
-    IF NOT EXISTS (SELECT 1 FROM public.profiles WHERE id = student_uuid) THEN
-        INSERT INTO public.profiles (id, email, name, role)
-        VALUES (
-            student_uuid,
-            'student@example.com',
-            'Student User',
-            'student'
-        );
-    END IF;
 END $$;
