@@ -36,7 +36,7 @@ export default function SignupPage() {
     setError(null);
     
     // Assign role based on email
-    const role = email === 'prabheen09876@gmail.com' ? 'admin' : 'student';
+    const role = email === 'codenerds@protonmail.com' ? 'admin' : 'student';
 
     const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
       email,
