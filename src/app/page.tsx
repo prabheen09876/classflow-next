@@ -420,7 +420,7 @@ function RoleCard({ icon: Icon, title, description, tasks, align }: RoleCardProp
             className={cn("mb-12 flex items-center w-full", align === 'right' ? 'flex-row-reverse' : '')}
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, amount: 0.5 }}
+            viewport={{ once: false, amount: 0.5 }}
             variants={cardVariants}
         >
             <div className={cn("w-1/2", align === 'left' ? 'pr-8' : 'pl-8')}>
