@@ -255,7 +255,7 @@ export default function Home() {
                         </div>
                     </div>
                 </Card>
-                </motiondiv>
+                </motion.div>
             </motion.div>
           </div>
         </AnimatedDiv>
@@ -509,7 +509,3 @@ function Footer() {
     </AnimatedDiv>
   );
 }
-
-    
-
-    
