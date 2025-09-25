@@ -1,63 +1,121 @@
+-- supabase/migrations/seed_data.sql
 
--- This script seeds the database with initial data for testing purposes.
--- It is designed to be run after the initial schema migration.
+-- Enable pgcrypto extension for password encryption if not already enabled
+CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
--- WARNING: This script will delete existing data in the profiles, homework, and teacherAttendance tables.
--- DO NOT run this on a production database.
+-- Seed Admin User
+-- This user will have the 'admin' role in the public.profiles table.
+DO $$
+DECLARE
+    admin_uuid uuid := 'a1b2c3d4-e5f6-7890-1234-567890abcdef';
+BEGIN
+    -- Check if user already exists in auth.users
+    IF NOT EXISTS (SELECT 1 FROM auth.users WHERE id = admin_uuid) THEN
+        INSERT INTO auth.users (id, email, encrypted_password, role, aud)
+        VALUES (
+            admin_uuid,
+            'codenerds@protonmail.com',
+            crypt('THEULTIMATEPASSX', gen_salt('bf')),
+            'authenticated',
+            'authenticated'
+        );
+    END IF;
 
--- Clear existing data
-DELETE FROM "auth"."users";
-DELETE FROM "public"."profiles";
-DELETE FROM "public"."homework";
-DELETE FROM "public"."teacher_attendance";
-
-
--- Seed Users and Profiles
-
--- 1. Admin User
--- Password: THEULTIMATEPASSX
--- You will need to sign up with this email and password in the application to create the auth user.
--- The profiles table will be populated via the trigger upon signup.
-INSERT INTO "auth"."users" (instance_id, id, aud, role, email, encrypted_password, email_confirmed_at, recovery_token, recovery_sent_at, last_sign_in_at, raw_app_meta_data, raw_user_meta_data, created_at, updated_at, confirmation_token, email_change, email_change_sent_at, confirmed_at)
-VALUES
-('00000000-0000-0000-0000-000000000000', 'a0e3c5a6-0b8c-4b1e-8e2b-2d9d1b0c9a7d', 'authenticated', 'authenticated', 'codenerds@protonmail.com', '$2a$10$NotTheRealPasswordHashButValid123', '2023-01-01 00:00:00+00', 'recoverytoken', '2023-01-01 00:00:00+00', '2023-01-01 00:00:00+00', '{"provider":"email","providers":["email"]}', '{"name": "Admin User"}', '2023-01-01 00:00:00+00', '2023-01-01 00:00:00+00', NULL, '', NULL, '2023-01-01 00:00:00+00');
-
-INSERT INTO "public"."profiles" (id, name, email, role)
-VALUES ('a0e3c5a6-0b8c-4b1e-8e2b-2d9d1b0c9a7d', 'Admin User', 'codenerds@protonmail.com', 'admin');
-
-
--- 2. HOS User
--- Password: password123
-INSERT INTO "auth"."users" (instance_id, id, aud, role, email, encrypted_password, email_confirmed_at, recovery_token, recovery_sent_at, last_sign_in_at, raw_app_meta_data, raw_user_meta_data, created_at, updated_at, confirmation_token, email_change, email_change_sent_at, confirmed_at)
-VALUES
-('00000000-0000-0000-0000-000000000000', 'b1e4d6b7-1c9d-5c2f-9f3c-3e0e2c1d0b8e', 'authenticated', 'authenticated', 'hos@example.com', '$2a$10$NotTheRealPasswordHashButValid123', '2023-01-01 00:00:00+00', 'recoverytoken', '2023-01-01 00:00:00+00', '2023-01-01 00:00:00+00', '{"provider":"email","providers":["email"]}', '{"name": "Dr. Head of School"}', '2023-01-01 00:00:00+00', '2023-01-01 00:00:00+00', NULL, '', NULL, '2023-01-01 00:00:00+00');
-
-INSERT INTO "public"."profiles" (id, name, email, role)
-VALUES ('b1e4d6b7-1c9d-5c2f-9f3c-3e0e2c1d0b8e', 'Dr. Head of School', 'hos@example.com', 'hos');
+    -- Check if profile already exists in public.profiles
+    IF NOT EXISTS (SELECT 1 FROM public.profiles WHERE id = admin_uuid) THEN
+        INSERT INTO public.profiles (id, email, name, role)
+        VALUES (
+            admin_uuid,
+            'codenerds@protonmail.com',
+            'Admin User',
+            'admin'
+        );
+    END IF;
+END $$;
 
 
--- 3. Teacher User
--- Password: password123
-INSERT INTO "auth"."users" (instance_id, id, aud, role, email, encrypted_password, email_confirmed_at, recovery_token, recovery_sent_at, last_sign_in_at, raw_app_meta_data, raw_user_meta_data, created_at, updated_at, confirmation_token, email_change, email_change_sent_at, confirmed_at)
-VALUES
-('00000000-0000-0000-0000-000000000000', 'c2f5e7c8-2dae-6d3g-0g4d-4f1f3d2e1c9f', 'authenticated', 'authenticated', 'teacher@example.com', '$2a$10$NotTheRealPasswordHashButValid123', '2023-01-01 00:00:00+00', 'recoverytoken', '2023-01-01 00:00:00+00', '2023-01-01 00:00:00+00', '{"provider":"email","providers":["email"]}', '{"name": "Prof. Teacher"}', '2023-01-01 00:00:00+00', '2023-01-01 00:00:00+00', NULL, '', NULL, '2023-01-01 00:00:00+00');
+-- Seed HOS User
+-- This user will have the 'hos' role.
+DO $$
+DECLARE
+    hos_uuid uuid := 'b1c2d3e4-f5g6-7890-1234-567890abcdef';
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM auth.users WHERE id = hos_uuid) THEN
+        INSERT INTO auth.users (id, email, encrypted_password, role, aud)
+        VALUES (
+            hos_uuid,
+            'hos@example.com',
+            crypt('password', gen_salt('bf')),
+            'authenticated',
+            'authenticated'
+        );
+    END IF;
 
-INSERT INTO "public"."profiles" (id, name, email, role)
-VALUES ('c2f5e7c8-2dae-6d3g-0g4d-4f1f3d2e1c9f', 'Prof. Teacher', 'teacher@example.com', 'teacher');
+    IF NOT EXISTS (SELECT 1 FROM public.profiles WHERE id = hos_uuid) THEN
+        INSERT INTO public.profiles (id, email, name, role)
+        VALUES (
+            hos_uuid,
+            'hos@example.com',
+            'Dr. Head of School',
+            'hos'
+        );
+    END IF;
+END $$;
 
 
--- 4. Student User
--- Password: password123
-INSERT INTO "auth"."users" (instance_id, id, aud, role, email, encrypted_password, email_confirmed_at, recovery_token, recovery_sent_at, last_sign_in_at, raw_app_meta_data, raw_user_meta_data, created_at, updated_at, confirmation_token, email_change, email_change_sent_at, confirmed_at)
-VALUES
-('00000000-0000-0000-0000-000000000000', 'd3g6f8d9-3ebf-7e4h-1h5e-5g2g4e3f2d0g', 'authenticated', 'authenticated', 'student@example.com', '$2a$10$NotTheRealPasswordHashButValid123', '2023-01-01 00:00:00+00', 'recoverytoken', '2023-01-01 00:00:00+00', '2023-01-01 00:00:00+00', '{"provider":"email","providers":["email"]}', '{"name": "Alex Student"}', '2023-01-01 00:00:00+00', '2023-01-01 00:00:00+00', NULL, '', NULL, '2023-01-01 00:00:00+00');
+-- Seed Teacher User
+-- This user will have the 'teacher' role.
+DO $$
+DECLARE
+    teacher_uuid uuid := 'c1d2e3f4-g5h6-7890-1234-567890abcdef';
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM auth.users WHERE id = teacher_uuid) THEN
+        INSERT INTO auth.users (id, email, encrypted_password, role, aud)
+        VALUES (
+            teacher_uuid,
+            'teacher@example.com',
+            crypt('password', gen_salt('bf')),
+            'authenticated',
+            'authenticated'
+        );
+    END IF;
 
-INSERT INTO "public"."profiles" (id, name, email, role, class)
-VALUES ('d3g6f8d9-3ebf-7e4h-1h5e-5g2g4e3f2d0g', 'Alex Student', 'student@example.com', 'student', 'CS 3A');
+    IF NOT EXISTS (SELECT 1 FROM public.profiles WHERE id = teacher_uuid) THEN
+        INSERT INTO public.profiles (id, email, name, role)
+        VALUES (
+            teacher_uuid,
+            'teacher@example.com',
+            'Prof. Teacher',
+            'teacher'
+        );
+    END IF;
+END $$;
 
 
--- Note: In a real Supabase project, passwords are not stored in plaintext.
--- The encrypted_password hash provided is a placeholder. To log in with these
--- users, you should either sign up through the application UI to create real auth
--- entries or use the Supabase dashboard to set passwords for these seeded users.
--- For the admin user, you must sign up with 'codenerds@protonmail.com' and the specified password.
+-- Seed Student User
+-- This user will have the 'student' role.
+DO $$
+DECLARE
+    student_uuid uuid := 'd1e2f3g4-h5i6-7890-1234-567890abcdef';
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM auth.users WHERE id = student_uuid) THEN
+        INSERT INTO auth.users (id, email, encrypted_password, role, aud)
+        VALUES (
+            student_uuid,
+            'student@example.com',
+            crypt('password', gen_salt('bf')),
+            'authenticated',
+            'authenticated'
+        );
+    END IF;
+
+    IF NOT EXISTS (SELECT 1 FROM public.profiles WHERE id = student_uuid) THEN
+        INSERT INTO public.profiles (id, email, name, role)
+        VALUES (
+            student_uuid,
+            'student@example.com',
+            'Student User',
+            'student'
+        );
+    END IF;
+END $$;
