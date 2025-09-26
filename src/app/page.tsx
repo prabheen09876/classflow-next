@@ -170,6 +170,7 @@ export default function Home() {
                 textColor="hsl(var(--primary))"
                 strokeColor="hsl(var(--primary))"
                 minFontSize={36}
+                scale={true}
               />
             </motion.div>
             <motion.p 
@@ -215,101 +216,6 @@ export default function Home() {
                   <FeatureCard icon={Bell} title="Real-time Notifications" description="Keep everyone updated, always." delay={0.6} />
               </div>
           </motion.div>
-        </AnimatedDiv>
-
-        <AnimatedDiv variants="stagger" id="features" className="w-full mt-8">
-        <div className="grid md:grid-cols-2 gap-6">
-            <motion.div variants={childVariants}>
-                <motion.div whileHover={{ scale: 1.05, boxShadow: "0 8px 30px rgba(0,0,0,0.15)" }} className="h-full">
-                <Card className="bg-[#E5D9FF] rounded-2xl p-6 shadow-lg h-full flex flex-col justify-between">
-                    <div>
-                        <h3 className="text-3xl font-bold">Streamline Timetables, Save Hours</h3>
-                        <p className="text-lg mt-2 max-w-md">Create clash-free timetables in minutes with AI-powered optimization. No more manual adjustments or scheduling conflicts.</p>
-                    </div>
-                    <div className="mt-6 relative">
-                        {dashboardPreview && <Image 
-                            src={dashboardPreview.imageUrl}
-                            width={400}
-                            height={250}
-                            alt="Dashboard Preview"
-                            className="rounded-xl shadow-2xl mx-auto"
-                            data-ai-hint={dashboardPreview.imageHint}
-                        />}
-                        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 justify-center">
-                             <Button variant="outline" size="icon" className="rounded-full bg-white/50 backdrop-blur-sm"><ArrowLeft/></Button>
-                             <Button variant="outline" size="icon" className="rounded-full bg-white/50 backdrop-blur-sm"><ArrowRight/></Button>
-                        </div>
-                    </div>
-                </Card>
-                </motion.div>
-            </motion.div>
-            <motion.div variants={childVariants}>
-                 <motion.div whileHover={{ scale: 1.05, boxShadow: "0 8px 30px rgba(0,0,0,0.15)" }} className="h-full">
-                 <Card className="bg-[#FFD1E9] rounded-2xl p-8 shadow-lg h-full">
-                    <h3 className="text-3xl font-bold">5k+ Classes Scheduled</h3>
-                    <p className="text-lg mt-2 mb-8">Trusted by top institutions to manage thousands of classes, faculty schedules, and extracurricular events seamlessly.</p>
-                    <div className="space-y-6">
-                        <div className="flex items-center gap-4">
-                            <CheckCircle className="h-6 w-6 text-green-500" />
-                            <span className="font-semibold">99.9% Uptime</span>
-                        </div>
-                        <div className="flex items-center gap-4">
-                            <Bolt className="h-6 w-6 text-yellow-500" />
-                            <span className="font-semibold">Real-Time Adjustments</span>
-                        </div>
-                        <div className="flex items-center gap-4">
-                            <Calendar className="h-6 w-6 text-blue-500" />
-                            <span className="font-semibold">Conflict-Free Scheduling</span>
-                        </div>
-                         <div className="flex items-center gap-4">
-                            <Bell className="h-6 w-6 text-red-500" />
-                            <span className="font-semibold">Instant Notifications</span>
-                        </div>
-                    </div>
-                </Card>
-                </motion.div>
-            </motion.div>
-          </div>
-        </AnimatedDiv>
-
-        <AnimatedDiv variants="fadeIn" id="attendance" className="w-full mt-16">
-          <div className="grid md:grid-cols-2 gap-8 items-center bg-muted p-8 rounded-2xl">
-            <div className="flex justify-center">
-              {attendanceFeatureImage && <Image
-                src={attendanceFeatureImage.imageUrl}
-                width={600}
-                height={400}
-                alt="Attendance tracking illustration"
-                className="rounded-2xl shadow-2xl"
-                data-ai-hint={attendanceFeatureImage.imageHint}
-              />}
-            </div>
-            <div className="space-y-6">
-              <div className="flex items-center gap-3">
-                <Fingerprint className="h-8 w-8 text-primary" />
-                <h2 className="text-4xl font-bold tracking-tighter">Effortless Attendance Tracking</h2>
-              </div>
-              <p className="text-muted-foreground text-lg">
-                Marking attendance has never been easier. Teachers and students can mark their presence with a single click, providing real-time data to administrators and HOS.
-              </p>
-              <ul className="space-y-4">
-                <li className="flex items-start gap-3">
-                  <CheckCircle className="h-6 w-6 text-green-500 mt-1 flex-shrink-0" />
-                  <div>
-                    <h4 className="font-semibold">Instant Updates for All</h4>
-                    <p className="text-muted-foreground">Attendance data is instantly synced, allowing HOS to see who is present and make immediate adjustments if needed.</p>
-                  </div>
-                </li>
-                <li className="flex items-start gap-3">
-                  <CheckCircle className="h-6 w-6 text-green-500 mt-1 flex-shrink-0" />
-                  <div>
-                    <h4 className="font-semibold">AI-Powered Substitutions</h4>
-                    <p className="text-muted-foreground">If a teacher is absent, our AI automatically finds an available substitute and reassigns the class, minimizing disruption.</p>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          </div>
         </AnimatedDiv>
 
         <section ref={scrollRef} className="h-[300vh] w-full mt-16 relative">
@@ -540,5 +446,7 @@ function Footer() {
     </AnimatedDiv>
   );
 }
+
+    
 
     
