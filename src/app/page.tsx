@@ -71,8 +71,7 @@ export default function Home() {
 
 
   return (
-    <div className="flex flex-col min-h-screen font-body text-black bg-transparent">
-      <ClickSpark sparkColor="hsl(var(--primary))">
+    <ClickSpark sparkColor="hsl(var(--primary))" className="flex flex-col min-h-screen font-body text-black bg-transparent">
       <div className="sticky top-0 z-50">
         <AnimatedDiv variants="fadeInDown">
         <header className="w-full backdrop-blur-lg text-black px-8 py-4 flex items-center justify-between">
@@ -308,8 +307,7 @@ export default function Home() {
       </main>
 
       <Footer />
-      </ClickSpark>
-    </div>
+    </ClickSpark>
   );
 }
 
@@ -415,7 +413,7 @@ function Footer() {
             <ul className="space-y-2">
               <li><Link href="#" className="hover:text-white">Help Center</Link></li>
               <li><Link href="#" className="hover:text-white">Terms of Service</Link></li>
-              <li><Link href="#" className="hover:text-white">Privacy Policy</Link></li>
+              <li><Link href="#" className="hover-text-white">Privacy Policy</Link></li>
             </ul>
           </div>
           <div className="space-y-4">

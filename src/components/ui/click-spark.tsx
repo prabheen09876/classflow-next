@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useRef, useEffect, useCallback } from 'react';
+import { cn } from "@/lib/utils";
 
 interface ClickSparkProps {
   sparkColor?: string;
@@ -11,6 +12,7 @@ interface ClickSparkProps {
   easing?: 'linear' | 'ease-in' | 'ease-out' | 'ease-in-out';
   extraScale?: number;
   children?: React.ReactNode;
+  className?: string;
 }
 
 interface Spark {
@@ -28,7 +30,8 @@ const ClickSpark: React.FC<ClickSparkProps> = ({
   duration = 400,
   easing = 'ease-out',
   extraScale = 1.0,
-  children
+  children,
+  className
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const sparksRef = useRef<Spark[]>([]);
@@ -153,7 +156,13 @@ const ClickSpark: React.FC<ClickSparkProps> = ({
   };
 
   return (
-    <div className="relative w-full h-full" onClick={handleClick}>
+    <div 
+      className={cn("relative w-full h-full", className)} 
+      onClick={handleClick}
+      style={{
+        cursor: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpath d='M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z'/%3e%3cpath d='m15 5 4 4'/%3e%3c/svg%3e") 0 24, auto`
+      }}
+      >
       <canvas ref={canvasRef} className="absolute inset-0 pointer-events-none" />
       {children}
     </div>
