@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { ArrowLeft, ArrowRight, Bolt, Calendar, CheckCircle, Bell, UserCheck, Users, Fingerprint, GitBranch, Mail, CalendarCheck, Shield, Building, UserCog, User, Menu, X, Instagram, Youtube, Linkedin, Facebook } from "lucide-react";
+import { ArrowLeft, ArrowRight, Bolt, Calendar, CheckCircle, Bell, UserCheck, Users, Fingerprint, GitBranch, Mail, CalendarCheck, Shield, Building, UserCog, User, Menu, X, Instagram, Youtube, Linkedin, Facebook, BotIcon, AlertTriangle, Sparkles } from "lucide-react";
 import {PlaceHolderImages} from "@/lib/placeholder-images";
 import { Video, Users as UsersIcon, Calendar as CalendarIcon, Bot, GraduationCap } from 'lucide-react';
 import { motion, useScroll, useTransform } from "framer-motion";
@@ -152,65 +152,57 @@ export default function Home() {
 
 
       <main className="flex-1 container mx-auto px-4 py-8 mt-16">
-        <AnimatedDiv variants="fadeIn" className="w-full bg-muted rounded-2xl p-8">
-          <div className="grid md:grid-cols-2 gap-8 items-center">
-            <div className="space-y-6">
-              <h1 className="text-5xl font-bold tracking-tighter">
-                The Future of Smart Class Scheduling
-              </h1>
-              <p className="max-w-lg text-muted-foreground text-lg">
-                Automate, optimize, and simplify class timetables for colleges and institutions with real-time adjustments and AI-powered scheduling.
-              </p>
-              <div className="flex items-center gap-4">
+        <AnimatedDiv variants="stagger" className="w-full bg-muted rounded-3xl p-8 overflow-hidden relative">
+          <div className="relative z-10 text-center mb-12">
+            <motion.h1 
+                variants={childVariants}
+                className="text-5xl md:text-7xl font-bold tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-primary to-pink-400"
+            >
+              Where Schedules Simply Flow
+            </motion.h1>
+            <motion.p 
+                variants={childVariants}
+                className="max-w-2xl mx-auto mt-4 text-muted-foreground text-lg"
+            >
+              ClassFlow uses AI to turn chaotic scheduling puzzles into perfectly optimized timetables, giving you back hours of your week.
+            </motion.p>
+             <motion.div variants={childVariants} className="flex items-center justify-center gap-4 mt-8">
                 {!loading && (
-                  <>
-                    {user ? (
-                      <Link href={getDashboardUrl()} prefetch={false}>
-                        <motion.div whileHover={{ scale: 1.1, boxShadow: '0px 4px 20px rgba(255, 77, 166, 0.4)' }}>
-                          <Button className="bg-primary text-white rounded-full px-8 py-6 font-semibold">
-                            Go to Dashboard
-                          </Button>
-                        </motion.div>
-                      </Link>
-                    ) : (
-                      <Link href="/signup" prefetch={false}>
-                        <motion.div whileHover={{ scale: 1.1, boxShadow: '0px 4px 20px rgba(255, 77, 166, 0.4)' }}>
-                          <Button className="bg-primary text-white rounded-full px-8 py-6 font-semibold">
-                            Get Started
-                          </Button>
-                        </motion.div>
-                      </Link>
-                    )}
-                  </>
+                    <>
+                        {user ? (
+                        <Link href={getDashboardUrl()} prefetch={false}>
+                            <motion.div whileHover={{ scale: 1.1, boxShadow: '0px 4px 20px rgba(255, 77, 166, 0.4)' }}>
+                            <Button className="bg-primary text-white rounded-full px-8 py-6 font-semibold">
+                                Go to Dashboard
+                            </Button>
+                            </motion.div>
+                        </Link>
+                        ) : (
+                        <Link href="/signup" prefetch={false}>
+                            <motion.div whileHover={{ scale: 1.1, boxShadow: '0px 4px 20px rgba(255, 77, 166, 0.4)' }}>
+                            <Button className="bg-primary text-white rounded-full px-8 py-6 font-semibold">
+                                Get Started Free
+                            </Button>
+                            </motion.div>
+                        </Link>
+                        )}
+                    </>
                 )}
-                <Link href="#" prefetch={false}>
-                  <motion.div whileHover={{ scale: 1.1 }}>
-                  <Button variant="outline" className="text-black border-black rounded-full px-8 py-6 font-medium hover:bg-gray-100 transition-all">Learn More</Button>
-                  </motion.div>
-                </Link>
-              </div>
-              <div className="flex items-center pt-4">
-                <div className="flex -space-x-4">
-                    {teacher1 && <Image src={teacher1.imageUrl} alt="Teacher profile" width={48} height={48} className="rounded-full border-2 border-white" data-ai-hint={teacher1.imageHint} />}
-                    {teacher2 && <Image src={teacher2.imageUrl} alt="Faculty member" width={48} height={48} className="rounded-full border-2 border-white" data-ai-hint={teacher2.imageHint} />}
-                    {student1 && <Image src={student1.imageUrl} alt="Student profile" width={48} height={48} className="rounded-full border-2 border-white" data-ai-hint={student1.imageHint} />}
-                </div>
-                <p className="ml-4 text-sm text-muted-foreground">Join thousands of educators and students.</p>
-              </div>
-            </div>
-            <div className="flex justify-center">
-                <motion.div initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ duration: 1 }}>
-                {heroImage && <Image
-                    src={heroImage.imageUrl}
-                    width={600}
-                    height={400}
-                    alt="Dynamic scheduling illustration"
-                    className="rounded-2xl shadow-2xl"
-                    data-ai-hint={heroImage.imageHint}
-                />}
-                </motion.div>
-            </div>
+            </motion.div>
           </div>
+          
+          <motion.div 
+            variants={childVariants}
+            className="relative"
+          >
+              <div className="absolute inset-0 bg-gradient-to-t from-muted via-muted to-transparent z-10"></div>
+               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 relative">
+                  <FeatureCard icon={Sparkles} title="AI Timetabling" description="Generate optimized schedules in minutes." delay={0} />
+                  <FeatureCard icon={AlertTriangle} title="Conflict Alerts" description="Instantly detect and resolve clashes." delay={0.2} />
+                  <FeatureCard icon={Bolt} title="Dynamic Adjustments" description="Auto-adjust for absences and changes." delay={0.4} />
+                  <FeatureCard icon={Bell} title="Real-time Notifications" description="Keep everyone updated, always." delay={0.6} />
+              </div>
+          </motion.div>
         </AnimatedDiv>
 
         <AnimatedDiv variants="stagger" id="features" className="w-full mt-8">
@@ -400,6 +392,25 @@ export default function Home() {
   );
 }
 
+const FeatureCard = ({ icon: Icon, title, description, delay }: { icon: React.ElementType, title: string, description: string, delay: number }) => (
+    <motion.div
+        variants={childVariants}
+        initial={{ y: 50, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.5, delay: delay, ease: "easeOut" }}
+    >
+        <Card className="bg-background/50 backdrop-blur-lg p-4 h-full">
+            <CardContent className="p-2 flex flex-col items-center text-center">
+                <div className="p-3 bg-primary/10 rounded-lg mb-3">
+                    <Icon className="h-6 w-6 text-primary" />
+                </div>
+                <h3 className="font-semibold">{title}</h3>
+                <p className="text-xs text-muted-foreground mt-1">{description}</p>
+            </CardContent>
+        </Card>
+    </motion.div>
+);
+
 
 interface RoleCardProps {
     icon: React.ElementType;
@@ -517,3 +528,4 @@ function Footer() {
     </AnimatedDiv>
   );
 }
+
