@@ -528,4 +528,3 @@ function Footer() {
     </AnimatedDiv>
   );
 }
-
