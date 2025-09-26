@@ -14,6 +14,7 @@ import { useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { Logo } from "@/components/icons";
 import { useAuth } from "@/components/auth-provider";
+import TextPressure from "@/components/common/text-pressure";
 
 export default function Home() {
     const { user, role, loading } = useAuth();
@@ -154,17 +155,28 @@ export default function Home() {
       <main className="flex-1 container mx-auto px-4 py-8 mt-16">
         <AnimatedDiv variants="stagger" className="w-full bg-muted rounded-3xl p-8 overflow-hidden relative">
           <div className="relative z-10 text-center mb-12">
-            <motion.h1 
+            <motion.div 
                 variants={childVariants}
-                className="text-5xl md:text-7xl font-bold tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-primary to-pink-400"
+                className="h-[150px] md:h-[250px] w-full"
             >
-              Where Schedules Simply Flow
-            </motion.h1>
+              <TextPressure 
+                text="ClassFlow" 
+                flex={true} 
+                alpha={false} 
+                stroke={true}
+                width={true} 
+                weight={true} 
+                italic={true} 
+                textColor="hsl(var(--primary))"
+                strokeColor="hsl(var(--primary))"
+                minFontSize={36}
+              />
+            </motion.div>
             <motion.p 
                 variants={childVariants}
                 className="max-w-2xl mx-auto mt-4 text-muted-foreground text-lg"
             >
-              ClassFlow uses AI to turn chaotic scheduling puzzles into perfectly optimized timetables, giving you back hours of your week.
+              Turn chaotic scheduling puzzles into perfectly optimized timetables, giving you back hours of your week.
             </motion.p>
              <motion.div variants={childVariants} className="flex items-center justify-center gap-4 mt-8">
                 {!loading && (
