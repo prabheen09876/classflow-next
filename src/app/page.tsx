@@ -15,6 +15,7 @@ import { cn } from "@/lib/utils";
 import { Logo } from "@/components/icons";
 import { useAuth } from "@/components/auth-provider";
 import TextPressure from "@/components/common/text-pressure";
+import ClickSpark from "@/components/ui/click-spark";
 
 export default function Home() {
     const { user, role, loading } = useAuth();
@@ -71,6 +72,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col min-h-screen font-body text-black bg-transparent">
+      <ClickSpark sparkColor="hsl(var(--primary))">
       <div className="sticky top-0 z-50">
         <AnimatedDiv variants="fadeInDown">
         <header className="w-full backdrop-blur-lg text-black px-8 py-4 flex items-center justify-between">
@@ -306,6 +308,7 @@ export default function Home() {
       </main>
 
       <Footer />
+      </ClickSpark>
     </div>
   );
 }
