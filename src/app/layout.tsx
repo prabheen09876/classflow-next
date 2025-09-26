@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { Toaster } from "@/components/ui/toaster"
 import './globals.css';
 import { AuthProvider } from '@/components/auth-provider';
+import SmoothScroll from '@/components/common/smooth-scroll';
 
 export const metadata: Metadata = {
   title: 'ClassMaster AI',
@@ -23,7 +24,9 @@ export default function RootLayout({
       </head>
       <body className="font-body antialiased overflow-x-hidden" suppressHydrationWarning>
         <AuthProvider>
-          {children}
+          <SmoothScroll>
+            {children}
+          </SmoothScroll>
           <Toaster />
         </AuthProvider>
       </body>
