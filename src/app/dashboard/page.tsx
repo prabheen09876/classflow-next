@@ -25,3 +25,4 @@ export default function DashboardPage() {
     </SidebarProvider>
   );
 }
+//page.stx
